@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- White background -->
+    <item android:drawable="@android:color/white" />
+    
+    <!-- Logo placeholder -->
+    <item android:gravity="center">
+        <shape android:shape="rectangle">
+            <!-- This will be handled by the splash screen text -->
+            <solid android:color="@android:color/transparent" />
+        </shape>
+    </item>
+</layer-list>

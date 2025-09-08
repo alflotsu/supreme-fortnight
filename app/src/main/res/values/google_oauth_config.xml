@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 
+    Replace with your Google OAuth Web Client ID from Google Cloud Console
+    This should be the WEB client ID, not the Android client ID
+    Format: something like "123456789-abcdefg.apps.googleusercontent.com"
+    -->
+    <string name="google_web_client_id">1064753747106-qq62nh7rfgkou35ksj7f8pckmvc5f8fu.apps.googleusercontent.com</string>
+    
+    <!-- 
+    Your Android OAuth Client ID (optional, for native sign-in)
+    This is different from the web client ID above
+    -->
+    <string name="google_android_client_id">1064753747106-deiraalfo1n5vh2inouvpl7lubj62vje.apps.googleusercontent.com</string>
+</resources>

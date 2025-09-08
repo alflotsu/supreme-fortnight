@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary blue colors -->
+    <color name="blue_50">#FFEFF6FF</color>
+    <color name="blue_100">#FFDBEAFE</color>
+    <color name="blue_500">#FF3B82F6</color>
+    <color name="blue_600">#FF2563EB</color>
+    <color name="blue_700">#FF1D4ED8</color>
+    <color name="blue_900">#FF1E3A8A</color>
+    
+    <!-- Neutral colors -->
+    <color name="white">#FFFFFFFF</color>
+    <color name="gray_50">#FFF9FAFB</color>
+    <color name="gray_100">#FFF3F4F6</color>
+    <color name="gray_200">#FFE5E7EB</color>
+    <color name="gray_300">#FFD1D5DB</color>
+    <color name="gray_400">#FF9CA3AF</color>
+    <color name="gray_500">#FF6B7280</color>
+    <color name="gray_600">#FF4B5563</color>
+    <color name="gray_700">#FF374151</color>
+    <color name="gray_800">#FF1F2937</color>
+    <color name="gray_900">#FF111827</color>
+    <color name="black">#FF000000</color>
+    
+    <!-- Semantic colors -->
+    <color name="success">#FF10B981</color>
+    <color name="warning">#FFF59E0B</color>
+    <color name="error">#FFEF4444</color>
+    <color name="info">#FF3B82F6</color>
+    
+    <!-- Legacy colors for backward compatibility -->
+    <color name="purple_200">#FF3B82F6</color>  <!-- Replaced with blue_500 -->
+    <color name="purple_500">#FF2563EB</color> <!-- Replaced with blue_600 -->
+    <color name="purple_700">#FF1D4ED8</color> <!-- Replaced with blue_700 -->
+    <color name="teal_200">#FF10B981</color>   <!-- Replaced with success -->
+    <color name="teal_700">#FF6B7280</color>   <!-- Replaced with gray_500 -->
+    
+    <!-- Splash Screen Colors -->
+    <color name="splash_background">#FFFFFFFF</color>
+    <color name="splash_primary">#FF2563EB</color>
+</resources>
