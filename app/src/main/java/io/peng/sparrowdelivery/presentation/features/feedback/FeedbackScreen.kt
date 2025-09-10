@@ -94,7 +94,7 @@ private fun FeedbackSubmissionScreen(
                     .padding(SparrowSpacing.lg),
                 verticalArrangement = Arrangement.spacedBy(SparrowSpacing.lg)
             ) {
-                ShadcnCard(
+                SparrowCard(
                     modifier = Modifier.fillMaxWidth(),
                     variant = ShadcnCardVariant.Default
                 ) {

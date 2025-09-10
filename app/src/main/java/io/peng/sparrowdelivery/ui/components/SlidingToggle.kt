@@ -39,7 +39,7 @@ fun <T> SlidingToggle(
     animationDurationMs: Int = 300
 ) {
     val density = LocalDensity.current
-    var containerWidth by remember { mutableStateOf(0) }
+    var containerWidth by remember { mutableIntStateOf(0) }
     val optionWidth = containerWidth / options.size
     
     val selectedIndex = options.indexOfFirst { it.value == selectedOption }
@@ -92,6 +92,7 @@ fun <T> SlidingToggle(
                         onClick = { onOptionSelected(option.value) },
                         modifier = Modifier
                             .weight(1f)
+
                             .fillMaxHeight(),
                         cornerRadius = cornerRadius - 2.dp
                     )

@@ -13,10 +13,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import io.peng.sparrowdelivery.ui.components.*
 import io.peng.sparrowdelivery.ui.theme.*
 
@@ -96,7 +94,7 @@ fun LocationSetupScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     // Address input field
-                    ShadcnInput(
+                    SparrowInput(
                         value = selectedAddress,
                         onValueChange = { 
                             selectedAddress = it
@@ -146,7 +144,7 @@ fun LocationSetupScreen(
                     Spacer(modifier = Modifier.height(SparrowSpacing.md))
                     
                     // Current location button
-                    ShadcnTextButton(
+                    SparrowTextButton(
                         text = "📍 Use Current Location",
                         onClick = {
                             // TODO: Implement current location detection
@@ -167,7 +165,7 @@ fun LocationSetupScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 // Set location button
-                ShadcnTextButton(
+                SparrowTextButton(
                     text = "Set as Default Location",
                     onClick = { 
                         if (isAddressValid) {
@@ -183,7 +181,7 @@ fun LocationSetupScreen(
                 Spacer(modifier = Modifier.height(SparrowSpacing.md))
                 
                 // Skip button
-                ShadcnTextButton(
+                SparrowTextButton(
                     text = "Skip for now",
                     onClick = onSkip,
                     variant = ShadcnButtonVariant.Ghost,
@@ -203,7 +201,7 @@ private fun AddressLabelChip(
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
-    ShadcnTextButton(
+    SparrowTextButton(
         text = label,
         onClick = onClick,
         variant = if (isSelected) ShadcnButtonVariant.Default else ShadcnButtonVariant.Outline,

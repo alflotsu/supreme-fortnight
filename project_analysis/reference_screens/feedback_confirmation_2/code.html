@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Feedback Confirmation</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+    :root {
+      --primary-500: #36e27b;
+      --neutral-900: #122118;
+      --neutral-50: #ffffff;
+    }
+    body {
+      font-family: 'Spline Sans', sans-serif;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-[var(--neutral-900)] text-[var(--neutral-50)]">
+<div class="flex flex-col min-h-screen">
+<header class="p-4">
+<button class="flex items-center justify-center size-10">
+<span class="material-symbols-outlined text-2xl">
+          arrow_back_ios_new
+        </span>
+</button>
+</header>
+<main class="flex-grow flex flex-col items-center justify-center text-center px-6">
+<div class="w-20 h-20 bg-[var(--primary-500)] rounded-full flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-5xl text-[var(--neutral-900)]">
+              check
+            </span>
+</div>
+<h1 class="text-3xl font-bold mb-4">Thank you for your feedback!</h1>
+<p class="text-base text-gray-400 max-w-sm">Your input helps us improve our service. We appreciate your time and effort in providing feedback.</p>
+</main>
+<footer class="p-4 pb-8">
+<button class="w-full h-12 px-5 bg-[var(--primary-500)] text-[var(--neutral-900)] text-base font-bold rounded-lg tracking-wide">
+        Return to Home
+      </button>
+</footer>
+</div>
+
+</body></html>

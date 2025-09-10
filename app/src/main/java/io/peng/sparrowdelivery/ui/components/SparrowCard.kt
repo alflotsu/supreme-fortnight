@@ -1,21 +1,10 @@
 package io.peng.sparrowdelivery.ui.components
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import io.peng.sparrowdelivery.ui.theme.SparrowTheme
-import io.peng.sparrowdelivery.ui.theme.SparrowBorderRadius
-import io.peng.sparrowdelivery.ui.theme.SparrowElevation
 import io.peng.sparrowdelivery.ui.theme.SparrowSpacing
 import io.peng.sparrowdelivery.ui.components.stitch.*
 
@@ -27,7 +16,7 @@ enum class ShadcnCardVariant {
 }
 
 @Composable
-fun ShadcnCard(
+fun SparrowCard(
     modifier: Modifier = Modifier,
     variant: ShadcnCardVariant = ShadcnCardVariant.Default,
     onClick: (() -> Unit)? = null,
@@ -47,9 +36,15 @@ fun ShadcnCompactCard(
     onClick: (() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    // Map to StitchCard with smaller padding
+    // Map to StitchCard with smaller padding and click handling
+    val clickableModifier = if (onClick != null) {
+        modifier.clickable { onClick() }
+    } else {
+        modifier
+    }
+    
     StitchCard(
-        modifier = modifier,
+        modifier = clickableModifier,
         content = {
             Column(
                 modifier = Modifier.padding(8.dp), // Smaller padding for compact card

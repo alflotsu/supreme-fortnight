@@ -19,6 +19,7 @@ import io.peng.sparrowdelivery.presentation.features.home.MoreOptionsScreen
 import io.peng.sparrowdelivery.presentation.features.profile.ProfileScreen
 import io.peng.sparrowdelivery.presentation.features.profile.OrderDetailScreen
 import io.peng.sparrowdelivery.presentation.features.tracking.TrackingScreen
+import io.peng.sparrowdelivery.presentation.features.tracking.StitchTrackingScreen
 import io.peng.sparrowdelivery.presentation.features.tracking.SimpleTrackingLookupScreen
 import io.peng.sparrowdelivery.presentation.features.chat.ChatScreen
 import io.peng.sparrowdelivery.presentation.components.ComponentDemoScreen
@@ -39,6 +40,7 @@ sealed class Screen(val route: String) {
     object Profile : Screen("profile")
     object OrderDetail : Screen("order_detail/{orderId}")
     object Tracking : Screen("tracking")
+    object StitchTracking : Screen("stitch_tracking")
     object TrackingLookup : Screen("tracking_lookup")
     object Chat : Screen("chat")
     object ComponentDemo : Screen("component_demo")
@@ -169,7 +171,7 @@ fun SparrowDeliveryNavigation(
                     navController.navigate(Screen.Profile.route)
                 },
                 onNavigateToTracking = {
-                    navController.navigate(Screen.TrackingLookup.route)
+                    navController.navigate(Screen.StitchTracking.route)
                 },
                 onNavigateToChat = {
                     navController.navigate(Screen.Chat.route)
@@ -228,6 +230,36 @@ fun SparrowDeliveryNavigation(
                     navController.popBackStack()
                 },
                 onMessageClick = {
+                    navController.navigate(Screen.Chat.route)
+                }
+            )
+        }
+        
+        // Stitch Tracking Screen with beautiful scale animation
+        composable(
+            Screen.StitchTracking.route,
+            enterTransition = { scaleInTransition() },
+            exitTransition = { scaleOutTransition() }
+        ) {
+            StitchTrackingScreen(
+                driverInfo = io.peng.sparrowdelivery.presentation.features.home.DriverInfo(
+                    name = "Kwame Asante",
+                    rating = 4.8f,
+                    vehicleType = "Toyota Camry",
+                    plateNumber = "GR-4587-20",
+                    phone = "+233-24-123-4567",
+                    totalPrice = 25.50,
+                    estimatedArrival = "5-8 mins"
+                ),
+                pickupLocation = "Accra Mall, Tetteh Quarshie",
+                dropoffLocation = "University of Ghana, Legon",
+                onBackClick = {
+                    navController.popBackStack()
+                },
+                onCallDriverClick = {
+                    // TODO: Implement calling functionality
+                },
+                onMessageDriverClick = {
                     navController.navigate(Screen.Chat.route)
                 }
             )

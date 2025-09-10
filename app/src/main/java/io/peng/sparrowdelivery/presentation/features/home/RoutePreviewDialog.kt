@@ -1,6 +1,5 @@
 package io.peng.sparrowdelivery.presentation.features.home
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -131,14 +130,14 @@ fun RoutePreviewDialog(
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
 
                 ) {
-                    ShadcnTextButton(
+                    SparrowTextButton(
                         text = "Cancel",
                         onClick = onCancel,
                         modifier = Modifier.weight(1f),
                         variant = ShadcnButtonVariant.Outline
                     )
                     
-                    ShadcnTextButton(
+                    SparrowTextButton(
                         text = "Confirm Route",
                         onClick = onConfirm,
                         modifier = Modifier.weight(1f),
@@ -159,7 +158,7 @@ fun RouteCard(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    ShadcnCard(
+    SparrowCard(
         modifier = modifier.fillMaxWidth(),
         variant = if (isSelected) ShadcnCardVariant.Elevated else ShadcnCardVariant.Default
     ) {

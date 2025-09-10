@@ -1,14 +1,10 @@
 package io.peng.sparrowdelivery.ui.components
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import io.peng.sparrowdelivery.ui.theme.SparrowTheme
-import io.peng.sparrowdelivery.ui.theme.SparrowTypography
 import io.peng.sparrowdelivery.ui.components.stitch.*
 
 enum class ShadcnTextStyle {
@@ -81,7 +77,7 @@ fun ShadcnHeading(
 }
 
 @Composable
-fun ShadcnParagraph(
+fun Paragraph(
     text: String,
     modifier: Modifier = Modifier,
     color: Color? = null,
@@ -118,7 +114,7 @@ fun ShadcnMutedText(
 }
 
 @Composable
-fun ShadcnSmallText(
+fun SmallText(
     text: String,
     modifier: Modifier = Modifier,
     color: Color? = null,

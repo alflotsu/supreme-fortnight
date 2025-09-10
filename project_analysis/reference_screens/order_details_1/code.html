@@ -1,0 +1,182 @@
+<html><head>
+<meta charset="utf-8"/>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Spline+Sans%3Awght%40400%3B500%3B700" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<title>Stitch Design</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+      :root {
+        --primary-50: #f0fdf4;
+        --primary-100: #dcfce7;
+        --primary-200: #bbf7d0;
+        --primary-300: #86efac;
+        --primary-400: #4ade80;
+        --primary-500: #22c55e;
+        --primary-600: #16a34a;
+        --primary-700: #15803d;
+        --primary-800: #166534;
+        --primary-900: #14532d;
+        --primary-950: #052e16;
+      }
+      .timeline-item::before {
+        content: '';
+        position: absolute;
+        top: 28px;
+        left: 14px;
+        height: calc(100% - 28px);
+        width: 2px;
+        background-color: #366348;
+      }
+      .timeline-item:last-child::before {
+        height: 0;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-[#121212]">
+<div class="relative flex size-full min-h-screen flex-col bg-[#121212] dark justify-between group/design-root overflow-x-hidden" style='font-family: "Spline Sans", "Noto Sans", sans-serif;'>
+<div class="flex-grow">
+<header class="flex items-center p-4">
+<button class="text-white">
+<span class="material-symbols-outlined"> arrow_back_ios_new </span>
+</button>
+<h1 class="flex-1 text-center text-xl font-bold text-white">Order Details</h1>
+<div class="w-8"></div>
+</header>
+<main class="space-y-6 px-4 pb-6">
+<section>
+<div class="flex items-start gap-4">
+<div class="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-zinc-800">
+<span class="material-symbols-outlined text-green-400"> my_location </span>
+</div>
+<div>
+<h3 class="font-semibold text-white">Pickup</h3>
+<p class="text-zinc-400">123 Elm Street, Anytown, USA</p>
+</div>
+</div>
+<div class="ml-5 h-6 w-px border-l border-dashed border-zinc-700"></div>
+<div class="flex items-start gap-4">
+<div class="mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-zinc-800">
+<span class="material-symbols-outlined text-green-400"> location_on </span>
+</div>
+<div>
+<h3 class="font-semibold text-white">Drop-off</h3>
+<p class="text-zinc-400">456 Oak Avenue, Anytown, USA</p>
+</div>
+</div>
+</section>
+<div class="h-px w-full bg-zinc-800"></div>
+<section class="space-y-4">
+<h2 class="text-lg font-bold text-white">Details</h2>
+<div class="flex items-center gap-4">
+<img alt="Driver Ethan Carter" class="h-12 w-12 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlS1ESoCAVdIZRir5eFCEmTXzCGcTlWlrVavoQcFEHhoS_TjEZYbzcCzKbPjOpUkDzYeWApesYZFj4aWckRLjtxNijIh_0zINOcVK2fBFmQJAjmxtWTrb5RVAOCYDs_kBSkUKm9L1sJCRwDVBhpIepkgLPINXdjKIZwpVLgEC64mA0RlhXkFFxKt5bDHwwIggujLv9P3NJ4SUVBzkzgG766x5ShmdwX0YTCeEccfsp9-KSAsIewZAVY0I_6VsHYk8w8UxpVQMT7Fw"/>
+<div>
+<p class="font-medium text-white">Ethan Carter</p>
+<p class="text-sm text-zinc-400">License Plate: XYZ 123</p>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex h-12 w-12 items-center justify-center rounded-full bg-zinc-800">
+<span class="material-symbols-outlined text-green-400"> package_2 </span>
+</div>
+<div>
+<p class="font-medium text-white">Small Package</p>
+<p class="text-sm text-zinc-400">Weight: 2 lbs</p>
+</div>
+</div>
+</section>
+<div class="h-px w-full bg-zinc-800"></div>
+<section>
+<h2 class="mb-4 text-lg font-bold text-white">Cost Breakdown</h2>
+<div class="space-y-2 text-zinc-300">
+<div class="flex justify-between">
+<p>Base Fare</p>
+<p>$5.00</p>
+</div>
+<div class="flex justify-between">
+<p>Distance Fee</p>
+<p>$2.50</p>
+</div>
+<div class="flex justify-between border-t border-zinc-800 pt-2 font-bold text-white">
+<p>Total</p>
+<p>$7.50</p>
+</div>
+</div>
+</section>
+<div class="h-px w-full bg-zinc-800"></div>
+<section>
+<h2 class="mb-4 text-lg font-bold text-white">Timeline</h2>
+<div class="relative">
+<div class="timeline-item relative flex items-start gap-4">
+<div class="relative mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green-500">
+<span class="material-symbols-outlined text-black text-base"> package </span>
+</div>
+<div>
+<p class="font-medium text-white">Package Picked Up</p>
+<p class="text-sm text-zinc-400">10:00 AM</p>
+</div>
+</div>
+<div class="timeline-item relative flex items-start gap-4 pt-4">
+<div class="relative mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green-500">
+<span class="material-symbols-outlined text-black text-base"> local_shipping </span>
+</div>
+<div>
+<p class="font-medium text-white">Package In Transit</p>
+<p class="text-sm text-zinc-400">10:15 AM</p>
+</div>
+</div>
+<div class="timeline-item relative flex items-start gap-4 pt-4">
+<div class="relative mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green-500">
+<span class="material-symbols-outlined text-black text-base"> check </span>
+</div>
+<div>
+<p class="font-medium text-white">Package Delivered</p>
+<p class="text-sm text-zinc-400">10:30 AM</p>
+</div>
+</div>
+</div>
+</section>
+<div class="h-px w-full bg-zinc-800"></div>
+<section>
+<h2 class="mb-4 text-lg font-bold text-white">Feedback</h2>
+<div class="space-y-4">
+<textarea class="w-full rounded-lg border-zinc-700 bg-zinc-800 p-3 text-white placeholder-zinc-500 focus:border-green-500 focus:ring-green-500" placeholder="Share your experience..." rows="4"></textarea>
+<button class="w-full rounded-lg bg-green-500 py-3 font-bold text-black transition-colors hover:bg-green-600">Submit Feedback</button>
+</div>
+</section>
+</main>
+</div>
+<footer class="sticky bottom-0">
+<div class="flex justify-around border-t border-zinc-800 bg-[#181818] px-2 py-2">
+<a class="flex flex-col items-center gap-1 text-zinc-400" href="#">
+<span class="material-symbols-outlined"> home </span>
+<p class="text-xs">Home</p>
+</a>
+<a class="flex flex-col items-center gap-1 text-zinc-400" href="#">
+<span class="material-symbols-outlined"> package_2 </span>
+<p class="text-xs">Track</p>
+</a>
+<a class="flex flex-col items-center gap-1 text-green-400" href="#">
+<span class="material-symbols-outlined"> history </span>
+<p class="text-xs">History</p>
+</a>
+<a class="flex flex-col items-center gap-1 text-zinc-400" href="#">
+<span class="material-symbols-outlined"> person </span>
+<p class="text-xs">Profile</p>
+</a>
+</div>
+<div class="h-4 bg-[#181818]"></div>
+</footer>
+</div>
+</body></html>

@@ -1,0 +1,133 @@
+@import url('stitch-variables.css');
+
+/* Welcome Onboarding Component CSS - Stitch Design System */
+
+.stitch-welcome-onboarding {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--primary-dark);
+  color: var(--text-primary);
+  font-family: var(--font-primary), sans-serif;
+}
+
+.stitch-welcome-onboarding__main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.stitch-welcome-onboarding__content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 var(--spacing-lg);
+  padding-top: 4rem; /* pt-16 equivalent */
+}
+
+.stitch-welcome-onboarding__image-container {
+  width: 100%;
+  max-width: 20rem; /* max-w-sm equivalent */
+  margin: 0 auto;
+}
+
+.stitch-welcome-onboarding__image {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  max-height: 20rem; /* max-h-80 equivalent */
+}
+
+.stitch-welcome-onboarding__text-content {
+  margin-top: 2rem; /* mt-8 equivalent */
+}
+
+.stitch-welcome-onboarding__heading {
+  font-size: var(--text-h1); /* text-3xl equivalent */
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  letter-spacing: var(--tracking-tight);
+  margin: 0;
+}
+
+.stitch-welcome-onboarding__description {
+  margin-top: var(--spacing-sm); /* mt-3 equivalent */
+  font-size: var(--text-body); /* text-base equivalent */
+  color: #9ca3af; /* text-gray-400 equivalent */
+  max-width: 20rem; /* max-w-xs equivalent */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.stitch-welcome-onboarding__button-container {
+  padding: 0 var(--spacing-lg);
+  padding-bottom: 2rem; /* pb-8 equivalent */
+  padding-top: 3rem; /* pt-12 equivalent */
+}
+
+.stitch-welcome-onboarding__buttons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm); /* gap-3 equivalent */
+}
+
+.stitch-welcome-onboarding__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3.5rem; /* h-14 equivalent */
+  padding: 0 1.5rem; /* px-6 equivalent */
+  font-weight: var(--font-bold);
+  border-radius: 9999px; /* rounded-full equivalent */
+  font-size: 1.125rem; /* text-lg equivalent */
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.stitch-welcome-onboarding__button--primary {
+  background-color: var(--primary-accent);
+  color: var(--text-inverse);
+}
+
+.stitch-welcome-onboarding__button--primary:hover {
+  background-color: #00c785; /* hover:bg-[#00c785] equivalent */
+}
+
+.stitch-welcome-onboarding__button--secondary {
+  background-color: #262626;
+  color: var(--text-primary);
+}
+
+.stitch-welcome-onboarding__button--secondary:hover {
+  background-color: #3d3d3d; /* hover:bg-[#3d3d3d] equivalent */
+}
+
+.stitch-welcome-onboarding__footer {
+  padding: var(--spacing-md) var(--spacing-lg);
+  padding-bottom: 2rem; /* pb-8 equivalent */
+  padding-top: var(--spacing-sm); /* pt-4 equivalent */
+}
+
+.stitch-welcome-onboarding__dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem; /* gap-2 equivalent */
+  width: 100%;
+}
+
+.stitch-welcome-onboarding__dot {
+  height: 0.5rem; /* h-2 equivalent */
+  width: 0.5rem; /* w-2 equivalent */
+  border-radius: 9999px; /* rounded-full equivalent */
+}
+
+.stitch-welcome-onboarding__dot--active {
+  background-color: var(--primary-accent);
+}
+
+.stitch-welcome-onboarding__dot--inactive {
+  background-color: #404040;
+}

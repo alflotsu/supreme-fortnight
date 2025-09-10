@@ -8,17 +8,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.peng.sparrowdelivery.ui.components.*
 import io.peng.sparrowdelivery.ui.theme.*
 import io.peng.sparrowdelivery.ui.components.AnimatedHeroSection
-import kotlinx.coroutines.delay
 
 @Composable
 fun OnboardingPageContent(
@@ -115,7 +110,7 @@ fun OnboardingBottomSection(
         ) {
             // Skip button
             if (!isLastPage) {
-                ShadcnTextButton(
+                SparrowTextButton(
                     text = "Skip",
                     onClick = onSkipClick,
                     variant = ShadcnButtonVariant.Ghost,
@@ -126,7 +121,7 @@ fun OnboardingBottomSection(
             }
             
             // Next/Get Started button
-            ShadcnTextButton(
+            SparrowTextButton(
                 text = if (isLastPage) "Get Started" else "Next",
                 onClick = onNextClick,
                 variant = ShadcnButtonVariant.Default,

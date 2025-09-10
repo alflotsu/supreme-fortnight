@@ -1,0 +1,27 @@
+:root {
+  --primary-dark: #122118;
+  --primary-medium: #254632;
+  --primary-accent: #36e27b;
+  --secondary-light: #95c6a9;
+  --text-primary: #FFFFFF;
+  --text-secondary: #95c6a9;
+  --text-inverse: #122118;
+  --font-primary: 'Spline Sans';
+  --font-secondary: 'Noto Sans';
+  --text-h1: 1.875rem; /* text-3xl equivalent */
+  --text-body: 1rem; /* text-base equivalent */
+  --text-small: 0.875rem; /* text-sm equivalent */
+  --text-lg: 1.125rem; /* text-lg equivalent */
+  --font-bold: 700;
+  --font-normal: 400;
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --tracking-tight: -0.015em;
+  --tracking-normal: 0.015em;
+  --spacing-xs: 0.25rem; /* p-1 equivalent */
+  --spacing-sm: 0.5rem; /* p-2 equivalent */
+  --spacing-md: 1rem; /* p-4 equivalent */
+  --spacing-lg: 2rem; /* p-8 equivalent */
+  --border-radius-lg: 0.5rem; /* rounded-lg equivalent */
+  --input-height-lg: 3.5rem; /* h-14 equivalent */
+}

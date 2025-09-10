@@ -3,10 +3,8 @@ package io.peng.sparrowdelivery.presentation.features.profile
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -19,9 +17,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.peng.sparrowdelivery.ui.components.*
 import io.peng.sparrowdelivery.ui.components.stitch.*
@@ -194,7 +189,7 @@ private fun ProfileHeaderSection(
     onEmailChange: (String) -> Unit,
     onPhoneChange: (String) -> Unit
 ) {
-    ShadcnCard(
+    SparrowCard(
         modifier = Modifier.fillMaxWidth(),
         variant = ShadcnCardVariant.Default
     ) {
@@ -281,7 +276,7 @@ private fun OrderHistorySection(
     orders: List<Order>,
     onOrderClick: (Order) -> Unit
 ) {
-    ShadcnCard(
+    SparrowCard(
         modifier = Modifier.fillMaxWidth(),
         variant = ShadcnCardVariant.Default
     ) {
@@ -300,7 +295,7 @@ private fun OrderHistorySection(
                     color = LocalStitchColorScheme.current.onSurface
                 )
                 if (orders.size > 3) {
-                    ShadcnTextButton(
+                    SparrowTextButton(
                         text = "View All",
                         onClick = { /* TODO: Navigate to full order history */ }
                     )
@@ -453,7 +448,7 @@ private fun PersonalInformationSection(
     isEditing: Boolean,
     onAddressChange: (String) -> Unit
 ) {
-    ShadcnCard(
+    SparrowCard(
         modifier = Modifier.fillMaxWidth(),
         variant = ShadcnCardVariant.Default
     ) {
@@ -489,7 +484,7 @@ private fun DeliveryStatsSection(
     userProfile: UserProfile,
     onPaymentMethodClick: () -> Unit
 ) {
-    ShadcnCard(
+    SparrowCard(
         modifier = Modifier.fillMaxWidth(),
         variant = ShadcnCardVariant.Default
     ) {
@@ -560,7 +555,7 @@ private fun StatItem(
 
 @Composable
 private fun SavedAddressesSection(addresses: List<SavedAddress>) {
-    ShadcnCard(
+    SparrowCard(
         modifier = Modifier.fillMaxWidth(),
         variant = ShadcnCardVariant.Default
     ) {
@@ -577,7 +572,7 @@ private fun SavedAddressesSection(addresses: List<SavedAddress>) {
                     text = "🏠 Saved Addresses",
                     style = ShadcnTextStyle.H4
                 )
-                ShadcnTextButton(
+                SparrowTextButton(
                     text = "Manage",
                     onClick = { /* TODO: Navigate to manage addresses */ }
                 )
@@ -614,7 +609,7 @@ private fun NotificationPreferencesSection(
     notifications: NotificationPreferences,
     onNotificationChange: (String, Boolean) -> Unit
 ) {
-    ShadcnCard(
+    SparrowCard(
         modifier = Modifier.fillMaxWidth(),
         variant = ShadcnCardVariant.Default
     ) {
@@ -692,7 +687,7 @@ private fun NotificationToggle(
 private fun AccountActionsSection(
     onLogoutClick: () -> Unit
 ) {
-    ShadcnCard(
+    SparrowCard(
         modifier = Modifier.fillMaxWidth(),
         variant = ShadcnCardVariant.Default
     ) {

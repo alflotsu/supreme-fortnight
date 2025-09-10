@@ -1,0 +1,122 @@
+/* User Sign Up Component CSS - Stitch Design System */
+
+.stitch-user-sign-up {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--primary-dark);
+  font-family: var(--font-primary), var(--font-secondary), sans-serif;
+}
+
+.stitch-user-sign-up__header {
+  padding: var(--spacing-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stitch-user-sign-up__main {
+  flex-grow: 1;
+  padding: var(--spacing-md);
+  padding-bottom: 0;
+}
+
+.stitch-user-sign-up__heading {
+  color: var(--text-primary);
+  font-size: var(--text-h1);
+  font-weight: var(--font-bold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--tracking-tight);
+  margin-bottom: var(--spacing-md);
+}
+
+.stitch-user-sign-up__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.stitch-user-sign-up__input-container {
+  position: relative;
+}
+
+.stitch-user-sign-up__input-icon {
+  position: absolute;
+  left: var(--spacing-md);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--secondary-light);
+}
+
+.stitch-user-sign-up__input {
+  width: 100%;
+  min-width: 0;
+  flex: 1;
+  resize: none;
+  overflow: hidden;
+  border-radius: var(--border-radius-lg);
+  color: var(--text-primary);
+  background-color: var(--primary-medium);
+  height: var(--input-height-lg);
+  padding: var(--spacing-md);
+  padding-left: calc(var(--spacing-md) * 3);
+  font-size: var(--text-body);
+  font-weight: var(--font-normal);
+  line-height: var(--line-height-normal);
+  border: none;
+}
+
+.stitch-user-sign-up__input::placeholder {
+  color: var(--secondary-light);
+}
+
+.stitch-user-sign-up__input:focus {
+  outline: 0;
+  box-shadow: 0 0 0 2px var(--primary-accent);
+}
+
+.stitch-user-sign-up__button {
+  display: flex;
+  min-width: 84px;
+  max-width: 480px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 0.5rem; /* rounded-lg equivalent */
+  height: 3.5rem; /* h-14 equivalent */
+  padding-left: 1.25rem; /* px-5 equivalent */
+  padding-right: 1.25rem; /* px-5 equivalent */
+  width: 100%;
+  background-color: var(--primary-accent);
+  color: var(--text-inverse);
+  font-size: 1.125rem; /* text-lg equivalent */
+  font-weight: var(--font-bold);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--tracking-normal);
+  margin-top: var(--spacing-md);
+  transition: all 0.2s ease-in-out;
+}
+
+.stitch-user-sign-up__button:hover {
+  opacity: 0.9;
+}
+
+.stitch-user-sign-up__footer {
+  padding: var(--spacing-md);
+  padding-top: var(--spacing-sm);
+}
+
+.stitch-user-sign-up__footer-text {
+  color: var(--text-secondary);
+  font-size: var(--text-small);
+  font-weight: var(--font-normal);
+  line-height: var(--line-height-normal);
+  text-align: center;
+}
+
+.stitch-user-sign-up__footer-link {
+  font-weight: var(--font-bold);
+  color: var(--primary-accent);
+  text-decoration: underline;
+}

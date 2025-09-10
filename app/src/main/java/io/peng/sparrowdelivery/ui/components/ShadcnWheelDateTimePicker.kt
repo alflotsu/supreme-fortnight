@@ -1,7 +1,5 @@
 package io.peng.sparrowdelivery.ui.components
 
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,8 +10,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,16 +21,11 @@ import com.commandiron.wheel_picker_compose.core.WheelPickerDefaults
 import io.peng.sparrowdelivery.ui.theme.*
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.LocalTime
 import java.time.ZoneId
-import java.util.*
 
-/**
- * iOS-style wheel date/time picker component with shadcn theming
- * Provides a smooth, native iOS experience for delivery scheduling
- */
+
 @Composable
-fun ShadcnWheelDateTimePickerDialog(
+fun WheelDateTimePickerDialog(
     onDateTimeSelected: (Long) -> Unit,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
@@ -113,7 +104,7 @@ fun ShadcnWheelDateTimePickerDialog(
                             selectedOption = showDatePicker,
                             onOptionSelected = { showDatePicker = it },
                             modifier = Modifier.fillMaxWidth(),
-                            height = 32.dp
+                            height = 48.dp
                         )
                     }
                     
@@ -183,14 +174,14 @@ fun ShadcnWheelDateTimePickerDialog(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.md)
                     ) {
-                        ShadcnTextButton(
+                        SparrowTextButton(
                             text = "Cancel",
                             onClick = onDismiss,
                             variant = ShadcnButtonVariant.Outline,
                             modifier = Modifier.weight(1f)
                         )
                         
-                        ShadcnTextButton(
+                        SparrowTextButton(
                             text = if (showDatePicker) "Next" else "Schedule",
                             onClick = {
                                 if (showDatePicker) {
@@ -209,7 +200,7 @@ fun ShadcnWheelDateTimePickerDialog(
                     
                     // Preview of selected date/time
                     if (!showDatePicker) {
-                        ShadcnCard(variant = ShadcnCardVariant.Outlined) {
+                        SparrowCard(variant = ShadcnCardVariant.Outlined) {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.sm)

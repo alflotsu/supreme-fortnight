@@ -1,0 +1,111 @@
+<html><head>
+<meta charset="utf-8"/>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Spline+Sans%3Awght%40400%3B500%3B700" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<title>Stitch Design</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+      :root {
+        --primary-color: #22c55e;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-black" style='font-family: "Spline Sans", "Noto Sans", sans-serif;'>
+<div class="relative flex size-full min-h-screen flex-col overflow-x-hidden">
+<div class="flex-1">
+<div class="absolute inset-x-0 top-0 z-10 bg-black/80 backdrop-blur-sm">
+<div class="flex items-center p-4 pb-2">
+<button class="text-gray-300">
+<span class="material-symbols-outlined"> arrow_back </span>
+</button>
+<h1 class="flex-1 text-center text-lg font-bold text-gray-100">New Delivery</h1>
+<div class="w-8"></div>
+</div>
+</div>
+<div class="h-screen w-full">
+<img alt="Map view" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA735mhg-FgmbUuMYL9Fj-tEvjGiEcAzwKCzl7XFILJqSStpE5tTO-v8qtMIDh2gWJsK2rWKCqMh6txT08p-bITS86T9E470yH2eFJYIZDsscHSM45w2DTTsFU_Spo5LpGecAsASf3CYkyDK1C-yNvmbexsf6BZmN-Mz5UmEGYAL_8SAp4c6Xls_ObffXvMRHnIvZJjn8YNGSv3S-15pc-T_k63Mf5xuXY6UKJVfPDZIYn3YUIDAIhxQG8oQYAgkIEWq6_ezApFFqM"/>
+</div>
+<div class="absolute inset-x-4 bottom-4 right-4 z-10 flex flex-col items-end gap-3">
+<div class="flex flex-col gap-px">
+<button class="flex size-10 items-center justify-center rounded-t-lg bg-gray-800 shadow-lg">
+<span class="material-symbols-outlined text-gray-300"> add </span>
+</button>
+<button class="flex size-10 items-center justify-center rounded-b-lg bg-gray-800 shadow-lg">
+<span class="material-symbols-outlined text-gray-300"> remove </span>
+</button>
+</div>
+<button class="flex size-10 items-center justify-center rounded-lg bg-gray-800 shadow-lg">
+<span class="material-symbols-outlined text-gray-300"> navigation </span>
+</button>
+</div>
+</div>
+<div class="fixed inset-x-0 bottom-0 z-20">
+<div class="flex flex-col rounded-t-2xl border-t border-gray-700 bg-black shadow-2xl">
+<div class="flex h-5 w-full items-center justify-center">
+<div class="h-1 w-9 rounded-full bg-gray-600"></div>
+</div>
+<div class="p-4 pt-2">
+<h2 class="text-xl font-bold text-gray-100">Where to?</h2>
+<div class="mt-4 space-y-4">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"> search </span>
+<input class="form-input w-full rounded-xl border-gray-700 bg-gray-800 py-3 pl-10 pr-4 text-gray-100 placeholder-gray-400 focus:border-green-500 focus:ring-green-500" placeholder="Pickup" value=""/>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"> location_on </span>
+<input class="form-input w-full rounded-xl border-gray-700 bg-gray-800 py-3 pl-10 pr-4 text-gray-100 placeholder-gray-400 focus:border-green-500 focus:ring-green-500" placeholder="Delivery" value=""/>
+</div>
+</div>
+<h3 class="mt-6 text-lg font-bold text-gray-100">Package Size</h3>
+<div class="mt-3 flex gap-3">
+<label class="flex flex-1 cursor-pointer items-center justify-center rounded-xl border-2 border-gray-700 px-4 py-3 text-sm font-medium text-gray-300 has-[:checked]:border-green-500 has-[:checked]:bg-green-900/50 has-[:checked]:text-green-300">
+<input class="sr-only" name="package-size" type="radio"/>
+                Small
+              </label>
+<label class="flex flex-1 cursor-pointer items-center justify-center rounded-xl border-2 border-gray-700 px-4 py-3 text-sm font-medium text-gray-300 has-[:checked]:border-green-500 has-[:checked]:bg-green-900/50 has-[:checked]:text-green-300">
+<input checked="" class="sr-only" name="package-size" type="radio"/>
+                Medium
+              </label>
+<label class="flex flex-1 cursor-pointer items-center justify-center rounded-xl border-2 border-gray-700 px-4 py-3 text-sm font-medium text-gray-300 has-[:checked]:border-green-500 has-[:checked]:bg-green-900/50 has-[:checked]:text-green-300">
+<input class="sr-only" name="package-size" type="radio"/>
+                Large
+              </label>
+</div>
+<button class="mt-6 w-full cursor-pointer rounded-full bg-[var(--primary-color)] py-4 text-base font-bold text-black">
+              Request Delivery
+            </button>
+</div>
+<div class="flex gap-2 border-t border-gray-700 px-4 pb-3 pt-2">
+<a class="flex flex-1 flex-col items-center justify-end gap-1 rounded-full text-green-500" href="#">
+<span class="material-symbols-outlined"> home </span>
+<p class="text-xs font-medium">Home</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-gray-400" href="#">
+<span class="material-symbols-outlined"> inventory_2 </span>
+<p class="text-xs font-medium">Track</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-gray-400" href="#">
+<span class="material-symbols-outlined"> history </span>
+<p class="text-xs font-medium">History</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-end gap-1 text-gray-400" href="#">
+<span class="material-symbols-outlined"> person </span>
+<p class="text-xs font-medium">Profile</p>
+</a>
+</div>
+</div>
+</div>
+</div>
+</body></html>

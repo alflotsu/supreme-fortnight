@@ -1,0 +1,155 @@
+@import url('stitch-variables.css');
+
+/* App Features Tutorial Component CSS - Stitch Design System */
+
+.stitch-app-features-tutorial {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--primary-dark);
+  font-family: var(--font-primary), var(--font-secondary), sans-serif;
+}
+
+.stitch-app-features-tutorial__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md);
+  padding-bottom: var(--spacing-sm);
+}
+
+.stitch-app-features-tutorial__header-placeholder {
+  width: 2.5rem; /* w-10 equivalent */
+}
+
+.stitch-app-features-tutorial__header-title {
+  flex: 1;
+  text-align: center;
+  font-size: 1.125rem; /* text-lg equivalent */
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+.stitch-app-features-tutorial__skip-button {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 0.875rem; /* text-sm equivalent */
+  font-weight: var(--font-medium);
+  padding: 0.375rem 0.75rem; /* px-3 py-1.5 equivalent */
+  border-radius: 0.5rem; /* rounded-lg equivalent */
+  cursor: pointer;
+}
+
+.stitch-app-features-tutorial__skip-button:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* hover:bg-white/10 equivalent */
+}
+
+.stitch-app-features-tutorial__main {
+  flex: 1;
+  overflow-x: auto;
+  scroll-snap-type: x;
+  scroll-snap-points: mandatory;
+  -ms-scrollbar-style: none;
+  scrollbar-width: none;
+}
+
+.stitch-app-features-tutorial__main::-webkit-scrollbar {
+  display: none;
+}
+
+.stitch-app-features-tutorial__slides-container {
+  display: flex;
+  align-items: flex-start;
+  width: max-content;
+}
+
+.stitch-app-features-tutorial__slide {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg); /* gap-6 equivalent */
+  padding: var(--spacing-lg); /* p-6 equivalent */
+  scroll-snap-align: center;
+  width: 100vw;
+}
+
+.stitch-app-features-tutorial__slide-image {
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  aspect-ratio: 1 / 1;
+  border-radius: 1rem; /* rounded-2xl equivalent */
+  display: flex;
+  flex-direction: column;
+}
+
+.stitch-app-features-tutorial__slide-content {
+  text-align: center;
+}
+
+.stitch-app-features-tutorial__slide-title {
+  color: var(--text-primary);
+  font-size: 1.5rem; /* text-2xl equivalent */
+  font-weight: var(--font-bold);
+  line-height: var(--line-height-tight);
+  margin: 0;
+}
+
+.stitch-app-features-tutorial__slide-description {
+  color: var(--secondary-light);
+  font-size: var(--text-body); /* text-base equivalent */
+  font-weight: var(--font-normal);
+  line-height: var(--line-height-normal);
+  margin-top: var(--spacing-sm); /* mt-2 equivalent */
+  max-width: 20.5rem; /* max-w-sm equivalent */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.stitch-app-features-tutorial__indicators {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem; /* gap-3 equivalent */
+  padding: var(--spacing-lg) 0 var(--spacing-md); /* py-5 equivalent */
+}
+
+.stitch-app-features-tutorial__indicator {
+  height: 0.5rem; /* h-2 equivalent */
+  border-radius: 9999px; /* rounded-full equivalent */
+}
+
+.stitch-app-features-tutorial__indicator--active {
+  width: 1.5rem; /* w-6 equivalent */
+  background-color: var(--primary-accent);
+}
+
+.stitch-app-features-tutorial__indicator--inactive {
+  width: 0.5rem; /* w-2 equivalent */
+  background-color: #366348;
+}
+
+.stitch-app-features-tutorial__footer {
+  padding: var(--spacing-md) var(--spacing-lg) var(--spacing-lg); /* px-6 pb-8 pt-4 equivalent */
+  background-color: var(--primary-dark);
+}
+
+.stitch-app-features-tutorial__get-started-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border-radius: 9999px; /* rounded-full equivalent */
+  height: 3.5rem; /* h-14 equivalent */
+  padding: 0 2rem; /* px-8 equivalent */
+  background-color: var(--primary-accent);
+  color: var(--text-inverse);
+  font-size: 1.125rem; /* text-lg equivalent */
+  font-weight: var(--font-bold);
+  border: none;
+  cursor: pointer;
+}

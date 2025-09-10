@@ -11,7 +11,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
@@ -19,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.Dp
 import io.peng.sparrowdelivery.ui.theme.*
 
-enum class ShadcnBadgeVariant {
+enum class SparrowBadge {
     Default,
     Secondary,
     Destructive,
@@ -29,58 +28,56 @@ enum class ShadcnBadgeVariant {
     Info
 }
 
-enum class ShadcnBadgeSize {
+enum class SparrowBadgeSize {
     Small,
     Default,
     Large
 }
 
-/**
- * shadcn/ui inspired Badge component for status indicators and labels
- */
+
 @Composable
-fun ShadcnBadge(
+fun SparrowBadge(
     text: String,
     modifier: Modifier = Modifier,
-    variant: ShadcnBadgeVariant = ShadcnBadgeVariant.Default,
-    size: ShadcnBadgeSize = ShadcnBadgeSize.Default,
+    variant: SparrowBadge = SparrowBadge.Default,
+    size: SparrowBadgeSize = SparrowBadgeSize.Default,
     icon: ImageVector? = null,
     onClick: (() -> Unit)? = null
 ) {
     val colors = SparrowTheme.colors
     
     val (backgroundColor, textColor, borderColor) = when (variant) {
-        ShadcnBadgeVariant.Default -> Triple(
+        SparrowBadge.Default -> Triple(
             colors.primary,
             colors.primaryForeground,
             Color.Transparent
         )
-        ShadcnBadgeVariant.Secondary -> Triple(
+        SparrowBadge.Secondary -> Triple(
             colors.secondary,
             colors.secondaryForeground,
             Color.Transparent
         )
-        ShadcnBadgeVariant.Destructive -> Triple(
+        SparrowBadge.Destructive -> Triple(
             colors.destructive,
             colors.destructiveForeground,
             Color.Transparent
         )
-        ShadcnBadgeVariant.Outline -> Triple(
+        SparrowBadge.Outline -> Triple(
             Color.Transparent,
             colors.foreground,
             colors.border
         )
-        ShadcnBadgeVariant.Success -> Triple(
+        SparrowBadge.Success -> Triple(
             colors.success,
             colors.primaryForeground,
             Color.Transparent
         )
-        ShadcnBadgeVariant.Warning -> Triple(
+        SparrowBadge.Warning -> Triple(
             colors.warning,
             colors.foreground,
             Color.Transparent
         )
-        ShadcnBadgeVariant.Info -> Triple(
+        SparrowBadge.Info -> Triple(
             colors.info,
             colors.primaryForeground,
             Color.Transparent
@@ -88,27 +85,27 @@ fun ShadcnBadge(
     }
     
     val horizontalPadding = when (size) {
-        ShadcnBadgeSize.Small -> SparrowSpacing.xs
-        ShadcnBadgeSize.Default -> SparrowSpacing.sm
-        ShadcnBadgeSize.Large -> SparrowSpacing.md
+        SparrowBadgeSize.Small -> SparrowSpacing.xs
+        SparrowBadgeSize.Default -> SparrowSpacing.sm
+        SparrowBadgeSize.Large -> SparrowSpacing.md
     }
     
     val verticalPadding = when (size) {
-        ShadcnBadgeSize.Small -> 2.dp
-        ShadcnBadgeSize.Default -> 4.dp
-        ShadcnBadgeSize.Large -> SparrowSpacing.xs
+        SparrowBadgeSize.Small -> 2.dp
+        SparrowBadgeSize.Default -> 4.dp
+        SparrowBadgeSize.Large -> SparrowSpacing.xs
     }
     
     val textStyle = when (size) {
-        ShadcnBadgeSize.Small -> SparrowTypography.small.copy(fontWeight = FontWeight.Medium)
-        ShadcnBadgeSize.Default -> SparrowTypography.small.copy(fontWeight = FontWeight.Medium)
-        ShadcnBadgeSize.Large -> SparrowTypography.p.copy(fontWeight = FontWeight.Medium)
+        SparrowBadgeSize.Small -> SparrowTypography.small.copy(fontWeight = FontWeight.Medium)
+        SparrowBadgeSize.Default -> SparrowTypography.small.copy(fontWeight = FontWeight.Medium)
+        SparrowBadgeSize.Large -> SparrowTypography.p.copy(fontWeight = FontWeight.Medium)
     }
     
     val iconSize = when (size) {
-        ShadcnBadgeSize.Small -> 12.dp
-        ShadcnBadgeSize.Default -> 14.dp
-        ShadcnBadgeSize.Large -> 16.dp
+        SparrowBadgeSize.Small -> 12.dp
+        SparrowBadgeSize.Default -> 14.dp
+        SparrowBadgeSize.Large -> 16.dp
     }
     
     Box(
@@ -159,15 +156,13 @@ fun ShadcnBadge(
     }
 }
 
-/**
- * Removable chip component similar to shadcn/ui
- */
+
 @Composable
-fun ShadcnChip(
+fun Chip(
     text: String,
     modifier: Modifier = Modifier,
-    variant: ShadcnBadgeVariant = ShadcnBadgeVariant.Secondary,
-    size: ShadcnBadgeSize = ShadcnBadgeSize.Default,
+    variant: SparrowBadge = SparrowBadge.Secondary,
+    size: SparrowBadgeSize = SparrowBadgeSize.Default,
     icon: ImageVector? = null,
     onRemove: (() -> Unit)? = null,
     onClick: (() -> Unit)? = null
@@ -175,37 +170,37 @@ fun ShadcnChip(
     val colors = SparrowTheme.colors
     
     val (backgroundColor, textColor, borderColor) = when (variant) {
-        ShadcnBadgeVariant.Default -> Triple(
+        SparrowBadge.Default -> Triple(
             colors.primary.copy(alpha = 0.1f),
             colors.primary,
             colors.primary.copy(alpha = 0.2f)
         )
-        ShadcnBadgeVariant.Secondary -> Triple(
+        SparrowBadge.Secondary -> Triple(
             colors.secondary,
             colors.secondaryForeground,
             colors.border
         )
-        ShadcnBadgeVariant.Destructive -> Triple(
+        SparrowBadge.Destructive -> Triple(
             colors.destructive.copy(alpha = 0.1f),
             colors.destructive,
             colors.destructive.copy(alpha = 0.2f)
         )
-        ShadcnBadgeVariant.Outline -> Triple(
+        SparrowBadge.Outline -> Triple(
             Color.Transparent,
             colors.foreground,
             colors.border
         )
-        ShadcnBadgeVariant.Success -> Triple(
+        SparrowBadge.Success -> Triple(
             colors.success.copy(alpha = 0.1f),
             colors.success,
             colors.success.copy(alpha = 0.2f)
         )
-        ShadcnBadgeVariant.Warning -> Triple(
+        SparrowBadge.Warning -> Triple(
             colors.warning.copy(alpha = 0.1f),
             colors.warning,
             colors.warning.copy(alpha = 0.2f)
         )
-        ShadcnBadgeVariant.Info -> Triple(
+        SparrowBadge.Info -> Triple(
             colors.info.copy(alpha = 0.1f),
             colors.info,
             colors.info.copy(alpha = 0.2f)
@@ -213,27 +208,27 @@ fun ShadcnChip(
     }
     
     val horizontalPadding = when (size) {
-        ShadcnBadgeSize.Small -> SparrowSpacing.xs
-        ShadcnBadgeSize.Default -> SparrowSpacing.sm
-        ShadcnBadgeSize.Large -> SparrowSpacing.md
+        SparrowBadgeSize.Small -> SparrowSpacing.xs
+        SparrowBadgeSize.Default -> SparrowSpacing.sm
+        SparrowBadgeSize.Large -> SparrowSpacing.md
     }
     
     val verticalPadding = when (size) {
-        ShadcnBadgeSize.Small -> 2.dp
-        ShadcnBadgeSize.Default -> 4.dp
-        ShadcnBadgeSize.Large -> SparrowSpacing.xs
+        SparrowBadgeSize.Small -> 2.dp
+        SparrowBadgeSize.Default -> 4.dp
+        SparrowBadgeSize.Large -> SparrowSpacing.xs
     }
     
     val textStyle = when (size) {
-        ShadcnBadgeSize.Small -> SparrowTypography.small
-        ShadcnBadgeSize.Default -> SparrowTypography.small
-        ShadcnBadgeSize.Large -> SparrowTypography.p
+        SparrowBadgeSize.Small -> SparrowTypography.small
+        SparrowBadgeSize.Default -> SparrowTypography.small
+        SparrowBadgeSize.Large -> SparrowTypography.p
     }
     
     val iconSize = when (size) {
-        ShadcnBadgeSize.Small -> 12.dp
-        ShadcnBadgeSize.Default -> 14.dp
-        ShadcnBadgeSize.Large -> 16.dp
+        SparrowBadgeSize.Small -> 12.dp
+        SparrowBadgeSize.Default -> 14.dp
+        SparrowBadgeSize.Large -> 16.dp
     }
     
     Box(
@@ -296,19 +291,19 @@ fun ShadcnChip(
 @Composable
 fun ShadcnStatusDot(
     modifier: Modifier = Modifier,
-    variant: ShadcnBadgeVariant = ShadcnBadgeVariant.Default,
+    variant: SparrowBadge = SparrowBadge.Default,
     size: Dp = 8.dp
 ) {
     val colors = SparrowTheme.colors
     
     val dotColor = when (variant) {
-        ShadcnBadgeVariant.Default -> colors.primary
-        ShadcnBadgeVariant.Secondary -> colors.mutedForeground
-        ShadcnBadgeVariant.Destructive -> colors.destructive
-        ShadcnBadgeVariant.Outline -> colors.border
-        ShadcnBadgeVariant.Success -> colors.success
-        ShadcnBadgeVariant.Warning -> colors.warning
-        ShadcnBadgeVariant.Info -> colors.info
+        SparrowBadge.Default -> colors.primary
+        SparrowBadge.Secondary -> colors.mutedForeground
+        SparrowBadge.Destructive -> colors.destructive
+        SparrowBadge.Outline -> colors.border
+        SparrowBadge.Success -> colors.success
+        SparrowBadge.Warning -> colors.warning
+        SparrowBadge.Info -> colors.info
     }
     
     Box(
@@ -328,7 +323,7 @@ fun ShadcnStatusDot(
 fun ShadcnNotificationBadge(
     count: Int,
     modifier: Modifier = Modifier,
-    variant: ShadcnBadgeVariant = ShadcnBadgeVariant.Destructive,
+    variant: SparrowBadge = SparrowBadge.Destructive,
     maxCount: Int = 99,
     showZero: Boolean = false
 ) {
@@ -336,11 +331,11 @@ fun ShadcnNotificationBadge(
     
     val displayText = if (count > maxCount) "$maxCount+" else count.toString()
     
-    ShadcnBadge(
+    SparrowBadge(
         text = displayText,
         modifier = modifier,
         variant = variant,
-        size = ShadcnBadgeSize.Small
+        size = SparrowBadgeSize.Small
     )
 }
 
@@ -351,17 +346,17 @@ fun ShadcnNotificationBadge(
 fun ShadcnTag(
     text: String,
     modifier: Modifier = Modifier,
-    variant: ShadcnBadgeVariant = ShadcnBadgeVariant.Secondary,
+    variant: SparrowBadge = SparrowBadge.Secondary,
     selected: Boolean = false,
     onClick: (() -> Unit)? = null,
     onRemove: (() -> Unit)? = null
 ) {
     val colors = SparrowTheme.colors
     
-    val actualVariant = if (selected) ShadcnBadgeVariant.Default else variant
+    val actualVariant = if (selected) SparrowBadge.Default else variant
     
     if (onRemove != null) {
-        ShadcnChip(
+        Chip(
             text = text,
             modifier = modifier,
             variant = actualVariant,
@@ -369,7 +364,7 @@ fun ShadcnTag(
             onRemove = onRemove
         )
     } else {
-        ShadcnBadge(
+        SparrowBadge(
             text = text,
             modifier = modifier,
             variant = actualVariant,
@@ -381,44 +376,44 @@ fun ShadcnTag(
 /**
  * Collection of commonly used badge variants
  */
-object ShadcnBadges {
+object SparrowBadges {
     @Composable
-    fun Online(modifier: Modifier = Modifier) = ShadcnBadge(
+    fun Online(modifier: Modifier = Modifier) = SparrowBadge(
         text = "Online",
         modifier = modifier,
-        variant = ShadcnBadgeVariant.Success,
-        size = ShadcnBadgeSize.Small
+        variant = SparrowBadge.Success,
+        size = SparrowBadgeSize.Small
     )
     
     @Composable
-    fun Offline(modifier: Modifier = Modifier) = ShadcnBadge(
+    fun Offline(modifier: Modifier = Modifier) = SparrowBadge(
         text = "Offline",
         modifier = modifier,
-        variant = ShadcnBadgeVariant.Secondary,
-        size = ShadcnBadgeSize.Small
+        variant = SparrowBadge.Secondary,
+        size = SparrowBadgeSize.Small
     )
     
     @Composable
-    fun New(modifier: Modifier = Modifier) = ShadcnBadge(
+    fun New(modifier: Modifier = Modifier) = SparrowBadge(
         text = "New",
         modifier = modifier,
-        variant = ShadcnBadgeVariant.Default,
-        size = ShadcnBadgeSize.Small
+        variant = SparrowBadge.Default,
+        size = SparrowBadgeSize.Small
     )
     
     @Composable
-    fun Beta(modifier: Modifier = Modifier) = ShadcnBadge(
+    fun Beta(modifier: Modifier = Modifier) = SparrowBadge(
         text = "Beta",
         modifier = modifier,
-        variant = ShadcnBadgeVariant.Warning,
-        size = ShadcnBadgeSize.Small
+        variant = SparrowBadge.Warning,
+        size = SparrowBadgeSize.Small
     )
     
     @Composable
-    fun Error(modifier: Modifier = Modifier) = ShadcnBadge(
+    fun Error(modifier: Modifier = Modifier) = SparrowBadge(
         text = "Error",
         modifier = modifier,
-        variant = ShadcnBadgeVariant.Destructive,
-        size = ShadcnBadgeSize.Small
+        variant = SparrowBadge.Destructive,
+        size = SparrowBadgeSize.Small
     )
 }

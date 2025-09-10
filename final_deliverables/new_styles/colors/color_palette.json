@@ -1,0 +1,15 @@
+{
+  "primary": {
+    "dark": "#122118",
+    "medium": "#254632",
+    "accent": "#36e27b"
+  },
+  "secondary": {
+    "light": "#95c6a9"
+  },
+  "text": {
+    "primary": "#FFFFFF",
+    "secondary": "#95c6a9",
+    "inverse": "#122118"
+  }
+}

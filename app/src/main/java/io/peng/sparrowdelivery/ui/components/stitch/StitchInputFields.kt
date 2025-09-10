@@ -8,6 +8,7 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -226,6 +227,7 @@ fun StitchLocationField(
 fun StitchHtmlLocationField(
     value: String,
     onValueChange: (String) -> Unit,
+    onMapPinClick: () -> Unit = {},
     modifier: Modifier = Modifier,
     placeholder: String = "Enter location",
     leadingIcon: ImageVector = Icons.Outlined.LocationOn,
@@ -290,15 +292,18 @@ fun StitchHtmlLocationField(
         }
         
         // Icon positioned at left: 1rem (16dp), centered vertically
-        Icon(
-            imageVector = leadingIcon,
-            contentDescription = null,
-            tint = iconColor,
-            modifier = Modifier
-                .align(Alignment.CenterStart)
-                .padding(start = 16.dp) // 1rem from HTML
-                .size(20.dp)
-        )
+        // Map pin button - smaller and cleaner
+        IconButton(
+            onClick = onMapPinClick,
+            modifier = Modifier.size(56.dp) // Match input field height
+        ) {
+            Icon(
+                imageVector = leadingIcon,
+                contentDescription = "Select on map",
+                tint = iconColor,
+                modifier = Modifier.size(24.dp)
+            )
+        }
     }
 }
 

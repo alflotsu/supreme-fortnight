@@ -1,0 +1,269 @@
+@import url('stitch-variables.css');
+
+/* Order Details 4 Component CSS - Stitch Design System */
+
+.stitch-order-details-4 {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--primary-dark);
+  font-family: var(--font-primary), var(--font-secondary), sans-serif;
+}
+
+.stitch-order-details-4__header {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-md);
+}
+
+.stitch-order-details-4__back-button {
+  color: var(--text-primary);
+}
+
+.stitch-order-details-4__title {
+  flex: 1;
+  text-align: center;
+  font-size: 1.25rem; /* text-xl equivalent */
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+}
+
+.stitch-order-details-4__main {
+  flex-grow: 1;
+  padding: var(--spacing-md);
+  padding-bottom: var(--spacing-lg);
+}
+
+.stitch-order-details-4__section {
+  margin-bottom: var(--spacing-lg);
+}
+
+.stitch-order-details-4__section--timeline {
+  margin-bottom: 0;
+}
+
+.stitch-order-details-4__locations {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.stitch-order-details-4__location-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+}
+
+.stitch-order-details-4__location-icon-container {
+  margin-top: 0.25rem; /* mt-1 equivalent */
+  display: flex;
+  height: 2.5rem; /* h-10 equivalent */
+  width: 2.5rem; /* w-10 equivalent */
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px; /* rounded-full equivalent */
+  background-color: #1f2937; /* bg-zinc-800 equivalent */
+}
+
+.stitch-order-details-4__location-icon {
+  color: var(--primary-accent);
+  font-size: 1.5rem; /* text-xl equivalent */
+}
+
+.stitch-order-details-4__location-content h3 {
+  font-weight: var(--font-semibold);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.stitch-order-details-4__location-content p {
+  color: #9ca3af; /* text-zinc-400 equivalent */
+  margin: 0;
+}
+
+.stitch-order-details-4__divider-container {
+  padding-left: 2.5rem; /* ml-5 equivalent */
+}
+
+.stitch-order-details-4__divider {
+  height: 1.5rem; /* h-6 equivalent */
+  width: 1px;
+  border-left: 1px;
+  border-style: dashed;
+  border-color: #374151; /* border-zinc-700 equivalent */
+}
+
+.stitch-order-details-4__horizontal-divider {
+  height: 1px;
+  width: 100%;
+  background-color: #1f2937; /* bg-zinc-800 equivalent */
+}
+
+.stitch-order-details-4__section-title {
+  font-size: 1.125rem; /* text-lg equivalent */
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-md);
+  margin-top: 0;
+}
+
+.stitch-order-details-4__details-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.stitch-order-details-4__detail-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.stitch-order-details-4__driver-image {
+  height: 3rem; /* h-12 equivalent */
+  width: 3rem; /* w-12 equivalent */
+  border-radius: 9999px; /* rounded-full equivalent */
+  object-fit: cover;
+}
+
+.stitch-order-details-4__package-icon-container {
+  display: flex;
+  height: 3rem; /* h-12 equivalent */
+  width: 3rem; /* w-12 equivalent */
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px; /* rounded-full equivalent */
+  background-color: #1f2937; /* bg-zinc-800 equivalent */
+}
+
+.stitch-order-details-4__package-icon {
+  color: var(--primary-accent);
+  font-size: 1.5rem; /* text-xl equivalent */
+}
+
+.stitch-order-details-4__detail-content {
+  flex: 1;
+}
+
+.stitch-order-details-4__detail-content p:first-child {
+  font-weight: var(--font-medium);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.stitch-order-details-4__detail-content p:last-child {
+  font-size: 0.875rem; /* text-sm equivalent */
+  color: #9ca3af; /* text-zinc-400 equivalent */
+  margin: 0;
+}
+
+.stitch-order-details-4__cost-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.stitch-order-details-4__cost-item {
+  display: flex;
+  justify-content: space-between;
+  color: #d1d5db; /* text-zinc-300 equivalent */
+}
+
+.stitch-order-details-4__cost-total {
+  border-top: 1px solid #1f2937; /* border-zinc-800 equivalent */
+  padding-top: var(--spacing-sm);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+}
+
+.stitch-order-details-4__timeline {
+  position: relative;
+}
+
+.stitch-order-details-4__timeline-item {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+  padding-top: var(--spacing-md);
+}
+
+.stitch-order-details-4__timeline-item::before {
+  content: '';
+  position: absolute;
+  top: 28px;
+  left: 14px;
+  height: calc(100% - 28px);
+  width: 2px;
+  background-color: #366348;
+}
+
+.stitch-order-details-4__timeline-item:last-child::before {
+  height: 0;
+}
+
+.stitch-order-details-4__timeline-icon-container {
+  position: relative;
+  margin-top: 0.25rem; /* mt-1 equivalent */
+  display: flex;
+  height: 2rem; /* h-8 equivalent */
+  width: 2rem; /* w-8 equivalent */
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px; /* rounded-full equivalent */
+  background-color: var(--primary-accent);
+}
+
+.stitch-order-details-4__timeline-icon {
+  color: var(--text-inverse);
+  font-size: 1rem; /* text-base equivalent */
+}
+
+.stitch-order-details-4__timeline-content p:first-child {
+  font-weight: var(--font-medium);
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.stitch-order-details-4__timeline-content p:last-child {
+  font-size: 0.875rem; /* text-sm equivalent */
+  color: #9ca3af; /* text-zinc-400 equivalent */
+  margin: 0;
+}
+
+.stitch-order-details-4__footer {
+  position: sticky;
+  bottom: 0;
+}
+
+.stitch-order-details-4__nav-bar {
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid #1f2937; /* border-zinc-800 equivalent */
+  background-color: #181818;
+  padding: var(--spacing-sm) var(--spacing-sm);
+}
+
+.stitch-order-details-4__nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+  text-decoration: none;
+  color: #9ca3af; /* text-zinc-400 equivalent */
+}
+
+.stitch-order-details-4__nav-item--active {
+  color: var(--primary-accent);
+}
+
+.stitch-order-details-4__nav-item-icon {
+  font-size: 1.5rem; /* text-xl equivalent */
+}
+
+.stitch-order-details-4__nav-item-text {
+  font-size: 0.75rem; /* text-xs equivalent */
+  margin: 0;
+}

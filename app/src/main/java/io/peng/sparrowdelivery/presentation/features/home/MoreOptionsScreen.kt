@@ -7,20 +7,16 @@ import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.peng.sparrowdelivery.ui.components.*
-import io.peng.sparrowdelivery.ui.theme.*
 import io.peng.sparrowdelivery.ui.theme.SparrowTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -108,7 +104,7 @@ fun MoreOptionsScreen(
                 PriceEstimateCard(estimatedPrice = uiState.estimatedPrice)
 
                 // Save Button
-                ShadcnTextButton(
+                SparrowTextButton(
                     text = "Save Options",
                     onClick = onBackClick,
                     modifier = Modifier.fillMaxWidth(),
@@ -126,7 +122,7 @@ private fun PackageDetailsSection(
     onPackageWeightChange: (String) -> Unit,
     onPackageDescriptionChange: (String) -> Unit
 ) {
-    ShadcnCard(
+    SparrowCard(
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(
@@ -199,7 +195,7 @@ private fun DeliveryTimeSection(
     uiState: MoreOptionsUiState,
     onDeliveryTimeChange: (MoreDeliveryTime) -> Unit
 ) {
-    ShadcnCard(
+    SparrowCard(
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(
@@ -250,7 +246,7 @@ private fun SpecialServicesSection(
     onFragileItemsChange: (Boolean) -> Unit,
     onPriorityDeliveryChange: (Boolean) -> Unit
 ) {
-    ShadcnCard(
+    SparrowCard(
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(
@@ -329,7 +325,7 @@ private fun RecipientInformationSection(
     onRecipientNameChange: (String) -> Unit,
     onRecipientPhoneChange: (String) -> Unit
 ) {
-    ShadcnCard(
+    SparrowCard(
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(
@@ -387,7 +383,7 @@ private fun SpecialInstructionsSection(
     uiState: MoreOptionsUiState,
     onSpecialInstructionsChange: (String) -> Unit
 ) {
-    ShadcnCard(
+    SparrowCard(
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(
@@ -415,7 +411,7 @@ private fun TransportModeSection(
     uiState: MoreOptionsUiState,
     onTransportModeChange: (TransportMode) -> Unit
 ) {
-    ShadcnCard(
+    SparrowCard(
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(
@@ -518,7 +514,7 @@ private fun TransportModeSection(
 
 @Composable
 private fun PriceEstimateCard(estimatedPrice: Double) {
-    ShadcnCard(
+    SparrowCard(
         modifier = Modifier.fillMaxWidth(),
         variant = ShadcnCardVariant.Elevated
     ) {

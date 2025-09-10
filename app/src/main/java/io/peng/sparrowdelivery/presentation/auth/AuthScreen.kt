@@ -1,21 +1,12 @@
 package io.peng.sparrowdelivery.presentation.auth
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.peng.sparrowdelivery.data.auth.GoogleSignInLauncher
@@ -181,7 +172,7 @@ private fun AuthContent(
             modifier = Modifier.fillMaxWidth()
         ) {
             // Primary action button
-            ShadcnTextButton(
+            SparrowTextButton(
                 text = if (uiState.isLoading) "Please wait..." else if (uiState.isSignUpMode) "Sign Up" else "Sign In",
                 onClick = {
                     if (uiState.isSignUpMode) {
@@ -196,7 +187,7 @@ private fun AuthContent(
             )
             
             // Google Sign In button
-            ShadcnTextButton(
+            SparrowTextButton(
                 text = "Continue with Google",
                 onClick = onGoogleSignIn,
                 modifier = Modifier.fillMaxWidth(),
@@ -217,7 +208,7 @@ private fun AuthContent(
                 color = SparrowTheme.colors.mutedForeground
             )
             Spacer(modifier = Modifier.width(SparrowSpacing.xs))
-            ShadcnTextButton(
+            SparrowTextButton(
                 text = if (uiState.isSignUpMode) "Sign In" else "Sign Up",
                 onClick = onToggleMode,
                 variant = ShadcnButtonVariant.Link,

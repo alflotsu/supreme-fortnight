@@ -76,7 +76,7 @@ fun ComponentDemoScreen(
                         verticalArrangement = Arrangement.spacedBy(SparrowSpacing.md)
                     ) {
                         // App branding showcase
-                        ShadcnCard(variant = ShadcnCardVariant.Default) {
+                        SparrowCard(variant = ShadcnCardVariant.Default) {
                             ShadcnHeading(text = "SparrowDelivery", level = 1, color = SparrowTheme.colors.primary)
                             ShadcnMutedText("48px ExtraBold - Perfect for hero sections and branding")
                         }
@@ -105,7 +105,7 @@ fun ComponentDemoScreen(
                         ShadcnMutedText("20px Normal - Lead paragraphs for emphasis")
                         
                         // Font features highlight
-                        ShadcnCard(variant = ShadcnCardVariant.Outlined) {
+                        SparrowCard(variant = ShadcnCardVariant.Outlined) {
                             ShadcnText("🔤 Inter Font Benefits", style = ShadcnTextStyle.H4)
                             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                                 ShadcnText("• Optimized for screens and mobile devices", style = ShadcnTextStyle.Small)
@@ -130,17 +130,17 @@ fun ComponentDemoScreen(
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.sm)
                         ) {
-                            ShadcnTextButton(
+                            SparrowTextButton(
                                 text = "Primary",
                                 onClick = { },
                                 variant = ShadcnButtonVariant.Default
                             )
-                            ShadcnTextButton(
+                            SparrowTextButton(
                                 text = "Secondary",
                                 onClick = { },
                                 variant = ShadcnButtonVariant.Secondary
                             )
-                            ShadcnTextButton(
+                            SparrowTextButton(
                                 text = "Outline",
                                 onClick = { },
                                 variant = ShadcnButtonVariant.Outline
@@ -151,17 +151,17 @@ fun ComponentDemoScreen(
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.sm)
                         ) {
-                            ShadcnTextButton(
+                            SparrowTextButton(
                                 text = "Destructive",
                                 onClick = { },
                                 variant = ShadcnButtonVariant.Destructive
                             )
-                            ShadcnTextButton(
+                            SparrowTextButton(
                                 text = "Ghost",
                                 onClick = { },
                                 variant = ShadcnButtonVariant.Ghost
                             )
-                            ShadcnTextButton(
+                            SparrowTextButton(
                                 text = "Link",
                                 onClick = { },
                                 variant = ShadcnButtonVariant.Link
@@ -172,7 +172,7 @@ fun ComponentDemoScreen(
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.sm)
                         ) {
-                            ShadcnTextButton(
+                            SparrowTextButton(
                                 text = "Send Message",
                                 onClick = { },
                                 leadingIcon = Icons.Default.Send,
@@ -196,17 +196,17 @@ fun ComponentDemoScreen(
                             horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.sm),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            ShadcnTextButton(
+                            SparrowTextButton(
                                 text = "Small",
                                 onClick = { },
                                 size = ShadcnButtonSize.Small
                             )
-                            ShadcnTextButton(
+                            SparrowTextButton(
                                 text = "Default",
                                 onClick = { },
                                 size = ShadcnButtonSize.Default
                             )
-                            ShadcnTextButton(
+                            SparrowTextButton(
                                 text = "Large",
                                 onClick = { },
                                 size = ShadcnButtonSize.Large
@@ -282,7 +282,7 @@ fun ComponentDemoScreen(
                         }
                         
                         // Benefits callout
-                        ShadcnCard(variant = ShadcnCardVariant.Outlined) {
+                        SparrowCard(variant = ShadcnCardVariant.Outlined) {
                             ShadcnText("✨ Sliding Toggle Benefits", style = ShadcnTextStyle.H4)
                             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                                 ShadcnText("• Smooth, iOS-style animations", style = ShadcnTextStyle.Small)
@@ -294,7 +294,7 @@ fun ComponentDemoScreen(
                         
                         // iOS Wheel Picker demo
                         var showWheelPicker by remember { mutableStateOf(false) }
-                        ShadcnTextButton(
+                        SparrowTextButton(
                             text = "📅 Show iOS-Style Date Picker",
                             onClick = { showWheelPicker = true },
                             variant = ShadcnButtonVariant.Outline,
@@ -302,7 +302,7 @@ fun ComponentDemoScreen(
                         )
                         
                         if (showWheelPicker) {
-                            ShadcnWheelDateTimePickerDialog(
+                            WheelDateTimePickerDialog(
                                 onDateTimeSelected = { dateMillis ->
                                     showWheelPicker = false
                                     // Handle selected date/time
@@ -388,21 +388,21 @@ fun ComponentDemoScreen(
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.sm)
                         ) {
-                            ShadcnInput(
+                            SparrowInput(
                                 value = "",
                                 onValueChange = { },
                                 placeholder = "Default",
                                 variant = ShadcnInputVariant.Default,
                                 modifier = Modifier.weight(1f)
                             )
-                            ShadcnInput(
+                            SparrowInput(
                                 value = "",
                                 onValueChange = { },
                                 placeholder = "Outlined",
                                 variant = ShadcnInputVariant.Outlined,
                                 modifier = Modifier.weight(1f)
                             )
-                            ShadcnInput(
+                            SparrowInput(
                                 value = "",
                                 onValueChange = { },
                                 placeholder = "Ghost",
@@ -412,7 +412,7 @@ fun ComponentDemoScreen(
                         }
                         
                         // Input states
-                        ShadcnInput(
+                        SparrowInput(
                             value = "invalid@email",
                             onValueChange = { },
                             label = "Email with Error",
@@ -420,7 +420,7 @@ fun ComponentDemoScreen(
                             leadingIcon = Icons.Default.Email
                         )
                         
-                        ShadcnInput(
+                        SparrowInput(
                             value = "john@example.com",
                             onValueChange = { },
                             label = "Valid Email",
@@ -448,11 +448,11 @@ fun ComponentDemoScreen(
                                 horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.sm),
                                 modifier = Modifier.fillMaxWidth()
                             ) {
-                                ShadcnBadge(text = "Default", variant = ShadcnBadgeVariant.Default)
-                                ShadcnBadge(text = "Secondary", variant = ShadcnBadgeVariant.Secondary)
-                                ShadcnBadge(text = "Success", variant = ShadcnBadgeVariant.Success)
-                                ShadcnBadge(text = "Warning", variant = ShadcnBadgeVariant.Warning)
-                                ShadcnBadge(text = "Destructive", variant = ShadcnBadgeVariant.Destructive)
+                                SparrowBadge(text = "Default", variant = SparrowBadge.Default)
+                                SparrowBadge(text = "Secondary", variant = SparrowBadge.Secondary)
+                                SparrowBadge(text = "Success", variant = SparrowBadge.Success)
+                                SparrowBadge(text = "Warning", variant = SparrowBadge.Warning)
+                                SparrowBadge(text = "Destructive", variant = SparrowBadge.Destructive)
                             }
                         }
                         
@@ -469,21 +469,21 @@ fun ComponentDemoScreen(
                                     horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.xs),
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    ShadcnStatusDot(variant = ShadcnBadgeVariant.Success)
+                                    ShadcnStatusDot(variant = SparrowBadge.Success)
                                     ShadcnText(text = "Online", style = ShadcnTextStyle.Small)
                                 }
                                 Row(
                                     horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.xs),
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    ShadcnStatusDot(variant = ShadcnBadgeVariant.Destructive)
+                                    ShadcnStatusDot(variant = SparrowBadge.Destructive)
                                     ShadcnText(text = "Offline", style = ShadcnTextStyle.Small)
                                 }
                                 Row(
                                     horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.xs),
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    ShadcnStatusDot(variant = ShadcnBadgeVariant.Warning)
+                                    ShadcnStatusDot(variant = SparrowBadge.Warning)
                                     ShadcnText(text = "Away", style = ShadcnTextStyle.Small)
                                 }
                             }
@@ -497,20 +497,20 @@ fun ComponentDemoScreen(
                             Row(
                                 horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.sm)
                             ) {
-                                ShadcnChip(
+                                Chip(
                                     text = "Fast Delivery",
-                                    variant = ShadcnBadgeVariant.Default,
+                                    variant = SparrowBadge.Default,
                                     onRemove = { /* Handle removal */ }
                                 )
-                                ShadcnChip(
+                                Chip(
                                     text = "Fragile",
-                                    variant = ShadcnBadgeVariant.Warning,
+                                    variant = SparrowBadge.Warning,
                                     icon = Icons.Default.Warning,
                                     onRemove = { /* Handle removal */ }
                                 )
-                                ShadcnChip(
+                                Chip(
                                     text = "Priority",
-                                    variant = ShadcnBadgeVariant.Destructive,
+                                    variant = SparrowBadge.Destructive,
                                     onRemove = { /* Handle removal */ }
                                 )
                             }
@@ -614,7 +614,7 @@ fun ComponentDemoScreen(
                             dismissible = true,
                             onDismiss = { },
                             action = {
-                                ShadcnTextButton(
+                                SparrowTextButton(
                                     text = "Retry",
                                     onClick = { },
                                     variant = ShadcnButtonVariant.Outline,
@@ -630,7 +630,7 @@ fun ComponentDemoScreen(
                             dismissible = true,
                             onDismiss = { },
                             action = {
-                                ShadcnTextButton(
+                                SparrowTextButton(
                                     text = "Learn More",
                                     onClick = { },
                                     variant = ShadcnButtonVariant.Link,
@@ -658,7 +658,7 @@ fun ComponentDemoScreen(
                         }
                         
                         // Toast trigger button
-                        ShadcnTextButton(
+                        SparrowTextButton(
                             text = "Show Toast Notification",
                             onClick = { showToast = true },
                             variant = ShadcnButtonVariant.Outline
@@ -677,7 +677,7 @@ fun ComponentDemoScreen(
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.md)
                         ) {
-                            ShadcnCard(
+                            SparrowCard(
                                 variant = ShadcnCardVariant.Default,
                                 modifier = Modifier.weight(1f)
                             ) {
@@ -685,7 +685,7 @@ fun ComponentDemoScreen(
                                 ShadcnMutedText(text = "With border and shadow")
                             }
                             
-                            ShadcnCard(
+                            SparrowCard(
                                 variant = ShadcnCardVariant.Elevated,
                                 modifier = Modifier.weight(1f)
                             ) {
@@ -697,7 +697,7 @@ fun ComponentDemoScreen(
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.md)
                         ) {
-                            ShadcnCard(
+                            SparrowCard(
                                 variant = ShadcnCardVariant.Outlined,
                                 modifier = Modifier.weight(1f)
                             ) {
@@ -705,7 +705,7 @@ fun ComponentDemoScreen(
                                 ShadcnMutedText(text = "With strong border")
                             }
                             
-                            ShadcnCard(
+                            SparrowCard(
                                 variant = ShadcnCardVariant.Ghost,
                                 modifier = Modifier.weight(1f)
                             ) {

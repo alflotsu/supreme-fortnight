@@ -1,5 +1,7 @@
 package io.peng.sparrowdelivery.presentation.features.home
 
+import androidx.compose.animation.*
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
@@ -12,10 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Outline
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import io.peng.sparrowdelivery.ui.components.*
 import io.peng.sparrowdelivery.ui.theme.*
 import io.peng.sparrowdelivery.ui.components.stitch.StitchPrimaryButton
@@ -23,7 +22,6 @@ import io.peng.sparrowdelivery.ui.components.stitch.StitchSecondaryButton
 import io.peng.sparrowdelivery.ui.components.stitch.StitchHtmlLocationField
 import io.peng.sparrowdelivery.ui.icons.SparrowIcons
 import io.peng.sparrowdelivery.data.services.PlaceDetails
-import io.peng.sparrowdelivery.presentation.components.AddressAutocompleteField
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -57,40 +55,59 @@ fun EnhancedDeliveryFormBottomSheet(
     val shouldShowRoutePreview = hasValidLocations && hasRouteData
     
     StitchTheme {
-        if (shouldShowRoutePreview) {
-            // Route Preview Mode
-            RoutePreviewBottomSheetContent(
-                routes = availableRoutes,
-                selectedRouteIndex = selectedRouteIndex,
-                pickupLocation = deliveryForm.pickupLocation,
-                dropoffLocation = deliveryForm.dropoffLocation,
-                onRouteSelected = onRouteSelected,
-                onBackClick = onBackFromRoutePreview,
-                onConfirmRoute = onFindDriverClick,
-                modifier = modifier
-            )
-        } else {
-            // Standard Form Mode
-            StandardFormBottomSheetContent(
-                deliveryForm = deliveryForm,
-                legacyForm = legacyForm,
-                onPickupLocationChange = onPickupLocationChange,
-                onDestinationChange = onDestinationChange,
-                onNumberOfStopsChange = onNumberOfStopsChange,
-                onIntermediateStopChange = onIntermediateStopChange,
-                onFindDriverClick = onFindDriverClick,
-                onMoreOptionsClick = onMoreOptionsClick,
-                onTrackDeliveryClick = onTrackDeliveryClick,
-                onMapPinSelectPickup = onMapPinSelectPickup,
-                onMapPinSelectDropoff = onMapPinSelectDropoff,
-                onPickupPlaceSelected = onPickupPlaceSelected,
-                onDropoffPlaceSelected = onDropoffPlaceSelected,
-                onRoutePreviewClick = onRoutePreviewClick,
-                onScheduleTypeChange = onScheduleTypeChange,
-                onScheduleClick = onScheduleClick,
-                onClearFields = onClearFields,
-                modifier = modifier
-            )
+        // Fast concurrent transition between different sheet content modes
+        AnimatedContent(
+            targetState = shouldShowRoutePreview,
+            transitionSpec = {
+                // Concurrent animations with faster timing
+                (fadeIn(animationSpec = tween(200, easing = FastOutSlowInEasing)) +
+                slideInVertically(
+                    animationSpec = tween(200, easing = FastOutSlowInEasing),
+                    initialOffsetY = { it / 4 }
+                )) togetherWith
+                (fadeOut(animationSpec = tween(150, easing = LinearOutSlowInEasing)) +
+                slideOutVertically(
+                    animationSpec = tween(150, easing = LinearOutSlowInEasing),
+                    targetOffsetY = { -it / 4 }
+                ))
+            },
+            label = "sheet_content_transition"
+        ) { showRoutePreview ->
+            if (showRoutePreview) {
+                // Route Preview Mode
+                RoutePreviewBottomSheetContent(
+                    routes = availableRoutes,
+                    selectedRouteIndex = selectedRouteIndex,
+                    pickupLocation = deliveryForm.pickupLocation,
+                    dropoffLocation = deliveryForm.dropoffLocation,
+                    onRouteSelected = onRouteSelected,
+                    onBackClick = onBackFromRoutePreview,
+                    onConfirmRoute = onFindDriverClick,
+                    modifier = modifier
+                )
+            } else {
+                // Standard Form Mode
+                StandardFormBottomSheetContent(
+                    deliveryForm = deliveryForm,
+                    legacyForm = legacyForm,
+                    onPickupLocationChange = onPickupLocationChange,
+                    onDestinationChange = onDestinationChange,
+                    onNumberOfStopsChange = onNumberOfStopsChange,
+                    onIntermediateStopChange = onIntermediateStopChange,
+                    onFindDriverClick = onFindDriverClick,
+                    onMoreOptionsClick = onMoreOptionsClick,
+                    onTrackDeliveryClick = onTrackDeliveryClick,
+                    onMapPinSelectPickup = onMapPinSelectPickup,
+                    onMapPinSelectDropoff = onMapPinSelectDropoff,
+                    onPickupPlaceSelected = onPickupPlaceSelected,
+                    onDropoffPlaceSelected = onDropoffPlaceSelected,
+                    onRoutePreviewClick = onRoutePreviewClick,
+                    onScheduleTypeChange = onScheduleTypeChange,
+                    onScheduleClick = onScheduleClick,
+                    onClearFields = onClearFields,
+                    modifier = modifier
+                )
+            }
         }
     }
 }
@@ -119,8 +136,14 @@ private fun StandardFormBottomSheetContent(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp).padding(bottom = 32.dp)
-            .verticalScroll(rememberScrollState()),
+            .padding(bottom = 18.dp)
+            .verticalScroll(rememberScrollState())
+            .animateContentSize(
+                animationSpec = tween(
+                    durationMillis = 200,
+                    easing = FastOutSlowInEasing
+                )
+            ),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
             // Header with delivery time toggle (similar to SwiftTouches)
@@ -155,14 +178,22 @@ private fun StandardFormBottomSheetContent(
                             onScheduleClick()
                         }
                     },
-                    modifier = Modifier.fillMaxWidth(0.7f),
+                    modifier = Modifier.fillMaxWidth(0.85f),
                     height = 36.dp
                 )
             }
             
-            // Show scheduled date/time if selected
-            if (deliveryForm.deliveryScheduleType == DeliveryScheduleType.SCHEDULED && deliveryForm.scheduledDateTime != null) {
-                ShadcnCard(
+            // Show scheduled date/time with fast concurrent animation
+            AnimatedVisibility(
+                visible = deliveryForm.deliveryScheduleType == DeliveryScheduleType.SCHEDULED && deliveryForm.scheduledDateTime != null,
+                enter = fadeIn(animationSpec = tween(150)) + expandVertically(
+                    animationSpec = tween(200, easing = FastOutSlowInEasing)
+                ),
+                exit = fadeOut(animationSpec = tween(100)) + shrinkVertically(
+                    animationSpec = tween(150, easing = LinearOutSlowInEasing)
+                )
+            ) {
+                SparrowCard(
                     variant = ShadcnCardVariant.Outlined,
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -184,7 +215,9 @@ private fun StandardFormBottomSheetContent(
                             )
                             val formatter = java.text.SimpleDateFormat("EEEE, MMM dd, yyyy 'at' h:mm a", java.util.Locale.getDefault())
                             ShadcnText(
-                                text = formatter.format(java.util.Date(deliveryForm.scheduledDateTime)),
+                                text = deliveryForm.scheduledDateTime?.let { timestamp ->
+                                    formatter.format(java.util.Date(timestamp))
+                                } ?: "No date selected",
                                 style = ShadcnTextStyle.P
                             )
                         }
@@ -221,23 +254,23 @@ private fun StandardFormBottomSheetContent(
                 )
                 
                 // Connecting line dots (visual connection)
-                Row(
-                    modifier = Modifier.padding(start = 26.dp)
-                ) {
-                    repeat(3) {
-                        Box(
-                            modifier = Modifier
-                                .size(3.dp)
-                                .padding(1.dp)
-                        ) {
-                            Surface(
-                                modifier = Modifier.fillMaxSize(),
-                                shape = androidx.compose.foundation.shape.CircleShape,
-                                color = SparrowTheme.colors.border
-                            ) {}
-                        }
-                    }
-                }
+//                Row(
+//                    modifier = Modifier.padding(start = 26.dp)
+//                ) {
+//                    repeat(30) {
+//                        Box(
+//                            modifier = Modifier
+//                                .size(3.dp)
+//                                .padding(1.dp)
+//                        ) {
+//                            Surface(
+//                                modifier = Modifier.fillMaxSize(),
+//                                shape = androidx.compose.foundation.shape.CircleShape,
+//                                color = SparrowTheme.colors.border
+//                            ) {}
+//                        }
+//                    }
+//                }
                 
                 // Dropoff location with navigation arrow
                 LocationInputRow(
@@ -252,8 +285,16 @@ private fun StandardFormBottomSheetContent(
                 )
             }
             
-            // Route preview section (when route is available)
-            if (deliveryForm.showingRoutePreview && deliveryForm.canShowRoutePreview) {
+            // Route preview section with fast concurrent animation
+            AnimatedVisibility(
+                visible = deliveryForm.showingRoutePreview && deliveryForm.canShowRoutePreview,
+                enter = fadeIn(animationSpec = tween(200)) + expandVertically(
+                    animationSpec = tween(250, easing = FastOutSlowInEasing)
+                ),
+                exit = fadeOut(animationSpec = tween(150)) + shrinkVertically(
+                    animationSpec = tween(200, easing = LinearOutSlowInEasing)
+                )
+            ) {
                 RoutePreviewCard(
                     isLoading = deliveryForm.isLoadingRoute,
                     error = deliveryForm.routePreviewError,
@@ -266,43 +307,81 @@ private fun StandardFormBottomSheetContent(
             val hasValidLocations = deliveryForm.pickupLocation.isNotBlank() && deliveryForm.dropoffLocation.isNotBlank()
             val hasRoutePreview = deliveryForm.showingRoutePreview && deliveryForm.canShowRoutePreview
             
-            if (hasValidLocations && hasRoutePreview) {
-                // Clear Fields Button when both locations are set and route is found
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    OutlinedButton(
-                        onClick = onClearFields,
-                        modifier = Modifier.padding(horizontal = 16.dp)
+            // Fast concurrent transition between clear button and quick actions
+            AnimatedContent(
+                targetState = hasValidLocations && hasRoutePreview,
+                transitionSpec = {
+                    (fadeIn(animationSpec = tween(150, easing = FastOutSlowInEasing)) +
+                    slideInVertically(
+                        animationSpec = tween(150, easing = FastOutSlowInEasing),
+                        initialOffsetY = { it / 6 }
+                    )) togetherWith
+                    (fadeOut(animationSpec = tween(100, easing = LinearOutSlowInEasing)) +
+                    slideOutVertically(
+                        animationSpec = tween(100, easing = LinearOutSlowInEasing),
+                        targetOffsetY = { -it / 6 }
+                    ))
+                },
+                label = "clear_vs_actions_transition"
+            ) { showClearButton ->
+                if (showClearButton) {
+                    // Clear Fields Button when both locations are set and route is found
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
                     ) {
-                        Icon(
-                            imageVector = SparrowIcons.UI.Close,
-                            contentDescription = null,
-                            modifier = Modifier
-                                .size(16.dp)
-                                .padding(end = 4.dp)
-                        )
-                        Text(
-                            text = "Clear Route",
-                            style = SparrowTypography.small
-                        )
+                        OutlinedButton(
+                            onClick = onClearFields,
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        ) {
+                            Icon(
+                                imageVector = SparrowIcons.UI.Close,
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .size(16.dp)
+                                    .padding(end = 4.dp)
+                            )
+                            Text(
+                                text = "Clear Route",
+                                style = SparrowTypography.small
+                            )
+                        }
                     }
+                } else {
+                    // Quick actions when user needs help getting started
+                    QuickActionsRow(
+                        onTrackDeliveryClick = onTrackDeliveryClick
+                    )
                 }
-            } else {
-                // Quick actions when user needs help getting started
-                QuickActionsRow(
-                    onTrackDeliveryClick = onTrackDeliveryClick
+            }
+            
+            // Package type selector with fast animation
+            AnimatedVisibility(
+                visible = deliveryForm.packageType != null,
+                enter = fadeIn(animationSpec = tween(150)) + slideInVertically(
+                    animationSpec = tween(200, easing = FastOutSlowInEasing),
+                    initialOffsetY = { it / 3 }
+                ),
+                exit = fadeOut(animationSpec = tween(100)) + slideOutVertically(
+                    animationSpec = tween(150, easing = LinearOutSlowInEasing),
+                    targetOffsetY = { -it / 3 }
                 )
+            ) {
+                deliveryForm.packageType?.let { packageType ->
+                    PackageTypeChip(packageType = packageType)
+                }
             }
             
-            // Package type selector (compact version)
-            if (deliveryForm.packageType != null) {
-                PackageTypeChip(packageType = deliveryForm.packageType)
-            }
-            
-            // Intermediate Stops Section (Legacy support)
-            if (legacyForm.numberOfStops > 0) {
+            // Intermediate Stops Section with fast concurrent animation
+            AnimatedVisibility(
+                visible = legacyForm.numberOfStops > 0,
+                enter = fadeIn(animationSpec = tween(150)) + expandVertically(
+                    animationSpec = tween(200, easing = FastOutSlowInEasing)
+                ),
+                exit = fadeOut(animationSpec = tween(100)) + shrinkVertically(
+                    animationSpec = tween(150, easing = LinearOutSlowInEasing)
+                )
+            ) {
                 IntermediateStopsSection(
                     numberOfStops = legacyForm.numberOfStops,
                     stops = legacyForm.intermediateStops,
@@ -356,24 +435,14 @@ private fun LocationInputRow(
         StitchHtmlLocationField(
             value = value,
             onValueChange = onValueChange,
+            onMapPinClick = onMapPinClick,
             placeholder = placeholder,
             leadingIcon = icon,
             iconColor = iconColor,
             modifier = Modifier.weight(1f)
         )
         
-        // Map pin button - smaller and cleaner
-        IconButton(
-            onClick = onMapPinClick,
-            modifier = Modifier.size(56.dp) // Match input field height
-        ) {
-            Icon(
-                imageVector = Icons.Default.LocationOn, // Always use location pin for map selection
-                contentDescription = "Select on map",
-                tint = iconColor,
-                modifier = Modifier.size(24.dp)
-            )
-        }
+
     }
 }
 
@@ -385,7 +454,7 @@ private fun RoutePreviewCard(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
 ) {
-    ShadcnCard(
+    SparrowCard(
         modifier = modifier.fillMaxWidth(),
         variant = ShadcnCardVariant.Elevated,
         onClick = onClick
@@ -514,30 +583,29 @@ private fun QuickActionButton(
     ShadcnCompactCard(
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 10.dp),
+            .padding(vertical = 4.dp),
         variant = ShadcnCardVariant.Outlined,
         onClick = onClick
     ) {
         Column(
             modifier = Modifier
-                .fillMaxSize(),
-//                .padding(8.dp),
+                .fillMaxWidth()
+                .padding(12.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-//            Icon(
-//                imageVector = icon,
-//                contentDescription = title,
-//                modifier = Modifier.size(24.dp),
-//                tint = SparrowTheme.colors.primary
-//            )
-//            Spacer(modifier = Modifier.height(6.dp))
+            Icon(
+                imageVector = icon,
+                contentDescription = title,
+                modifier = Modifier.size(20.dp),
+                tint = SparrowTheme.colors.primary
+            )
+            Spacer(modifier = Modifier.height(4.dp))
             ShadcnText(
                 text = title,
                 style = ShadcnTextStyle.Small,
-                maxLines = 1,
-
-                )
+                maxLines = 1
+            )
         }
     }
 }
@@ -577,7 +645,7 @@ private fun IntermediateStopsSection(
     onStopChange: (Int, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    ShadcnCard(
+    SparrowCard(
         modifier = modifier.fillMaxWidth()
     ) {
         Column(
@@ -653,10 +721,10 @@ private fun RoutePreviewBottomSheetContent(
     modifier: Modifier = Modifier
 ) {
     Column(
+        verticalArrangement = Arrangement.Center,
         modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp)
-            .padding(bottom = 32.dp)
+            .padding(bottom = 24.dp)
     ) {
         // Header with back button and title
         Row(
@@ -692,7 +760,8 @@ private fun RoutePreviewBottomSheetContent(
         Spacer(modifier = Modifier.height(12.dp)) // Reduced from 16dp
         
         // Trip summary
-        ShadcnCard(
+//        TODO: please revisit
+        SparrowCard(
             variant = ShadcnCardVariant.Outlined,
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -794,14 +863,14 @@ private fun RoutePreviewBottomSheetContent(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            ShadcnTextButton(
+            SparrowTextButton(
                 text = "Back",
                 onClick = onBackClick,
                 modifier = Modifier.weight(1f),
                 variant = ShadcnButtonVariant.Outline
             )
             
-            ShadcnTextButton(
+            SparrowTextButton(
                 text = "Find Driver",
                 onClick = onConfirmRoute,
                 modifier = Modifier.weight(1f),
@@ -819,7 +888,7 @@ private fun RouteOptionCard(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    ShadcnCard(
+    SparrowCard(
         modifier = modifier.fillMaxWidth(),
         variant = if (isSelected) ShadcnCardVariant.Elevated else ShadcnCardVariant.Default,
         onClick = onClick

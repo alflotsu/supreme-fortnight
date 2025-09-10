@@ -256,7 +256,7 @@ fun SmartAddressInput(
             },
             modifier = modifier
         ) {
-            ShadcnInput(
+            SparrowInput(
                 value = value,
                 onValueChange = { newValue ->
                     onValueChange(newValue)
@@ -278,7 +278,6 @@ fun SmartAddressInput(
                     .fillMaxWidth()
             )
             
-            // Native dropdown menu with shadcn theming
             ExposedDropdownMenu(
                 expanded = showDropdown && (localResults.isNotEmpty() || apiPredictions.isNotEmpty() || isLoadingApi),
                 onDismissRequest = { showDropdown = false },
@@ -343,7 +342,7 @@ fun SmartAddressInput(
                                 color = SparrowTheme.colors.primary
                             )
                             Spacer(modifier = Modifier.width(SparrowSpacing.sm))
-                            ShadcnSmallText(
+                            SmallText(
                                 text = "Searching Google Places...",
                                 color = SparrowTheme.colors.mutedForeground
                             )
@@ -375,11 +374,11 @@ fun SmartAddressInput(
                                     modifier = Modifier.size(20.dp)
                                 )
                                 Spacer(modifier = Modifier.height(SparrowSpacing.xs))
-                                ShadcnSmallText(
+                                SmallText(
                                     text = "No places found",
                                     color = SparrowTheme.colors.mutedForeground
                                 )
-                                ShadcnSmallText(
+                                SmallText(
                                     text = "Try a different search term",
                                     color = SparrowTheme.colors.mutedForeground
                                 )
@@ -392,7 +391,7 @@ fun SmartAddressInput(
             
             // Error message below input field (normal document flow)
             error?.let { errorMessage ->
-                ShadcnSmallText(
+                SmallText(
                     text = errorMessage,
                     color = SparrowTheme.colors.destructive,
                     modifier = Modifier.padding(top = SparrowSpacing.xs)
@@ -420,11 +419,11 @@ private fun SmartAddressMenuSection(
             )
             .padding(SparrowSpacing.sm)
     ) {
-        ShadcnSmallText(
+        SmallText(
             text = title,
             color = SparrowTheme.colors.primary
         )
-        ShadcnSmallText(
+        SmallText(
             text = subtitle,
             color = SparrowTheme.colors.mutedForeground
         )
@@ -458,7 +457,7 @@ private fun SmartAddressMenuItem(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
-                        ShadcnParagraph(
+                        Paragraph(
                             text = address.name,
                             color = SparrowTheme.colors.foreground,
                             maxLines = 1,
@@ -467,7 +466,7 @@ private fun SmartAddressMenuItem(
                         )
                         
                         // Usage indicator
-                        ShadcnSmallText(
+                        SmallText(
                             text = when (address.type) {
                                 SavedAddressType.FAVORITE -> "★"
                                 SavedAddressType.RECENT -> "${address.useCount}x"
@@ -479,7 +478,7 @@ private fun SmartAddressMenuItem(
                         )
                     }
                     
-                    ShadcnSmallText(
+                    SmallText(
                         text = address.address,
                         color = SparrowTheme.colors.mutedForeground,
                         maxLines = 1,
@@ -513,7 +512,7 @@ private fun ApiPredictionMenuItem(
                 )
                 
                 Column(modifier = Modifier.weight(1f)) {
-                    ShadcnParagraph(
+                    Paragraph(
                         text = prediction.primaryText,
                         color = SparrowTheme.colors.foreground,
                         maxLines = 1,
@@ -521,7 +520,7 @@ private fun ApiPredictionMenuItem(
                     )
                     
                     if (prediction.secondaryText.isNotBlank()) {
-                        ShadcnSmallText(
+                        SmallText(
                             text = prediction.secondaryText,
                             color = SparrowTheme.colors.mutedForeground,
                             maxLines = 1,
@@ -536,7 +535,7 @@ private fun ApiPredictionMenuItem(
                         distance < 1000 -> "${distance}m"
                         else -> "${"%.1f".format(distance / 1000.0)}km"
                     }
-                    ShadcnSmallText(
+                    SmallText(
                         text = distanceText,
                         color = SparrowTheme.colors.mutedForeground
                     )

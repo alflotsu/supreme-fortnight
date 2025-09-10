@@ -38,7 +38,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.window.DialogProperties
@@ -65,39 +64,76 @@ fun HomeScreen(
         Manifest.permission.ACCESS_FINE_LOCATION
     )
     
-    // Bottom Sheet State with proper constraints
+    // Bottom Sheet State with proper constraints (Material 3 handles animations internally)
     val bottomSheetState = rememberBottomSheetScaffoldState(
         bottomSheetState = rememberStandardBottomSheetState(
             skipHiddenState = true // Prevent completely hiding sheet
         )
     )
     
-    // Handle bottom sheet state based on booking state AND side effects
+    // Handle bottom sheet state based on booking state with smoother built-in animations
     LaunchedEffect(uiState.bookingState) {
         when (uiState.bookingState) {
             is BookingState.FindingDriver -> {
-                // Collapse to peek during driver search
+                // Smooth collapse to peek during driver search
+                kotlinx.coroutines.delay(50) // Small delay for smoother transition
                 bottomSheetState.bottomSheetState.partialExpand()
             }
             is BookingState.DriverFound -> {
-                // Collapse to peek when driver is found
+                // Smooth collapse to peek when driver is found
+                kotlinx.coroutines.delay(50)
                 bottomSheetState.bottomSheetState.partialExpand()
             }
             is BookingState.BookingConfirmed -> {
-                // Collapse to peek when booking is confirmed
+                // Smooth collapse to peek when booking is confirmed
+                kotlinx.coroutines.delay(50)
                 bottomSheetState.bottomSheetState.partialExpand()
             }
             else -> {
-                // Expand bottom sheet for location entry and route preview
+                // Smooth expand for location entry and route preview
+                kotlinx.coroutines.delay(50)
                 bottomSheetState.bottomSheetState.expand()
             }
         }
     }
     
-    // Handle side effect triggers for bottom sheet
+    // Shrink bottom sheet when selecting location on map for better visibility
+    LaunchedEffect(uiState.mapInteractionMode) {
+        when (uiState.mapInteractionMode) {
+            MapInteractionMode.SELECTING_PICKUP,
+            MapInteractionMode.SELECTING_DROPOFF -> {
+                // Quick shrink to peek height for better map visibility
+                bottomSheetState.bottomSheetState.partialExpand()
+            }
+            MapInteractionMode.NONE -> {
+                // Only expand if not in other states that should keep it collapsed
+                if (uiState.bookingState !is BookingState.FindingDriver && 
+                    uiState.bookingState !is BookingState.DriverFound && 
+                    uiState.bookingState !is BookingState.BookingConfirmed) {
+                    kotlinx.coroutines.delay(100) // Slight delay for smoother transition back
+                    bottomSheetState.bottomSheetState.expand()
+                }
+            }
+        }
+    }
+    
+    // Cancel map selection when user manually expands bottom sheet
+    LaunchedEffect(bottomSheetState.bottomSheetState.targetValue) {
+        // If sheet is expanding to full height while in map selection mode
+        val isUserExpandingDuringMapSelection = bottomSheetState.bottomSheetState.targetValue == SheetValue.Expanded && 
+                                               uiState.mapInteractionMode != MapInteractionMode.NONE
+        
+        if (isUserExpandingDuringMapSelection) {
+            // User wants to expand sheet - cancel map selection to remove overlay text
+            viewModel.cancelMapSelection()
+        }
+    }
+    
+    // Handle side effect triggers for bottom sheet with smooth animations
     LaunchedEffect(uiState.shouldExpandBottomSheet) {
         if (uiState.shouldExpandBottomSheet) {
-            println("🔄 Side effect: Expanding bottom sheet")
+            println("🔄 Side effect: Smoothly expanding bottom sheet")
+            kotlinx.coroutines.delay(100) // Smooth delay
             bottomSheetState.bottomSheetState.expand()
             viewModel.onBottomSheetExpanded() // Reset trigger
         }
@@ -105,8 +141,9 @@ fun HomeScreen(
     
     LaunchedEffect(uiState.shouldCollapseBottomSheet) {
         if (uiState.shouldCollapseBottomSheet) {
-            println("🔄 Side effect: Collapsing bottom sheet")
-            bottomSheetState.bottomSheetState.partialExpand() // Collapse to peek instead of hiding
+            println("🔄 Side effect: Smoothly collapsing bottom sheet")
+            kotlinx.coroutines.delay(100) // Smooth delay
+            bottomSheetState.bottomSheetState.partialExpand()
             viewModel.onBottomSheetCollapsed() // Reset trigger
         }
     }
@@ -404,7 +441,7 @@ fun HomeScreen(
             
             // iOS-style Wheel Date Picker Dialog
             if (uiState.showDatePickerDialog) {
-                ShadcnWheelDateTimePickerDialog(
+                WheelDateTimePickerDialog(
                     onDateTimeSelected = { dateMillis ->
                         viewModel.updateScheduledDateTime(dateMillis)
                     },
@@ -586,7 +623,7 @@ fun TimePickerDialog(
                     set(Calendar.MINUTE, timePickerState.minute)
                 }
                 
-                ShadcnCard(
+                SparrowCard(
                     variant = ShadcnCardVariant.Outlined,
                     modifier = Modifier.padding(top = 16.dp)
                 ) {
@@ -639,7 +676,7 @@ fun FindingDriversOverlay(
             .background(Color.Black.copy(alpha = 0.6f)),
         contentAlignment = Alignment.Center
     ) {
-        ShadcnCard(
+        SparrowCard(
             variant = ShadcnCardVariant.Elevated,
             modifier = Modifier
                 .padding(32.dp)
@@ -831,7 +868,7 @@ fun FindingDriversOverlay(
                     // Cancel button
                     Spacer(modifier = Modifier.height(16.dp))
                     
-                    ShadcnTextButton(
+                    SparrowTextButton(
                         text = "Cancel",
                         onClick = onCancel,
                         variant = ShadcnButtonVariant.Outline,

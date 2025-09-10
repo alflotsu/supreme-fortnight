@@ -80,7 +80,7 @@ fun <T> ShadcnSelect(
             expanded = expanded,
             onExpandedChange = { if (enabled) expanded = !expanded }
         ) {
-            ShadcnInput(
+            SparrowInput(
                 value = selectedOption?.label ?: "",
                 onValueChange = { },
                 modifier = Modifier.menuAnchor(),
@@ -303,7 +303,7 @@ fun <T> ShadcnCombobox(
         }
         
         // Input field
-        ShadcnInput(
+        SparrowInput(
             value = inputValue,
             onValueChange = { value ->
                 inputValue = value

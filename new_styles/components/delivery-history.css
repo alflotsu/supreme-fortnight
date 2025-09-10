@@ -1,0 +1,204 @@
+@import url('stitch-variables.css');
+
+/* Delivery History Component CSS - Stitch Design System */
+
+.stitch-delivery-history {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--text-primary);
+  font-family: var(--font-primary), var(--font-secondary), sans-serif;
+}
+
+.stitch-delivery-history__header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: rgba(255, 255, 255, 0.8); /* bg-white/80 equivalent */
+  backdrop-filter: blur(4px); /* backdrop-blur-sm equivalent */
+}
+
+.stitch-delivery-history__header-content {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-md);
+  padding-top: 1rem; /* py-4 equivalent */
+  padding-bottom: 1rem; /* py-4 equivalent */
+}
+
+.stitch-delivery-history__back-button {
+  display: flex;
+  width: 2.5rem; /* size-10 equivalent */
+  height: 2.5rem; /* size-10 equivalent */
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px; /* rounded-full equivalent */
+  background-color: #f3f4f6; /* bg-zinc-100 equivalent */
+  color: #1f2937; /* text-zinc-800 equivalent */
+}
+
+.stitch-delivery-history__back-button-icon {
+  font-size: 1.5rem; /* text-2xl equivalent */
+}
+
+.stitch-delivery-history__title {
+  flex: 1;
+  text-align: center;
+  font-size: 1.25rem; /* text-xl equivalent */
+  font-weight: var(--font-bold);
+  color: #111827; /* text-zinc-900 equivalent */
+}
+
+.stitch-delivery-history__main {
+  flex: 1;
+  padding: var(--spacing-md);
+  padding-top: var(--spacing-md);
+}
+
+.stitch-delivery-history__orders {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm); /* space-y-3 equivalent */
+}
+
+.stitch-delivery-history__order-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 0.75rem; /* rounded-xl equivalent */
+  border: 1px solid #e5e7eb; /* border border-zinc-200 equivalent */
+  background-color: var(--text-primary);
+  padding: var(--spacing-md);
+}
+
+.stitch-delivery-history__order-content {
+  flex: 1;
+}
+
+.stitch-delivery-history__order-from {
+  font-size: var(--text-body); /* text-base equivalent */
+  font-weight: var(--font-semibold);
+  color: #1f2937; /* text-zinc-800 equivalent */
+  margin: 0;
+}
+
+.stitch-delivery-history__order-to {
+  font-size: 0.875rem; /* text-sm equivalent */
+  color: #6b7280; /* text-zinc-500 equivalent */
+  margin: 0;
+}
+
+.stitch-delivery-history__order-status-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* gap-2 equivalent */
+  margin-top: var(--spacing-sm); /* mt-2 equivalent */
+}
+
+.stitch-delivery-history__order-status-indicator {
+  display: inline-block;
+  height: 0.5rem; /* h-2 equivalent */
+  width: 0.5rem; /* w-2 equivalent */
+  border-radius: 9999px; /* rounded-full equivalent */
+}
+
+.stitch-delivery-history__order-status-indicator--delivered {
+  background-color: var(--primary-accent);
+}
+
+.stitch-delivery-history__order-status-indicator--in-transit {
+  background-color: #f97316; /* orange-500 equivalent */
+}
+
+.stitch-delivery-history__order-status-indicator--cancelled {
+  background-color: #ef4444; /* red-500 equivalent */
+}
+
+.stitch-delivery-history__order-status-text {
+  font-size: 0.875rem; /* text-sm equivalent */
+  font-weight: var(--font-medium);
+}
+
+.stitch-delivery-history__order-status-text--delivered {
+  color: #16a34a; /* text-green-600 equivalent */
+}
+
+.stitch-delivery-history__order-status-text--in-transit {
+  color: #ea580c; /* text-orange-600 equivalent */
+}
+
+.stitch-delivery-history__order-status-text--cancelled {
+  color: #dc2626; /* text-red-600 equivalent */
+}
+
+.stitch-delivery-history__order-price-container {
+  text-align: right;
+}
+
+.stitch-delivery-history__order-price {
+  font-size: 0.875rem; /* text-sm equivalent */
+  font-weight: var(--font-medium);
+  color: #1f2937; /* text-zinc-800 equivalent */
+  margin: 0;
+}
+
+.stitch-delivery-history__order-date {
+  font-size: 0.75rem; /* text-xs equivalent */
+  color: #6b7280; /* text-zinc-500 equivalent */
+  margin: 0;
+}
+
+.stitch-delivery-history__order-chevron {
+  margin-left: var(--spacing-md); /* ml-4 equivalent */
+  color: #9ca3af; /* text-zinc-400 equivalent */
+}
+
+.stitch-delivery-history__nav {
+  position: sticky;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.8); /* bg-white/80 equivalent */
+  backdrop-filter: blur(4px); /* backdrop-blur-sm equivalent */
+}
+
+.stitch-delivery-history__nav-content {
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid #e5e7eb; /* border-t border-zinc-200 equivalent */
+  padding: var(--spacing-sm) var(--spacing-sm);
+  padding-top: var(--spacing-sm); /* py-2 equivalent */
+  padding-bottom: var(--spacing-sm); /* py-2 equivalent */
+}
+
+.stitch-delivery-history__nav-item {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs); /* gap-1 equivalent */
+  border-radius: 9999px; /* rounded-full equivalent */
+  padding: var(--spacing-sm); /* p-2 equivalent */
+  text-decoration: none;
+  color: #6b7280; /* text-zinc-500 equivalent */
+}
+
+.stitch-delivery-history__nav-item--active {
+  background-color: #fee2e2; /* bg-red-100 equivalent */
+  color: var(--primary-accent); /* text-[var(--primary-color)] equivalent */
+}
+
+.stitch-delivery-history__nav-item-icon {
+  font-size: 1.5rem; /* text-2xl equivalent */
+}
+
+.stitch-delivery-history__nav-item-text {
+  font-size: 0.75rem; /* text-xs equivalent */
+  font-weight: var(--font-medium);
+  margin: 0;
+}
+
+.stitch-delivery-history__spacer {
+  height: 0.75rem; /* h-3 equivalent */
+  background-color: var(--text-primary);
+}

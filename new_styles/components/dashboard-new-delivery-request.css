@@ -1,0 +1,271 @@
+@import url('stitch-variables.css');
+
+/* Dashboard New Delivery Request Component CSS - Stitch Design System */
+
+.stitch-dashboard-new-delivery {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--primary-dark);
+  font-family: var(--font-primary), var(--font-secondary), sans-serif;
+}
+
+.stitch-dashboard-new-delivery__map-container {
+  position: relative;
+  flex: 1;
+}
+
+.stitch-dashboard-new-delivery__map {
+  height: 100vh;
+  width: 100%;
+  object-fit: cover;
+}
+
+.stitch-dashboard-new-delivery__header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
+}
+
+.stitch-dashboard-new-delivery__header-content {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-md);
+  padding-bottom: var(--spacing-sm);
+}
+
+.stitch-dashboard-new-delivery__back-button {
+  color: #d1d5db; /* gray-300 equivalent */
+}
+
+.stitch-dashboard-new-delivery__title {
+  flex: 1;
+  text-align: center;
+  font-size: 1.125rem; /* text-lg equivalent */
+  font-weight: var(--font-bold);
+  color: #f3f4f6; /* gray-100 equivalent */
+}
+
+.stitch-dashboard-new-delivery__zoom-controls {
+  position: absolute;
+  bottom: var(--spacing-md);
+  right: var(--spacing-md);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--spacing-xs);
+}
+
+.stitch-dashboard-new-delivery__zoom-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem; /* size-10 equivalent */
+  height: 2.5rem; /* size-10 equivalent */
+  border-radius: 0.5rem; /* rounded-lg equivalent */
+  background-color: #1f2937; /* gray-800 equivalent */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg equivalent */
+}
+
+.stitch-dashboard-new-delivery__zoom-button--top {
+  border-top-left-radius: 0.75rem; /* rounded-t-lg equivalent */
+  border-top-right-radius: 0.75rem; /* rounded-t-lg equivalent */
+}
+
+.stitch-dashboard-new-delivery__zoom-button--bottom {
+  border-bottom-left-radius: 0.75rem; /* rounded-b-lg equivalent */
+  border-bottom-right-radius: 0.75rem; /* rounded-b-lg equivalent */
+}
+
+.stitch-dashboard-new-delivery__zoom-button-icon {
+  color: #d1d5db; /* gray-300 equivalent */
+  font-size: 1.5rem; /* text-xl equivalent */
+}
+
+.stitch-dashboard-new-delivery__navigation-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem; /* size-10 equivalent */
+  height: 2.5rem; /* size-10 equivalent */
+  border-radius: 0.5rem; /* rounded-lg equivalent */
+  background-color: #1f2937; /* gray-800 equivalent */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg equivalent */
+  margin-top: var(--spacing-xs);
+}
+
+.stitch-dashboard-new-delivery__bottom-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  border-top-left-radius: 1rem; /* rounded-t-2xl equivalent */
+  border-top-right-radius: 1rem; /* rounded-t-2xl equivalent */
+  border-top: 1px solid #374151; /* gray-700 equivalent */
+  background-color: var(--primary-dark);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); /* shadow-2xl equivalent */
+}
+
+.stitch-dashboard-new-delivery__drag-handle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.25rem; /* h-5 equivalent */
+  width: 100%;
+}
+
+.stitch-dashboard-new-delivery__drag-handle-bar {
+  height: 0.25rem; /* h-1 equivalent */
+  width: 2.25rem; /* w-9 equivalent */
+  border-radius: 9999px; /* rounded-full equivalent */
+  background-color: #4b5563; /* gray-600 equivalent */
+}
+
+.stitch-dashboard-new-delivery__bottom-sheet-content {
+  padding: var(--spacing-md);
+  padding-top: var(--spacing-sm);
+}
+
+.stitch-dashboard-new-delivery__section-title {
+  font-size: 1.25rem; /* text-xl equivalent */
+  font-weight: var(--font-bold);
+  color: #f3f4f6; /* gray-100 equivalent */
+}
+
+.stitch-dashboard-new-delivery__form {
+  margin-top: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.stitch-dashboard-new-delivery__input-container {
+  position: relative;
+}
+
+.stitch-dashboard-new-delivery__input-icon {
+  position: absolute;
+  left: var(--spacing-sm);
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af; /* gray-500 equivalent */
+}
+
+.stitch-dashboard-new-delivery__input {
+  width: 100%;
+  border-radius: 0.75rem; /* rounded-xl equivalent */
+  border: 1px solid #374151; /* gray-700 equivalent */
+  background-color: #1f2937; /* gray-800 equivalent */
+  padding: var(--spacing-sm) var(--spacing-md);
+  padding-left: 2.5rem; /* pl-10 equivalent */
+  padding-right: var(--spacing-md);
+  color: #f3f4f6; /* gray-100 equivalent */
+  font-size: var(--text-body);
+}
+
+.stitch-dashboard-new-delivery__input::placeholder {
+  color: #9ca3af; /* gray-400 equivalent */
+}
+
+.stitch-dashboard-new-delivery__input:focus {
+  border-color: var(--primary-accent);
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.5); /* focus:ring-green-500 equivalent */
+}
+
+.stitch-dashboard-new-delivery__package-size-title {
+  margin-top: var(--spacing-lg);
+  font-size: 1.125rem; /* text-lg equivalent */
+  font-weight: var(--font-bold);
+  color: #f3f4f6; /* gray-100 equivalent */
+}
+
+.stitch-dashboard-new-delivery__package-size-options {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-sm);
+}
+
+.stitch-dashboard-new-delivery__package-size-option {
+  display: flex;
+  flex: 1;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem; /* rounded-xl equivalent */
+  border: 2px solid #374151; /* gray-700 equivalent */
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: 0.875rem; /* text-sm equivalent */
+  font-weight: var(--font-medium);
+  color: #d1d5db; /* gray-300 equivalent */
+}
+
+.stitch-dashboard-new-delivery__package-size-option input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.stitch-dashboard-new-delivery__package-size-option--selected {
+  border-color: var(--primary-accent);
+  background-color: rgba(34, 197, 94, 0.1); /* green-900/50 equivalent */
+  color: #86efac; /* green-300 equivalent */
+}
+
+.stitch-dashboard-new-delivery__request-button {
+  margin-top: var(--spacing-lg);
+  width: 100%;
+  cursor: pointer;
+  border-radius: 9999px; /* rounded-full equivalent */
+  background-color: var(--primary-accent);
+  padding: var(--spacing-md);
+  font-size: var(--text-body);
+  font-weight: var(--font-bold);
+  color: var(--text-inverse);
+}
+
+.stitch-dashboard-new-delivery__nav-bar {
+  display: flex;
+  gap: var(--spacing-sm);
+  border-top: 1px solid #374151; /* gray-700 equivalent */
+  padding: var(--spacing-md);
+  padding-top: var(--spacing-sm);
+}
+
+.stitch-dashboard-new-delivery__nav-item {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--spacing-xs);
+  border-radius: 9999px; /* rounded-full equivalent */
+  text-decoration: none;
+}
+
+.stitch-dashboard-new-delivery__nav-item--active {
+  color: var(--primary-accent);
+}
+
+.stitch-dashboard-new-delivery__nav-item-icon {
+  font-size: 1.5rem; /* text-xl equivalent */
+}
+
+.stitch-dashboard-new-delivery__nav-item-text {
+  font-size: 0.75rem; /* text-xs equivalent */
+  font-weight: var(--font-medium);
+  color: inherit;
+}

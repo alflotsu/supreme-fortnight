@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900&amp;family=Spline+Sans%3Awght%40400%3B500%3B700" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<title>Stitch Design</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+      .star-rating input[type="radio"] {
+        display: none;
+      }
+      .star-rating .star {
+        cursor: pointer;
+        color: #4a5568;font-size: 48px;
+        transition: color 0.2s;
+      }
+      .star-rating input[type="radio"]:checked ~ .star {
+        color: #38e07b;
+      }
+      .star-rating .star:hover,
+      .star-rating .star:hover ~ .star {
+        color: #5ee691;
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-[#101913]">
+<div class="relative flex size-full min-h-screen flex-col bg-[#101913] dark justify-between group/design-root overflow-x-hidden" style='font-family: "Spline Sans", "Noto Sans", sans-serif;'>
+<div class="flex-grow">
+<header class="flex items-center bg-[#101913] p-4 pb-2">
+<button class="text-white">
+<span class="material-symbols-outlined text-3xl"> arrow_back_ios_new </span>
+</button>
+<h1 class="text-white text-xl font-bold leading-tight tracking-[-0.015em] flex-1 text-center pr-8">Feedback</h1>
+</header>
+<main class="p-4">
+<h2 class="text-white text-2xl font-bold leading-tight tracking-tight mt-4 mb-2 text-center">How was your experience?</h2>
+<p class="text-gray-400 text-center mb-8">Your feedback helps us improve our service.</p>
+<div class="star-rating flex justify-center items-center flex-row-reverse gap-2 mb-8">
+<input id="star5" name="rating" type="radio" value="5"/><label class="star material-symbols-outlined" for="star5" title="Excellent">star</label>
+<input id="star4" name="rating" type="radio" value="4"/><label class="star material-symbols-outlined" for="star4" title="Good">star</label>
+<input checked="" id="star3" name="rating" type="radio" value="3"/><label class="star material-symbols-outlined" for="star3" title="Neutral">star</label>
+<input id="star2" name="rating" type="radio" value="2"/><label class="star material-symbols-outlined" for="star2" title="Poor">star</label>
+<input id="star1" name="rating" type="radio" value="1"/><label class="star material-symbols-outlined" for="star1" title="Very Poor">star</label>
+</div>
+<div class="mb-6">
+<label class="text-white text-base font-medium mb-2 block" for="feedback-comments">Comments</label>
+<textarea class="form-textarea flex w-full min-w-0 flex-1 resize-y overflow-hidden rounded-lg text-white focus:outline-0 focus:ring-2 focus:ring-[#38e07b] border border-gray-700 bg-[#1a2b21] focus:border-[#38e07b] min-h-36 placeholder:text-gray-500 p-4 text-base font-normal leading-normal" id="feedback-comments" placeholder="Tell us more about your experience..."></textarea>
+</div>
+</main>
+</div>
+<footer class="p-4 sticky bottom-0 bg-[#101319]/50 backdrop-blur-sm">
+<button class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl h-14 px-5 bg-[#38e07b] text-[#101913] text-lg font-bold leading-normal tracking-wide shadow-[0_4px_20px_rgba(56,224,123,0.25)] hover:bg-[#5ee691] transition-colors">
+<span>Submit Feedback</span>
+</button>
+</footer>
+</div>
+
+</body></html>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary color palette from Stitch Design System -->
+    <color name="primary_dark">#122118</color>
+    <color name="primary_medium">#254632</color>
+    <color name="primary_accent">#36e27b</color>
+    
+    <!-- Secondary color palette -->
+    <color name="secondary_light">#95c6a9</color>
+    
+    <!-- Text colors -->
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#95c6a9</color>
+    <color name="text_inverse">#122118</color>
+</resources>

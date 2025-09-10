@@ -1,0 +1,188 @@
+@import url('stitch-variables.css');
+
+/* Tutorial Track Package Component CSS - Stitch Design System */
+
+.stitch-tutorial-track-package {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--primary-dark);
+  font-family: var(--font-primary), var(--font-secondary), sans-serif;
+}
+
+.stitch-tutorial-track-package__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stitch-tutorial-track-package__map-container {
+  width: 100%;
+  padding: 0 var(--spacing-md);
+  padding-top: 2rem; /* pt-8 equivalent */
+}
+
+.stitch-tutorial-track-package__map {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 1rem; /* rounded-2xl equivalent */
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(25, 148, 53, 0.5); /* shadow-2xl shadow-green-900/50 equivalent */
+}
+
+.stitch-tutorial-track-package__map-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.stitch-tutorial-track-package__map-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+}
+
+.stitch-tutorial-track-package__map-header {
+  position: absolute;
+  top: var(--spacing-md);
+  left: var(--spacing-md);
+  right: var(--spacing-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-sm) var(--spacing-sm);
+  background-color: rgba(0, 0, 0, 0.5); /* bg-black/50 equivalent */
+  border-radius: 0.5rem; /* rounded-lg equivalent */
+  backdrop-filter: blur(4px); /* backdrop-blur-sm equivalent */
+}
+
+.stitch-tutorial-track-package__driver-info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm); /* gap-3 equivalent */
+}
+
+.stitch-tutorial-track-package__driver-icon {
+  color: var(--primary-accent);
+  font-size: 1.875rem; /* text-3xl equivalent */
+}
+
+.stitch-tutorial-track-package__driver-text p:first-child {
+  color: var(--text-primary);
+  font-weight: var(--font-bold);
+  margin: 0;
+}
+
+.stitch-tutorial-track-package__driver-text p:last-child {
+  color: #d1d5db; /* text-gray-300 equivalent */
+  font-size: 0.875rem; /* text-sm equivalent */
+  margin: 0;
+}
+
+.stitch-tutorial-track-package__driver-image {
+  width: 3rem; /* w-12 equivalent */
+  height: 3rem; /* h-12 equivalent */
+  border-radius: 9999px; /* rounded-full equivalent */
+  background-size: cover;
+  background-position: center;
+}
+
+.stitch-tutorial-track-package__contact-button {
+  position: absolute;
+  bottom: var(--spacing-md);
+  left: var(--spacing-md);
+  right: var(--spacing-md);
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-sm); /* gap-3 equivalent */
+}
+
+.stitch-tutorial-track-package__contact-button-element {
+  flex: 1;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: var(--primary-accent);
+  color: var(--text-inverse);
+  font-weight: var(--font-bold);
+  border-radius: 9999px; /* rounded-full equivalent */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm); /* gap-2 equivalent */
+}
+
+.stitch-tutorial-track-package__text-content {
+  text-align: center;
+  padding: var(--spacing-md) var(--spacing-lg);
+  padding-bottom: 2rem; /* pb-8 equivalent */
+}
+
+.stitch-tutorial-track-package__title {
+  color: var(--text-primary);
+  font-size: var(--text-h1); /* text-3xl equivalent */
+  font-weight: var(--font-bold);
+  line-height: var(--line-height-tight);
+  margin-bottom: var(--spacing-sm); /* mb-3 equivalent */
+}
+
+.stitch-tutorial-track-package__description {
+  color: #d1d5db; /* text-gray-300 equivalent */
+  font-size: 1.125rem; /* text-lg equivalent */
+  line-height: var(--line-height-relaxed); /* leading-relaxed equivalent */
+  margin: 0;
+}
+
+.stitch-tutorial-track-package__footer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-lg); /* gap-6 equivalent */
+  padding: 0 var(--spacing-lg);
+  padding-bottom: var(--spacing-lg); /* pb-8 equivalent */
+}
+
+.stitch-tutorial-track-package__indicators {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem; /* gap-2 equivalent */
+}
+
+.stitch-tutorial-track-package__indicator {
+  height: 0.5rem; /* h-2 equivalent */
+  border-radius: 9999px; /* rounded-full equivalent */
+}
+
+.stitch-tutorial-track-package__indicator--inactive {
+  width: 0.5rem; /* w-2 equivalent */
+  background-color: #366348;
+}
+
+.stitch-tutorial-track-package__indicator--active {
+  height: 0.625rem; /* h-2.5 equivalent */
+  width: 1.25rem; /* w-5 equivalent */
+  background-color: var(--primary-accent);
+}
+
+.stitch-tutorial-track-package__button-container {
+  display: flex;
+  width: 100%;
+  gap: var(--spacing-md); /* gap-4 equivalent */
+}
+
+.stitch-tutorial-track-package__get-started-button {
+  flex: 1;
+  padding: var(--spacing-md);
+  text-align: center;
+  background-color: var(--primary-accent);
+  color: var(--text-inverse);
+  font-weight: var(--font-bold);
+  border-radius: 9999px; /* rounded-full equivalent */
+  font-size: 1.125rem; /* text-lg equivalent */
+  text-decoration: none;
+  display: block;
+}

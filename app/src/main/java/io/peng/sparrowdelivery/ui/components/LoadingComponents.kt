@@ -158,7 +158,7 @@ fun LoadingCard(
     modifier: Modifier = Modifier,
     showAvatar: Boolean = true
 ) {
-    ShadcnCard(
+    SparrowCard(
         modifier = modifier.fillMaxWidth(),
         variant = ShadcnCardVariant.Default
     ) {
@@ -307,7 +307,7 @@ fun LoadingOverlay(
                 .background(backgroundColor),
             contentAlignment = Alignment.Center
         ) {
-            ShadcnCard(
+            SparrowCard(
                 modifier = Modifier.wrapContentSize(),
                 variant = ShadcnCardVariant.Default
             ) {
