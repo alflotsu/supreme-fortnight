@@ -13,10 +13,11 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import io.peng.sparrowdelivery.ui.theme.ShadcnTheme
-import io.peng.sparrowdelivery.ui.theme.ShadcnBorderRadius
-import io.peng.sparrowdelivery.ui.theme.ShadcnElevation
-import io.peng.sparrowdelivery.ui.theme.ShadcnSpacing
+import io.peng.sparrowdelivery.ui.theme.SparrowTheme
+import io.peng.sparrowdelivery.ui.theme.SparrowBorderRadius
+import io.peng.sparrowdelivery.ui.theme.SparrowElevation
+import io.peng.sparrowdelivery.ui.theme.SparrowSpacing
+import io.peng.sparrowdelivery.ui.components.stitch.*
 
 enum class ShadcnCardVariant {
     Default,
@@ -32,51 +33,10 @@ fun ShadcnCard(
     onClick: (() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    val colors = ShadcnTheme.colors
-    
-    val (backgroundColor, borderStroke, elevation) = when (variant) {
-        ShadcnCardVariant.Default -> Triple(
-            colors.card,
-            BorderStroke(1.dp, colors.border),
-            ShadcnElevation.sm
-        )
-        ShadcnCardVariant.Elevated -> Triple(
-            colors.card,
-            BorderStroke(1.dp, colors.border),
-            ShadcnElevation.lg
-        )
-        ShadcnCardVariant.Outlined -> Triple(
-            Color.Transparent,
-            BorderStroke(2.dp, colors.border),
-            0.dp
-        )
-        ShadcnCardVariant.Ghost -> Triple(
-            Color.Transparent,
-            null,
-            0.dp
-        )
-    }
-    
-    Card(
-        modifier = modifier
-            .shadow(
-                elevation = elevation,
-                shape = RoundedCornerShape(ShadcnBorderRadius.lg),
-                ambientColor = colors.foreground.copy(alpha = 0.1f),
-                spotColor = colors.foreground.copy(alpha = 0.1f)
-            ),
-        shape = RoundedCornerShape(ShadcnBorderRadius.lg),
-        colors = CardDefaults.cardColors(
-            containerColor = backgroundColor
-        ),
-        border = borderStroke,
-        onClick = onClick ?: {},
-        content = {
-            Column(
-                modifier = Modifier.padding(ShadcnSpacing.lg),
-                content = content
-            )
-        }
+    // Map to StitchCard
+    StitchCard(
+        modifier = modifier,
+        content = content
     )
 }
 
@@ -87,48 +47,12 @@ fun ShadcnCompactCard(
     onClick: (() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    val colors = ShadcnTheme.colors
-    
-    val (backgroundColor, borderStroke, elevation) = when (variant) {
-        ShadcnCardVariant.Default -> Triple(
-            colors.card,
-            BorderStroke(1.dp, colors.border),
-            ShadcnElevation.sm
-        )
-        ShadcnCardVariant.Elevated -> Triple(
-            colors.card,
-            BorderStroke(1.dp, colors.border),
-            ShadcnElevation.md
-        )
-        ShadcnCardVariant.Outlined -> Triple(
-            Color.Transparent,
-            BorderStroke(1.dp, colors.border),
-            0.dp
-        )
-        ShadcnCardVariant.Ghost -> Triple(
-            Color.Transparent,
-            null,
-            0.dp
-        )
-    }
-    
-    Card(
-        modifier = modifier
-            .shadow(
-                elevation = elevation,
-                shape = RoundedCornerShape(ShadcnBorderRadius.md),
-                ambientColor = colors.foreground.copy(alpha = 0.08f),
-                spotColor = colors.foreground.copy(alpha = 0.08f)
-            ),
-        shape = RoundedCornerShape(ShadcnBorderRadius.md),
-        colors = CardDefaults.cardColors(
-            containerColor = backgroundColor
-        ),
-        border = borderStroke,
-        onClick = onClick ?: {},
+    // Map to StitchCard with smaller padding
+    StitchCard(
+        modifier = modifier,
         content = {
             Column(
-                modifier = Modifier.padding(ShadcnSpacing.md),
+                modifier = Modifier.padding(8.dp), // Smaller padding for compact card
                 content = content
             )
         }
@@ -144,24 +68,22 @@ fun ShadcnSection(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(ShadcnSpacing.md)
+        verticalArrangement = Arrangement.spacedBy(SparrowSpacing.md)
     ) {
         if (title != null || description != null) {
             Column(
-                verticalArrangement = Arrangement.spacedBy(ShadcnSpacing.xs)
+                verticalArrangement = Arrangement.spacedBy(SparrowSpacing.xs)
             ) {
                 title?.let {
-                    ShadcnText(
+                    StitchHeading(
                         text = it,
-                        style = ShadcnTextStyle.H4,
-                        color = ShadcnTheme.colors.foreground
+                        level = 4 // H4 equivalent
                     )
                 }
                 description?.let {
-                    ShadcnText(
+                    StitchText(
                         text = it,
-                        style = ShadcnTextStyle.Muted,
-                        color = ShadcnTheme.colors.mutedForeground
+                        color = androidx.compose.ui.graphics.Color.Gray // Use appropriate muted color from Stitch theme
                     )
                 }
             }

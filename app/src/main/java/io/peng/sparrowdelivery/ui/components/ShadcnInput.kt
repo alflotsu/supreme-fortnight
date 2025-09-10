@@ -32,6 +32,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import io.peng.sparrowdelivery.ui.theme.*
+import io.peng.sparrowdelivery.ui.components.stitch.*
 
 enum class ShadcnInputVariant {
     Default,
@@ -79,162 +80,15 @@ fun ShadcnInput(
     singleLine: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
-    val colors = ShadcnTheme.colors
-    var isFocused by remember { mutableStateOf(false) }
-    
-    // Determine colors based on state and focus
-    val borderColor by animateColorAsState(
-        targetValue = when {
-            error != null || state == ShadcnInputState.Error -> colors.destructive
-            state == ShadcnInputState.Success -> colors.success
-            state == ShadcnInputState.Warning -> colors.warning
-            isFocused -> colors.ring
-            else -> colors.border
-        },
-        animationSpec = tween(150),
-        label = "borderColor"
+    // Map to StitchSearchField or other Stitch input components based on usage
+    // For now, we'll use StitchSearchField as a placeholder
+    StitchSearchField(
+        value = value,
+        onValueChange = onValueChange,
+        placeholder = placeholder,
+        modifier = modifier,
+        enabled = enabled
     )
-    
-    val backgroundColor = when (variant) {
-        ShadcnInputVariant.Default -> colors.background
-        ShadcnInputVariant.Ghost -> Color.Transparent
-        ShadcnInputVariant.Outlined -> Color.Transparent
-    }
-    
-    val horizontalPadding = when (size) {
-        ShadcnInputSize.Small -> ShadcnSpacing.sm
-        ShadcnInputSize.Default -> ShadcnSpacing.md
-        ShadcnInputSize.Large -> ShadcnSpacing.lg
-    }
-    
-    val verticalPadding = when (size) {
-        ShadcnInputSize.Small -> ShadcnSpacing.xs
-        ShadcnInputSize.Default -> ShadcnSpacing.sm
-        ShadcnInputSize.Large -> ShadcnSpacing.md
-    }
-    
-    val textStyle = when (size) {
-        ShadcnInputSize.Small -> ShadcnTypography.small
-        ShadcnInputSize.Default -> ShadcnTypography.p
-        ShadcnInputSize.Large -> ShadcnTypography.large
-    }
-    
-    val iconSize = when (size) {
-        ShadcnInputSize.Small -> 16.dp
-        ShadcnInputSize.Default -> 18.dp
-        ShadcnInputSize.Large -> 20.dp
-    }
-    
-    Column(modifier = modifier) {
-        // Label
-        if (label.isNotEmpty()) {
-            ShadcnText(
-                text = label,
-                style = ShadcnTextStyle.Small,
-                color = colors.foreground,
-                modifier = Modifier.padding(bottom = ShadcnSpacing.xs)
-            )
-        }
-        
-        // Input Field
-        BasicTextField(
-            value = value,
-            onValueChange = onValueChange,
-            modifier = Modifier
-                .fillMaxWidth()
-                .onFocusChanged { isFocused = it.isFocused },
-            enabled = enabled,
-            readOnly = readOnly,
-            textStyle = textStyle.copy(color = colors.foreground),
-            keyboardOptions = keyboardOptions,
-            keyboardActions = keyboardActions,
-            singleLine = singleLine,
-            maxLines = maxLines,
-            visualTransformation = visualTransformation,
-            interactionSource = interactionSource,
-            cursorBrush = SolidColor(colors.foreground)
-        ) { innerTextField ->
-            Box(
-                modifier = Modifier
-                    .background(
-                        color = backgroundColor,
-                        shape = RoundedCornerShape(ShadcnBorderRadius.md)
-                    )
-                    .border(
-                        width = if (isFocused) 2.dp else 1.dp,
-                        color = borderColor,
-                        shape = RoundedCornerShape(ShadcnBorderRadius.md)
-                    )
-                    .padding(
-                        horizontal = horizontalPadding,
-                        vertical = verticalPadding
-                    )
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(ShadcnSpacing.sm)
-                ) {
-                    // Leading Icon
-                    leadingIcon?.let {
-                        Icon(
-                            imageVector = it,
-                            contentDescription = null,
-                            tint = colors.mutedForeground,
-                            modifier = Modifier.size(iconSize)
-                        )
-                    }
-                    
-                    // Input Field
-                    Box(
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        if (value.isEmpty()) {
-                            Text(
-                                text = placeholder,
-                                style = textStyle,
-                                color = colors.mutedForeground
-                            )
-                        }
-                        innerTextField()
-                    }
-                    
-                    // Trailing Icon
-                    trailingIcon?.let {
-                        Icon(
-                            imageVector = it,
-                            contentDescription = null,
-                            tint = colors.mutedForeground,
-                            modifier = Modifier
-                                .size(iconSize)
-                                .let { modifier ->
-                                    if (onTrailingIconClick != null) {
-                                        modifier.clickable { onTrailingIconClick() }
-                                    } else modifier
-                                }
-                        )
-                    }
-                }
-            }
-        }
-        
-        // Helper Text or Error
-        val helperText = error ?: helper
-        val helperColor = when {
-            error != null || state == ShadcnInputState.Error -> colors.destructive
-            state == ShadcnInputState.Success -> colors.success
-            state == ShadcnInputState.Warning -> colors.warning
-            else -> colors.mutedForeground
-        }
-        
-        if (helperText.isNotEmpty()) {
-            ShadcnText(
-                text = helperText,
-                style = ShadcnTextStyle.Small,
-                color = helperColor,
-                modifier = Modifier.padding(top = ShadcnSpacing.xs)
-            )
-        }
-    }
 }
 
 /**

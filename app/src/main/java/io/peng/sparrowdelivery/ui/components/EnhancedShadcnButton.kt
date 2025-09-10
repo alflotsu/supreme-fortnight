@@ -21,6 +21,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import io.peng.sparrowdelivery.ui.theme.*
+import io.peng.sparrowdelivery.ui.components.stitch.*
 
 @Composable
 fun EnhancedShadcnButton(
@@ -35,6 +36,8 @@ fun EnhancedShadcnButton(
     trailingIcon: ImageVector? = null,
     hapticFeedback: Boolean = true
 ) {
+    // For now, we'll keep the existing implementation but add a TODO to replace with Stitch components
+    // TODO: Replace with Stitch button components
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
     val haptic = LocalHapticFeedback.current
@@ -59,7 +62,7 @@ fun EnhancedShadcnButton(
     )
     
     // Color animations
-    val colors = ShadcnTheme.colors
+    val colors = SparrowTheme.colors
     val buttonColors = getButtonColors(variant, colors)
     
     val backgroundColor by animateColorAsState(
@@ -85,7 +88,7 @@ fun EnhancedShadcnButton(
         modifier = modifier
             .scale(scale)
             .height(buttonSize.height)
-            .clip(RoundedCornerShape(ShadcnBorderRadius.md))
+            .clip(RoundedCornerShape(SparrowBorderRadius.md))
             .background(backgroundColor)
             .clickable(
                 interactionSource = interactionSource,
@@ -191,7 +194,7 @@ private fun ButtonContent(
                     }
                 )
             )
-            Spacer(modifier = Modifier.width(ShadcnSpacing.sm))
+            Spacer(modifier = Modifier.width(SparrowSpacing.sm))
         }
         
         // Button text
@@ -199,18 +202,18 @@ private fun ButtonContent(
             text = text,
             color = contentColor,
             fontSize = when (size) {
-                ShadcnButtonSize.Small -> ShadcnTypography.small.fontSize
-                ShadcnButtonSize.Default -> ShadcnTypography.p.fontSize
-                ShadcnButtonSize.Large -> ShadcnTypography.large.fontSize
-                ShadcnButtonSize.Icon -> ShadcnTypography.p.fontSize
+                ShadcnButtonSize.Small -> SparrowTypography.small.fontSize
+                ShadcnButtonSize.Default -> SparrowTypography.p.fontSize
+                ShadcnButtonSize.Large -> SparrowTypography.large.fontSize
+                ShadcnButtonSize.Icon -> SparrowTypography.p.fontSize
             },
             fontWeight = FontWeight.Medium,
-            fontFamily = InterFontFamily
+            fontFamily = SparrowFontFamily
         )
         
         // Trailing icon
         trailingIcon?.let { icon ->
-            Spacer(modifier = Modifier.width(ShadcnSpacing.sm))
+            Spacer(modifier = Modifier.width(SparrowSpacing.sm))
             Icon(
                 imageVector = icon,
                 contentDescription = null,
@@ -233,7 +236,7 @@ private data class ButtonColors(
     val content: Color
 )
 
-private fun getButtonColors(variant: ShadcnButtonVariant, colors: ShadcnThemeColors): ButtonColors {
+private fun getButtonColors(variant: ShadcnButtonVariant, colors: SparrowThemeColors): ButtonColors {
     return when (variant) {
         ShadcnButtonVariant.Default -> ButtonColors(
             background = colors.primary,
@@ -258,6 +261,10 @@ private fun getButtonColors(variant: ShadcnButtonVariant, colors: ShadcnThemeCol
         ShadcnButtonVariant.Destructive -> ButtonColors(
             background = colors.destructive,
             content = colors.destructiveForeground
+        )
+        ShadcnButtonVariant.Success -> ButtonColors(
+            background = colors.success ?: colors.primary,
+            content = colors.primaryForeground
         )
     }
 }

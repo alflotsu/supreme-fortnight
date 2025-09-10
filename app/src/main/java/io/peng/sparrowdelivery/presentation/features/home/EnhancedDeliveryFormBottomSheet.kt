@@ -18,6 +18,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.peng.sparrowdelivery.ui.components.*
 import io.peng.sparrowdelivery.ui.theme.*
+import io.peng.sparrowdelivery.ui.components.stitch.StitchPrimaryButton
+import io.peng.sparrowdelivery.ui.components.stitch.StitchSecondaryButton
+import io.peng.sparrowdelivery.ui.components.stitch.StitchHtmlLocationField
 import io.peng.sparrowdelivery.ui.icons.SparrowIcons
 import io.peng.sparrowdelivery.data.services.PlaceDetails
 import io.peng.sparrowdelivery.presentation.components.AddressAutocompleteField
@@ -53,7 +56,7 @@ fun EnhancedDeliveryFormBottomSheet(
     val hasRouteData = availableRoutes.isNotEmpty()
     val shouldShowRoutePreview = hasValidLocations && hasRouteData
     
-    ShadcnTheme {
+    StitchTheme {
         if (shouldShowRoutePreview) {
             // Route Preview Mode
             RoutePreviewBottomSheetContent(
@@ -118,7 +121,7 @@ private fun StandardFormBottomSheetContent(
             .fillMaxWidth()
             .padding(16.dp).padding(bottom = 32.dp)
             .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(ShadcnSpacing.md)
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
             // Header with delivery time toggle (similar to SwiftTouches)
             Row(
@@ -164,14 +167,14 @@ private fun StandardFormBottomSheetContent(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Row(
-                        modifier = Modifier.padding(ShadcnSpacing.md),
+                        modifier = Modifier.padding(16.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         Icon(
                             imageVector = Icons.Default.DateRange,
                             contentDescription = null,
-                            tint = ShadcnTheme.colors.primary,
+                            tint = LocalStitchColorScheme.current.primary,
                             modifier = Modifier.size(20.dp)
                         )
                         Column {
@@ -193,7 +196,7 @@ private fun StandardFormBottomSheetContent(
                             Icon(
                                 imageVector = Icons.Default.Edit,
                                 contentDescription = "Change time",
-                                tint = ShadcnTheme.colors.foreground,
+                                tint = LocalStitchColorScheme.current.onSurface,
                                 modifier = Modifier.size(16.dp)
                             )
                         }
@@ -230,7 +233,7 @@ private fun StandardFormBottomSheetContent(
                             Surface(
                                 modifier = Modifier.fillMaxSize(),
                                 shape = androidx.compose.foundation.shape.CircleShape,
-                                color = ShadcnTheme.colors.border
+                                color = SparrowTheme.colors.border
                             ) {}
                         }
                     }
@@ -282,7 +285,7 @@ private fun StandardFormBottomSheetContent(
                         )
                         Text(
                             text = "Clear Route",
-                            style = ShadcnTypography.small
+                            style = SparrowTypography.small
                         )
                     }
                 }
@@ -311,23 +314,22 @@ private fun StandardFormBottomSheetContent(
             // Action buttons
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(ShadcnSpacing.md)
+                horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.md)
             ) {
                 // More Options Button
-                ShadcnTextButton(
+                StitchSecondaryButton(
                     text = "More Options",
                     onClick = onMoreOptionsClick,
-                    modifier = Modifier.weight(1f),
-                    variant = ShadcnButtonVariant.Outline
+                    modifier = Modifier.weight(1f)
                 )
                 
                 // Find Driver Button
-                ShadcnTextButton(
+                StitchPrimaryButton(
                     text = if (deliveryForm.isLoadingPricing) "Finding..." else "Find Driver",
                     onClick = onFindDriverClick,
                     modifier = Modifier.weight(1f),
                     enabled = deliveryForm.canProceed && !deliveryForm.isLoadingPricing,
-                    variant = ShadcnButtonVariant.Default
+                    loading = deliveryForm.isLoadingPricing
                 )
             }
         }
@@ -347,36 +349,29 @@ private fun LocationInputRow(
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.Top, // Changed to Top to align with text field
-        horizontalArrangement = Arrangement.spacedBy(2.dp)
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-
-        // Smart address input with recents/favorites and cost optimization
-        Column(modifier = Modifier.weight(1f)) {
-            SmartAddressInput(
-                value = value,
-                onValueChange = onValueChange,
-                onPlaceSelected = onPlaceSelected,
-                placeholder = placeholder,
-                isPickupField = isPickupField,
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
+        // HTML-matching location input field with icon inside
+        StitchHtmlLocationField(
+            value = value,
+            onValueChange = onValueChange,
+            placeholder = placeholder,
+            leadingIcon = icon,
+            iconColor = iconColor,
+            modifier = Modifier.weight(1f)
+        )
         
-        // Map pin button
+        // Map pin button - smaller and cleaner
         IconButton(
             onClick = onMapPinClick,
-            modifier = Modifier
-                .size(48.dp)
-                .padding(bottom = 16.dp) // Slight adjustment to align with text field
+            modifier = Modifier.size(56.dp) // Match input field height
         ) {
             Icon(
-                imageVector = icon,
-                contentDescription = null,
+                imageVector = Icons.Default.LocationOn, // Always use location pin for map selection
+                contentDescription = "Select on map",
                 tint = iconColor,
-                modifier = Modifier
-                    .size(32.dp)
-                    .padding(top = 8.dp) // Align with text field content
+                modifier = Modifier.size(24.dp)
             )
         }
     }
@@ -397,7 +392,7 @@ private fun RoutePreviewCard(
     ) {
         Column(
             modifier = Modifier.padding(0.dp),
-            verticalArrangement = Arrangement.spacedBy(ShadcnSpacing.sm)
+            verticalArrangement = Arrangement.spacedBy(SparrowSpacing.sm)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -428,7 +423,7 @@ private fun RoutePreviewCard(
                         ShadcnText(
                             text = error,
                             style = ShadcnTextStyle.Small,
-                            color = ShadcnTheme.colors.destructive
+                            color = SparrowTheme.colors.destructive
                         )
                     } else {
                         // TODO: Show actual distance and duration when available
@@ -449,7 +444,7 @@ private fun RoutePreviewCard(
                     ShadcnText(
                         text = "₵ ${String.format("%.2f", estimatedPrice)}",
                         style = ShadcnTextStyle.H4,
-                        color = ShadcnTheme.colors.success
+                        color = SparrowTheme.colors.success
                     )
                     
                     // Tap indicator
@@ -462,12 +457,12 @@ private fun RoutePreviewCard(
                             ShadcnText(
                                 text = "View on map",
                                 style = ShadcnTextStyle.Small,
-                                color = ShadcnTheme.colors.primary
+                                color = SparrowTheme.colors.primary
                             )
                             Icon(
                                 imageVector = Icons.Default.KeyboardArrowRight,
                                 contentDescription = null,
-                                tint = ShadcnTheme.colors.primary,
+                                tint = SparrowTheme.colors.primary,
                                 modifier = Modifier.size(16.dp)
                             )
                         }
@@ -534,7 +529,7 @@ private fun QuickActionButton(
 //                imageVector = icon,
 //                contentDescription = title,
 //                modifier = Modifier.size(24.dp),
-//                tint = ShadcnTheme.colors.primary
+//                tint = SparrowTheme.colors.primary
 //            )
 //            Spacer(modifier = Modifier.height(6.dp))
             ShadcnText(
@@ -586,8 +581,8 @@ private fun IntermediateStopsSection(
         modifier = modifier.fillMaxWidth()
     ) {
         Column(
-            modifier = Modifier.padding(ShadcnSpacing.md),
-            verticalArrangement = Arrangement.spacedBy(ShadcnSpacing.sm)
+            modifier = Modifier.padding(SparrowSpacing.md),
+            verticalArrangement = Arrangement.spacedBy(SparrowSpacing.sm)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -676,7 +671,7 @@ private fun RoutePreviewBottomSheetContent(
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = "Back to form",
-                    tint = ShadcnTheme.colors.foreground
+                    tint = SparrowTheme.colors.foreground
                 )
             }
             
@@ -742,7 +737,7 @@ private fun RoutePreviewBottomSheetContent(
                                 Surface(
                                     modifier = Modifier.fillMaxSize(),
                                     shape = androidx.compose.foundation.shape.CircleShape,
-                                    color = ShadcnTheme.colors.border
+                                    color = SparrowTheme.colors.border
                                 ) {}
                             }
                         }
@@ -839,9 +834,9 @@ private fun RouteOptionCard(
                 modifier = Modifier.size(24.dp), // Reduced from 32dp
                 shape = androidx.compose.foundation.shape.CircleShape,
                 color = if (isSelected) {
-                    ShadcnTheme.colors.primary
+                    SparrowTheme.colors.primary
                 } else {
-                    ShadcnTheme.colors.muted
+                    SparrowTheme.colors.muted
                 }
             ) {
                 Box(
@@ -851,9 +846,9 @@ private fun RouteOptionCard(
                         text = routeNumber.toString(),
                         style = ShadcnTextStyle.Small, // Smaller text
                         color = if (isSelected) {
-                            ShadcnTheme.colors.primaryForeground
+                            SparrowTheme.colors.primaryForeground
                         } else {
-                            ShadcnTheme.colors.mutedForeground
+                            SparrowTheme.colors.mutedForeground
                         }
                     )
                 }
@@ -907,9 +902,9 @@ private fun RouteOptionCard(
                         text = routeType,
                         style = ShadcnTextStyle.Small,
                         color = if (isSelected) {
-                            ShadcnTheme.colors.primary
+                            SparrowTheme.colors.primary
                         } else {
-                            ShadcnTheme.colors.mutedForeground
+                            SparrowTheme.colors.mutedForeground
                         }
                     )
                 }
@@ -928,7 +923,7 @@ private fun RouteOptionCard(
                         ShadcnText(
                             text = "Traffic included",
                             style = ShadcnTextStyle.Small,
-                            color = ShadcnTheme.colors.mutedForeground
+                            color = SparrowTheme.colors.mutedForeground
                         )
                     }
                 }
@@ -939,7 +934,7 @@ private fun RouteOptionCard(
                 Surface(
                     modifier = Modifier.size(6.dp), // Reduced from 8dp
                     shape = androidx.compose.foundation.shape.CircleShape,
-                    color = ShadcnTheme.colors.primary
+                    color = SparrowTheme.colors.primary
                 ) {}
             }
         }

@@ -7,8 +7,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import io.peng.sparrowdelivery.ui.theme.ShadcnTheme
-import io.peng.sparrowdelivery.ui.theme.ShadcnTypography
+import io.peng.sparrowdelivery.ui.theme.SparrowTheme
+import io.peng.sparrowdelivery.ui.theme.SparrowTypography
+import io.peng.sparrowdelivery.ui.components.stitch.*
 
 enum class ShadcnTextStyle {
     H1,
@@ -32,34 +33,33 @@ fun ShadcnText(
     maxLines: Int = Int.MAX_VALUE,
     overflow: TextOverflow = TextOverflow.Clip
 ) {
-    val colors = ShadcnTheme.colors
-    
-    val textStyle = when (style) {
-        ShadcnTextStyle.H1 -> ShadcnTypography.h1
-        ShadcnTextStyle.H2 -> ShadcnTypography.h2
-        ShadcnTextStyle.H3 -> ShadcnTypography.h3
-        ShadcnTextStyle.H4 -> ShadcnTypography.h4
-        ShadcnTextStyle.P -> ShadcnTypography.p
-        ShadcnTextStyle.Large -> ShadcnTypography.large
-        ShadcnTextStyle.Small -> ShadcnTypography.small
-        ShadcnTextStyle.Muted -> ShadcnTypography.muted
-        ShadcnTextStyle.Lead -> ShadcnTypography.lead
+    // Map to StitchText or StitchHeading based on style
+    when (style) {
+        ShadcnTextStyle.H1, ShadcnTextStyle.H2, ShadcnTextStyle.H3, ShadcnTextStyle.H4 -> {
+            val level = when (style) {
+                ShadcnTextStyle.H1 -> 1
+                ShadcnTextStyle.H2 -> 2
+                ShadcnTextStyle.H3 -> 3
+                else -> 4
+            }
+            StitchHeading(
+                text = text,
+                modifier = modifier,
+                level = level,
+                color = color,
+                textAlign = textAlign
+            )
+        }
+        else -> {
+            StitchText(
+                text = text,
+                modifier = modifier,
+                color = color,
+                textAlign = textAlign,
+                maxLines = maxLines
+            )
+        }
     }
-    
-    val textColor = color ?: when (style) {
-        ShadcnTextStyle.Muted -> colors.mutedForeground
-        else -> colors.foreground
-    }
-    
-    Text(
-        text = text,
-        modifier = modifier,
-        style = textStyle,
-        color = textColor,
-        textAlign = textAlign,
-        maxLines = maxLines,
-        overflow = overflow
-    )
 }
 
 @Composable
@@ -70,18 +70,11 @@ fun ShadcnHeading(
     color: Color? = null,
     textAlign: TextAlign? = null
 ) {
-    val style = when (level) {
-        1 -> ShadcnTextStyle.H1
-        2 -> ShadcnTextStyle.H2
-        3 -> ShadcnTextStyle.H3
-        4 -> ShadcnTextStyle.H4
-        else -> ShadcnTextStyle.H4
-    }
-    
-    ShadcnText(
+    // Map directly to StitchHeading
+    StitchHeading(
         text = text,
         modifier = modifier,
-        style = style,
+        level = level,
         color = color,
         textAlign = textAlign
     )
@@ -96,14 +89,13 @@ fun ShadcnParagraph(
     maxLines: Int = Int.MAX_VALUE,
     overflow: TextOverflow = TextOverflow.Clip
 ) {
-    ShadcnText(
+    // Map to StitchText
+    StitchText(
         text = text,
         modifier = modifier,
-        style = ShadcnTextStyle.P,
         color = color,
         textAlign = textAlign,
-        maxLines = maxLines,
-        overflow = overflow
+        maxLines = maxLines
     )
 }
 
@@ -115,14 +107,13 @@ fun ShadcnMutedText(
     maxLines: Int = Int.MAX_VALUE,
     overflow: TextOverflow = TextOverflow.Clip
 ) {
-    ShadcnText(
+    // Map to StitchText with muted color
+    StitchText(
         text = text,
         modifier = modifier,
-        style = ShadcnTextStyle.Muted,
-        color = ShadcnTheme.colors.mutedForeground,
+        color = androidx.compose.ui.graphics.Color.Gray, // Use appropriate muted color from Stitch theme
         textAlign = textAlign,
-        maxLines = maxLines,
-        overflow = overflow
+        maxLines = maxLines
     )
 }
 
@@ -135,13 +126,12 @@ fun ShadcnSmallText(
     maxLines: Int = Int.MAX_VALUE,
     overflow: TextOverflow = TextOverflow.Clip
 ) {
-    ShadcnText(
+    // Map to StitchText
+    StitchText(
         text = text,
         modifier = modifier,
-        style = ShadcnTextStyle.Small,
         color = color,
         textAlign = textAlign,
-        maxLines = maxLines,
-        overflow = overflow
+        maxLines = maxLines
     )
 }

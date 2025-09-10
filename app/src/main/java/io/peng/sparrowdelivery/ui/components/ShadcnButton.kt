@@ -2,9 +2,11 @@ package io.peng.sparrowdelivery.ui.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -12,7 +14,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.clickable
 import io.peng.sparrowdelivery.ui.theme.*
+import io.peng.sparrowdelivery.ui.components.stitch.*
 
 enum class ShadcnButtonVariant {
     Default,
@@ -20,7 +24,8 @@ enum class ShadcnButtonVariant {
     Outline,
     Secondary,
     Ghost,
-    Link
+    Link,
+    Success
 }
 
 enum class ShadcnButtonSize {
@@ -41,20 +46,20 @@ fun ShadcnButton(
     trailingIcon: ImageVector? = null,
     content: @Composable RowScope.() -> Unit
 ) {
-    val colors = ShadcnTheme.colors
+    val colors = SparrowTheme.colors
     
     val (backgroundColor, contentColor, borderStroke, elevation) = when (variant) {
         ShadcnButtonVariant.Default -> Quadruple(
             colors.primary,
             colors.primaryForeground,
             null,
-            ShadcnElevation.sm
+            SparrowElevation.sm
         )
         ShadcnButtonVariant.Destructive -> Quadruple(
             colors.destructive,
             colors.destructiveForeground,
             null,
-            ShadcnElevation.sm
+            SparrowElevation.sm
         )
         ShadcnButtonVariant.Outline -> Quadruple(
             Color.Transparent,
@@ -80,28 +85,34 @@ fun ShadcnButton(
             null,
             0.dp
         )
+        ShadcnButtonVariant.Success -> Quadruple(
+            colors.success ?: colors.primary,
+            colors.primaryForeground,
+            null,
+            SparrowElevation.sm
+        )
     }
     
     val (horizontalPadding, verticalPadding, textStyle) = when (size) {
         ShadcnButtonSize.Small -> Triple(
-            ShadcnSpacing.sm,
-            ShadcnSpacing.xs,
-            ShadcnTypography.small
+            SparrowSpacing.sm,
+            SparrowSpacing.xs,
+            SparrowTypography.small
         )
         ShadcnButtonSize.Default -> Triple(
-            ShadcnSpacing.md,
-            ShadcnSpacing.sm,
-            ShadcnTypography.p
+            SparrowSpacing.md,
+            SparrowSpacing.sm,
+            SparrowTypography.p
         )
         ShadcnButtonSize.Large -> Triple(
-            ShadcnSpacing.lg,
-            ShadcnSpacing.md,
-            ShadcnTypography.large
+            SparrowSpacing.lg,
+            SparrowSpacing.md,
+            SparrowTypography.large
         )
         ShadcnButtonSize.Icon -> Triple(
-            ShadcnSpacing.sm,
-            ShadcnSpacing.sm,
-            ShadcnTypography.p
+            SparrowSpacing.sm,
+            SparrowSpacing.sm,
+            SparrowTypography.p
         )
     }
     
@@ -110,12 +121,12 @@ fun ShadcnButton(
         modifier = modifier
             .shadow(
                 elevation = if (enabled) elevation else 0.dp,
-                shape = RoundedCornerShape(ShadcnBorderRadius.md),
+                shape = RoundedCornerShape(SparrowBorderRadius.md),
                 ambientColor = colors.foreground.copy(alpha = 0.1f),
                 spotColor = colors.foreground.copy(alpha = 0.1f)
             ),
         enabled = enabled,
-        shape = RoundedCornerShape(ShadcnBorderRadius.md),
+        shape = RoundedCornerShape(SparrowBorderRadius.md),
         colors = ButtonDefaults.buttonColors(
             containerColor = backgroundColor,
             contentColor = contentColor,
@@ -134,7 +145,7 @@ fun ShadcnButton(
         )
     ) {
         Row(
-            horizontalArrangement = Arrangement.spacedBy(ShadcnSpacing.xs),
+            horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.xs),
             verticalAlignment = Alignment.CenterVertically
         ) {
             leadingIcon?.let {
@@ -169,26 +180,67 @@ fun ShadcnTextButton(
     leadingIcon: ImageVector? = null,
     trailingIcon: ImageVector? = null
 ) {
-    ShadcnButton(
-        onClick = onClick,
-        modifier = modifier,
-        variant = variant,
-        size = size,
-        enabled = enabled,
-        leadingIcon = leadingIcon,
-        trailingIcon = trailingIcon
-    ) {
-        val textStyle = when (size) {
-            ShadcnButtonSize.Small -> ShadcnTypography.small
-            ShadcnButtonSize.Default -> ShadcnTypography.p
-            ShadcnButtonSize.Large -> ShadcnTypography.large
-            ShadcnButtonSize.Icon -> ShadcnTypography.p
+    // Map Shadcn variants to Stitch button components
+    when (variant) {
+        ShadcnButtonVariant.Default -> {
+            StitchPrimaryButton(
+                onClick = onClick,
+                text = text,
+                modifier = modifier,
+                enabled = enabled,
+                icon = leadingIcon ?: trailingIcon
+            )
         }
-        
-        Text(
-            text = text,
-            style = textStyle.copy(fontWeight = FontWeight.Medium)
-        )
+        ShadcnButtonVariant.Secondary -> {
+            StitchSecondaryButton(
+                onClick = onClick,
+                text = text,
+                modifier = modifier,
+                enabled = enabled
+            )
+        }
+        ShadcnButtonVariant.Outline -> {
+            StitchOutlineButton(
+                onClick = onClick,
+                text = text,
+                modifier = modifier,
+                enabled = enabled
+            )
+        }
+        ShadcnButtonVariant.Ghost -> {
+            StitchIconButton(
+                onClick = onClick,
+                icon = leadingIcon ?: trailingIcon ?: Icons.Default.Add,
+                variant = StitchIconButtonVariant.Secondary
+            )
+        }
+        ShadcnButtonVariant.Link -> {
+            StitchText(
+                text = text,
+                modifier = modifier.clickable(
+                    enabled = enabled,
+                    onClick = onClick
+                ),
+                color = androidx.compose.ui.graphics.Color.Blue // Use appropriate color from Stitch theme
+            )
+        }
+        ShadcnButtonVariant.Destructive -> {
+            StitchPrimaryButton(
+                onClick = onClick,
+                text = text,
+                modifier = modifier,
+                enabled = enabled
+            )
+            // Note: Would need to customize styling for destructive variant
+        }
+        ShadcnButtonVariant.Success -> {
+            StitchSuccessButton(
+                onClick = onClick,
+                text = text,
+                modifier = modifier,
+                enabled = enabled
+            )
+        }
     }
 }
 
@@ -202,25 +254,30 @@ fun ShadcnIconButton(
     enabled: Boolean = true,
     contentDescription: String? = null
 ) {
-    ShadcnButton(
+    // Map to Stitch IconButton
+    StitchIconButton(
         onClick = onClick,
+        icon = icon,
         modifier = modifier,
-        variant = variant,
-        size = size,
-        enabled = enabled
-    ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = contentDescription,
-            modifier = Modifier.size(20.dp)
-        )
-    }
+        variant = when (variant) {
+            ShadcnButtonVariant.Default -> StitchIconButtonVariant.Primary
+            ShadcnButtonVariant.Secondary -> StitchIconButtonVariant.Secondary
+            ShadcnButtonVariant.Success -> StitchIconButtonVariant.Success
+            else -> StitchIconButtonVariant.Secondary
+        }
+    )
 }
 
-// Helper data class for quadruple return type
+// Helper data classes for multiple return types
 private data class Quadruple<A, B, C, D>(
     val first: A,
     val second: B,
     val third: C,
     val fourth: D
+)
+
+private data class Triple<A, B, C>(
+    val first: A,
+    val second: B,
+    val third: C
 )
