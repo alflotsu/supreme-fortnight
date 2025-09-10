@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import io.peng.sparrowdelivery.ui.theme.ShadcnTheme
+import io.peng.sparrowdelivery.ui.theme.SparrowTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
@@ -83,7 +83,7 @@ fun ChatScreen(
         viewModel.markMessagesAsRead()
     }
     
-    ShadcnTheme {
+    SparrowTheme {
         Scaffold(
             topBar = {
                 ChatTopBar(
@@ -578,7 +578,7 @@ fun ChatScreenPreview() {
         )
     )
     
-    ShadcnTheme {
+    SparrowTheme {
         Surface {
             Column {
                 ChatTopBar(

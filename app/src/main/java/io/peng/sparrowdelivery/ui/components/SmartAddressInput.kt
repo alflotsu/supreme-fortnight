@@ -54,9 +54,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.peng.sparrowdelivery.data.services.PlaceDetails
 import io.peng.sparrowdelivery.data.services.PlacePrediction
 import io.peng.sparrowdelivery.data.services.PlacesAutocompleteService
-import io.peng.sparrowdelivery.ui.theme.ShadcnBorderRadius
-import io.peng.sparrowdelivery.ui.theme.ShadcnSpacing
-import io.peng.sparrowdelivery.ui.theme.ShadcnTheme
+import io.peng.sparrowdelivery.ui.theme.SparrowBorderRadius
+import io.peng.sparrowdelivery.ui.theme.SparrowSpacing
+import io.peng.sparrowdelivery.ui.theme.SparrowTheme
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.debounce
@@ -244,7 +244,7 @@ fun SmartAddressInput(
         }
     }
     
-    ShadcnTheme {
+    SparrowTheme {
         ExposedDropdownMenuBox(
             expanded = showDropdown && (localResults.isNotEmpty() || apiPredictions.isNotEmpty() || isLoadingApi),
             onExpandedChange = { expanded ->
@@ -284,9 +284,9 @@ fun SmartAddressInput(
                 onDismissRequest = { showDropdown = false },
                 modifier = Modifier
                     .heightIn(max = 320.dp)
-                    .clip(RoundedCornerShape(ShadcnBorderRadius.md))
-                    .background(ShadcnTheme.colors.background)
-                    .padding(vertical = ShadcnSpacing.xs)
+                    .clip(RoundedCornerShape(SparrowBorderRadius.md))
+                    .background(SparrowTheme.colors.background)
+                    .padding(vertical = SparrowSpacing.xs)
             ) {
                 // Show local results first (cost optimization)
                 if (localResults.isNotEmpty()) {
@@ -303,7 +303,7 @@ fun SmartAddressInput(
                             )
                         }
                         if (filteredRecents.isNotEmpty()) {
-                            HorizontalDivider(color = ShadcnTheme.colors.border)
+                            HorizontalDivider(color = SparrowTheme.colors.border)
                         }
                     }
                     
@@ -323,7 +323,7 @@ fun SmartAddressInput(
                     
                     // Separator between local and API results
                     if (apiPredictions.isNotEmpty()) {
-                        HorizontalDivider(color = ShadcnTheme.colors.border)
+                        HorizontalDivider(color = SparrowTheme.colors.border)
                     }
                 }
                 
@@ -333,19 +333,19 @@ fun SmartAddressInput(
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(ShadcnSpacing.md),
+                                .padding(SparrowSpacing.md),
                             horizontalArrangement = Arrangement.Center,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             CircularProgressIndicator(
                                 modifier = Modifier.size(16.dp),
                                 strokeWidth = 2.dp,
-                                color = ShadcnTheme.colors.primary
+                                color = SparrowTheme.colors.primary
                             )
-                            Spacer(modifier = Modifier.width(ShadcnSpacing.sm))
+                            Spacer(modifier = Modifier.width(SparrowSpacing.sm))
                             ShadcnSmallText(
                                 text = "Searching Google Places...",
-                                color = ShadcnTheme.colors.mutedForeground
+                                color = SparrowTheme.colors.mutedForeground
                             )
                         }
                     } else {
@@ -365,23 +365,23 @@ fun SmartAddressInput(
                             Column(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(ShadcnSpacing.md),
+                                    .padding(SparrowSpacing.md),
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.SearchOff,
                                     contentDescription = null,
-                                    tint = ShadcnTheme.colors.mutedForeground,
+                                    tint = SparrowTheme.colors.mutedForeground,
                                     modifier = Modifier.size(20.dp)
                                 )
-                                Spacer(modifier = Modifier.height(ShadcnSpacing.xs))
+                                Spacer(modifier = Modifier.height(SparrowSpacing.xs))
                                 ShadcnSmallText(
                                     text = "No places found",
-                                    color = ShadcnTheme.colors.mutedForeground
+                                    color = SparrowTheme.colors.mutedForeground
                                 )
                                 ShadcnSmallText(
                                     text = "Try a different search term",
-                                    color = ShadcnTheme.colors.mutedForeground
+                                    color = SparrowTheme.colors.mutedForeground
                                 )
                             }
                         }
@@ -394,8 +394,8 @@ fun SmartAddressInput(
             error?.let { errorMessage ->
                 ShadcnSmallText(
                     text = errorMessage,
-                    color = ShadcnTheme.colors.destructive,
-                    modifier = Modifier.padding(top = ShadcnSpacing.xs)
+                    color = SparrowTheme.colors.destructive,
+                    modifier = Modifier.padding(top = SparrowSpacing.xs)
                 )
             }
         }
@@ -411,22 +411,22 @@ private fun SmartAddressMenuSection(
         modifier = modifier
             .fillMaxWidth()
             .padding(
-                horizontal = ShadcnSpacing.md,
-                vertical = ShadcnSpacing.sm
+                horizontal = SparrowSpacing.md,
+                vertical = SparrowSpacing.sm
             )
             .background(
-                color = ShadcnTheme.colors.muted.copy(alpha = 0.3f),
-                shape = RoundedCornerShape(ShadcnBorderRadius.sm)
+                color = SparrowTheme.colors.muted.copy(alpha = 0.3f),
+                shape = RoundedCornerShape(SparrowBorderRadius.sm)
             )
-            .padding(ShadcnSpacing.sm)
+            .padding(SparrowSpacing.sm)
     ) {
         ShadcnSmallText(
             text = title,
-            color = ShadcnTheme.colors.primary
+            color = SparrowTheme.colors.primary
         )
         ShadcnSmallText(
             text = subtitle,
-            color = ShadcnTheme.colors.mutedForeground
+            color = SparrowTheme.colors.mutedForeground
         )
     }
 }
@@ -447,8 +447,8 @@ private fun SmartAddressMenuItem(
                     imageVector = address.icon,
                     contentDescription = null,
                     tint = when (address.type) {
-                        SavedAddressType.FAVORITE -> ShadcnTheme.colors.warning
-                        SavedAddressType.RECENT -> ShadcnTheme.colors.primary
+                        SavedAddressType.FAVORITE -> SparrowTheme.colors.warning
+                        SavedAddressType.RECENT -> SparrowTheme.colors.primary
                     },
                     modifier = Modifier.size(20.dp)
                 )
@@ -460,7 +460,7 @@ private fun SmartAddressMenuItem(
                     ) {
                         ShadcnParagraph(
                             text = address.name,
-                            color = ShadcnTheme.colors.foreground,
+                            color = SparrowTheme.colors.foreground,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                             modifier = Modifier.weight(1f, fill = false)
@@ -473,15 +473,15 @@ private fun SmartAddressMenuItem(
                                 SavedAddressType.RECENT -> "${address.useCount}x"
                             },
                             color = when (address.type) {
-                                SavedAddressType.FAVORITE -> ShadcnTheme.colors.warning
-                                SavedAddressType.RECENT -> ShadcnTheme.colors.mutedForeground
+                                SavedAddressType.FAVORITE -> SparrowTheme.colors.warning
+                                SavedAddressType.RECENT -> SparrowTheme.colors.mutedForeground
                             }
                         )
                     }
                     
                     ShadcnSmallText(
                         text = address.address,
-                        color = ShadcnTheme.colors.mutedForeground,
+                        color = SparrowTheme.colors.mutedForeground,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -508,14 +508,14 @@ private fun ApiPredictionMenuItem(
                 Icon(
                     imageVector = getIconForPlaceType(prediction.icon),
                     contentDescription = null,
-                    tint = ShadcnTheme.colors.mutedForeground,
+                    tint = SparrowTheme.colors.mutedForeground,
                     modifier = Modifier.size(20.dp)
                 )
                 
                 Column(modifier = Modifier.weight(1f)) {
                     ShadcnParagraph(
                         text = prediction.primaryText,
-                        color = ShadcnTheme.colors.foreground,
+                        color = SparrowTheme.colors.foreground,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -523,7 +523,7 @@ private fun ApiPredictionMenuItem(
                     if (prediction.secondaryText.isNotBlank()) {
                         ShadcnSmallText(
                             text = prediction.secondaryText,
-                            color = ShadcnTheme.colors.mutedForeground,
+                            color = SparrowTheme.colors.mutedForeground,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )
@@ -538,7 +538,7 @@ private fun ApiPredictionMenuItem(
                     }
                     ShadcnSmallText(
                         text = distanceText,
-                        color = ShadcnTheme.colors.mutedForeground
+                        color = SparrowTheme.colors.mutedForeground
                     )
                 }
             }

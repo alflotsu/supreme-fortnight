@@ -42,7 +42,7 @@ fun ShadcnAlert(
     onDismiss: (() -> Unit)? = null,
     action: (@Composable () -> Unit)? = null
 ) {
-    val colors = ShadcnTheme.colors
+    val colors = SparrowTheme.colors
     
     val (backgroundColor, borderColor, iconColor, titleColor, descriptionColor) = when (variant) {
         ShadcnAlertVariant.Default -> listOf(
@@ -95,17 +95,17 @@ fun ShadcnAlert(
         modifier = modifier
             .background(
                 color = backgroundColor as Color,
-                shape = RoundedCornerShape(ShadcnBorderRadius.lg)
+                shape = RoundedCornerShape(SparrowBorderRadius.lg)
             )
             .border(
                 width = 1.dp,
                 color = borderColor as Color,
-                shape = RoundedCornerShape(ShadcnBorderRadius.lg)
+                shape = RoundedCornerShape(SparrowBorderRadius.lg)
             )
-            .padding(ShadcnSpacing.lg)
+            .padding(SparrowSpacing.lg)
     ) {
         Row(
-            horizontalArrangement = Arrangement.spacedBy(ShadcnSpacing.md),
+            horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.md),
             verticalAlignment = Alignment.Top
         ) {
             // Icon
@@ -121,7 +121,7 @@ fun ShadcnAlert(
             // Content
             Column(
                 modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(ShadcnSpacing.xs)
+                verticalArrangement = Arrangement.spacedBy(SparrowSpacing.xs)
             ) {
                 title?.let {
                     ShadcnText(
@@ -141,7 +141,7 @@ fun ShadcnAlert(
                 
                 action?.let {
                     Box(
-                        modifier = Modifier.padding(top = ShadcnSpacing.sm)
+                        modifier = Modifier.padding(top = SparrowSpacing.sm)
                     ) {
                         it()
                     }
@@ -225,7 +225,7 @@ fun ShadcnBanner(
     onDismiss: (() -> Unit)? = null,
     action: (@Composable () -> Unit)? = null
 ) {
-    val colors = ShadcnTheme.colors
+    val colors = SparrowTheme.colors
     
     val (backgroundColor, textColor, borderColor) = when (variant) {
         ShadcnAlertVariant.Default -> Triple(
@@ -260,12 +260,12 @@ fun ShadcnBanner(
             .fillMaxWidth()
             .background(color = backgroundColor)
             .padding(
-                horizontal = ShadcnSpacing.lg,
-                vertical = ShadcnSpacing.md
+                horizontal = SparrowSpacing.lg,
+                vertical = SparrowSpacing.md
             )
     ) {
         Row(
-            horizontalArrangement = Arrangement.spacedBy(ShadcnSpacing.sm),
+            horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.sm),
             verticalAlignment = Alignment.CenterVertically
         ) {
             icon?.let {
@@ -286,7 +286,7 @@ fun ShadcnBanner(
             
             action?.let {
                 it()
-                Spacer(modifier = Modifier.width(ShadcnSpacing.sm))
+                Spacer(modifier = Modifier.width(SparrowSpacing.sm))
             }
             
             if (dismissible && onDismiss != null) {
@@ -313,7 +313,7 @@ fun ShadcnInlineAlert(
     variant: ShadcnAlertVariant = ShadcnAlertVariant.Destructive,
     icon: ImageVector? = null
 ) {
-    val colors = ShadcnTheme.colors
+    val colors = SparrowTheme.colors
     
     val (iconColor, textColor) = when (variant) {
         ShadcnAlertVariant.Default -> Pair(colors.foreground, colors.foreground)
@@ -333,7 +333,7 @@ fun ShadcnInlineAlert(
     
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(ShadcnSpacing.xs),
+        horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.xs),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(

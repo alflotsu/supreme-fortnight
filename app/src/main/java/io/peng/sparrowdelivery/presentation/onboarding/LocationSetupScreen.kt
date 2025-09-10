@@ -35,14 +35,14 @@ fun LocationSetupScreen(
         showAddressInput = true
     }
     
-    ShadcnTheme {
+    SparrowTheme {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(ShadcnSpacing.xl),
+                .padding(SparrowSpacing.xl),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(ShadcnSpacing.xxl))
+            Spacer(modifier = Modifier.height(SparrowSpacing.xxl))
             
             // Header section
             Column(
@@ -53,7 +53,7 @@ fun LocationSetupScreen(
                     modifier = Modifier
                         .size(100.dp)
                         .background(
-                            color = ShadcnTheme.colors.primary.copy(alpha = 0.1f),
+                            color = SparrowTheme.colors.primary.copy(alpha = 0.1f),
                             shape = CircleShape
                         ),
                     contentAlignment = Alignment.Center
@@ -61,31 +61,31 @@ fun LocationSetupScreen(
                     Icon(
                         imageVector = Icons.Default.LocationOn,
                         contentDescription = "Location",
-                        tint = ShadcnTheme.colors.primary,
+                        tint = SparrowTheme.colors.primary,
                         modifier = Modifier.size(48.dp)
                     )
                 }
                 
-                Spacer(modifier = Modifier.height(ShadcnSpacing.xl))
+                Spacer(modifier = Modifier.height(SparrowSpacing.xl))
                 
                 ShadcnHeading(
                     text = "Set Your Default Location",
                     level = 1,
-                    color = ShadcnTheme.colors.foreground,
+                    color = SparrowTheme.colors.foreground,
                     textAlign = TextAlign.Center
                 )
                 
-                Spacer(modifier = Modifier.height(ShadcnSpacing.md))
+                Spacer(modifier = Modifier.height(SparrowSpacing.md))
                 
                 ShadcnText(
                     text = "We'll use this as your preferred delivery address. You can always change it later!",
                     style = ShadcnTextStyle.Large,
-                    color = ShadcnTheme.colors.mutedForeground,
+                    color = SparrowTheme.colors.mutedForeground,
                     textAlign = TextAlign.Center
                 )
             }
             
-            Spacer(modifier = Modifier.height(ShadcnSpacing.xxl))
+            Spacer(modifier = Modifier.height(SparrowSpacing.xxl))
             
             // Address input section
             AnimatedVisibility(
@@ -108,7 +108,7 @@ fun LocationSetupScreen(
                         leadingIcon = Icons.Default.LocationOn
                     )
                     
-                    Spacer(modifier = Modifier.height(ShadcnSpacing.lg))
+                    Spacer(modifier = Modifier.height(SparrowSpacing.lg))
                     
                     // Address label selection
                     if (isAddressValid) {
@@ -116,13 +116,13 @@ fun LocationSetupScreen(
                             ShadcnText(
                                 text = "Label this address as:",
                                 style = ShadcnTextStyle.Small,
-                                color = ShadcnTheme.colors.mutedForeground
+                                color = SparrowTheme.colors.mutedForeground
                             )
                             
-                            Spacer(modifier = Modifier.height(ShadcnSpacing.sm))
+                            Spacer(modifier = Modifier.height(SparrowSpacing.sm))
                             
                             Row(
-                                horizontalArrangement = Arrangement.spacedBy(ShadcnSpacing.sm)
+                                horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.sm)
                             ) {
                                 AddressLabelChip(
                                     label = "Home",
@@ -143,7 +143,7 @@ fun LocationSetupScreen(
                         }
                     }
                     
-                    Spacer(modifier = Modifier.height(ShadcnSpacing.md))
+                    Spacer(modifier = Modifier.height(SparrowSpacing.md))
                     
                     // Current location button
                     ShadcnTextButton(
@@ -180,7 +180,7 @@ fun LocationSetupScreen(
                     enabled = isAddressValid
                 )
                 
-                Spacer(modifier = Modifier.height(ShadcnSpacing.md))
+                Spacer(modifier = Modifier.height(SparrowSpacing.md))
                 
                 // Skip button
                 ShadcnTextButton(
@@ -192,7 +192,7 @@ fun LocationSetupScreen(
                 )
             }
             
-            Spacer(modifier = Modifier.height(ShadcnSpacing.md))
+            Spacer(modifier = Modifier.height(SparrowSpacing.md))
         }
     }
 }

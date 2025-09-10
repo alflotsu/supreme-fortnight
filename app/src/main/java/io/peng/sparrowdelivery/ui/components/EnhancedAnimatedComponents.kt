@@ -66,7 +66,7 @@ fun EnhancedAnimatedCard(
         label = "card_elevation"
     )
     
-    val colors = ShadcnTheme.colors
+    val colors = SparrowTheme.colors
     val cardColors = when (variant) {
         ShadcnCardVariant.Default -> colors.card
         ShadcnCardVariant.Elevated -> colors.card
@@ -79,7 +79,7 @@ fun EnhancedAnimatedCard(
             .scale(scale)
             .shadow(
                 elevation = elevation,
-                shape = RoundedCornerShape(ShadcnBorderRadius.lg),
+                shape = RoundedCornerShape(SparrowBorderRadius.lg),
                 ambientColor = colors.foreground.copy(alpha = 0.1f),
                 spotColor = colors.foreground.copy(alpha = 0.1f)
             )
@@ -97,10 +97,10 @@ fun EnhancedAnimatedCard(
             containerColor = cardColors,
             contentColor = colors.cardForeground
         ),
-        shape = RoundedCornerShape(ShadcnBorderRadius.lg)
+        shape = RoundedCornerShape(SparrowBorderRadius.lg)
     ) {
         Column(
-            modifier = Modifier.padding(ShadcnSpacing.lg),
+            modifier = Modifier.padding(SparrowSpacing.lg),
             content = content
         )
     }
@@ -160,13 +160,13 @@ fun AnimatedListItem(
                     Icon(
                         imageVector = icon,
                         contentDescription = null,
-                        tint = ShadcnTheme.colors.primary,
+                        tint = SparrowTheme.colors.primary,
                         modifier = Modifier
                             .scale(iconScale)
                             .size(24.dp)
                     )
                     
-                    Spacer(modifier = Modifier.width(ShadcnSpacing.md))
+                    Spacer(modifier = Modifier.width(SparrowSpacing.md))
                 }
                 
                 // Text content with slide animation
@@ -188,7 +188,7 @@ fun AnimatedListItem(
                         ShadcnText(
                             text = title,
                             style = ShadcnTextStyle.Large,
-                            color = ShadcnTheme.colors.foreground
+                            color = SparrowTheme.colors.foreground
                         )
                     }
                     
@@ -200,7 +200,7 @@ fun AnimatedListItem(
                             ShadcnText(
                                 text = sub,
                                 style = ShadcnTextStyle.Small,
-                                color = ShadcnTheme.colors.mutedForeground
+                                color = SparrowTheme.colors.mutedForeground
                             )
                         }
                     }
@@ -235,8 +235,8 @@ fun <T> StaggeredAnimatedList(
     modifier: Modifier = Modifier,
     listState: LazyListState = remember { LazyListState() },
     staggerDelayMs: Long = 100L,
-    contentPadding: PaddingValues = PaddingValues(ShadcnSpacing.md),
-    verticalArrangement: Arrangement.Vertical = Arrangement.spacedBy(ShadcnSpacing.sm),
+    contentPadding: PaddingValues = PaddingValues(SparrowSpacing.md),
+    verticalArrangement: Arrangement.Vertical = Arrangement.spacedBy(SparrowSpacing.sm),
     itemContent: @Composable (item: T, index: Int, animationDelay: Long) -> Unit
 ) {
     LazyColumn(
@@ -282,13 +282,13 @@ fun ExpandableAnimatedCard(
             ShadcnText(
                 text = title,
                 style = ShadcnTextStyle.Large,
-                color = ShadcnTheme.colors.foreground
+                color = SparrowTheme.colors.foreground
             )
             
             Icon(
                 imageVector = icon,
                 contentDescription = if (isExpanded) "Collapse" else "Expand",
-                tint = ShadcnTheme.colors.primary,
+                tint = SparrowTheme.colors.primary,
                 modifier = Modifier
                     .size(20.dp)
                     .rotate(rotationAngle)
@@ -312,7 +312,7 @@ fun ExpandableAnimatedCard(
             ) + fadeOut()
         ) {
             Column(
-                modifier = Modifier.padding(top = ShadcnSpacing.md)
+                modifier = Modifier.padding(top = SparrowSpacing.md)
             ) {
                 expandedContent()
             }
@@ -326,8 +326,8 @@ fun AnimatedFloatingActionButton(
     onClick: () -> Unit,
     icon: ImageVector,
     modifier: Modifier = Modifier,
-    containerColor: androidx.compose.ui.graphics.Color = ShadcnTheme.colors.primary,
-    contentColor: androidx.compose.ui.graphics.Color = ShadcnTheme.colors.primaryForeground,
+    containerColor: androidx.compose.ui.graphics.Color = SparrowTheme.colors.primary,
+    contentColor: androidx.compose.ui.graphics.Color = SparrowTheme.colors.primaryForeground,
     hapticFeedback: Boolean = true
 ) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -388,7 +388,7 @@ fun AnimatedHeroSection(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(ShadcnSpacing.xl),
+                .padding(SparrowSpacing.xl),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // Title animation
@@ -407,8 +407,8 @@ fun AnimatedHeroSection(
                 ShadcnHeading(
                     text = title,
                     level = 1,
-                    color = ShadcnTheme.colors.foreground,
-                    modifier = Modifier.padding(bottom = ShadcnSpacing.md)
+                    color = SparrowTheme.colors.foreground,
+                    modifier = Modifier.padding(bottom = SparrowSpacing.md)
                 )
             }
             
@@ -428,8 +428,8 @@ fun AnimatedHeroSection(
                 ShadcnText(
                     text = subtitle,
                     style = ShadcnTextStyle.Large,
-                    color = ShadcnTheme.colors.mutedForeground,
-                    modifier = Modifier.padding(bottom = ShadcnSpacing.xl)
+                    color = SparrowTheme.colors.mutedForeground,
+                    modifier = Modifier.padding(bottom = SparrowSpacing.xl)
                 )
             }
             
@@ -447,7 +447,7 @@ fun AnimatedHeroSection(
                 )
             ) {
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(ShadcnSpacing.md),
+                    horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.md),
                     content = actions
                 )
             }

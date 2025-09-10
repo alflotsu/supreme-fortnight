@@ -53,7 +53,7 @@ fun EnhancedShadcnInput(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     hapticFeedback: Boolean = true
 ) {
-    val colors = ShadcnTheme.colors
+    val colors = SparrowTheme.colors
     val haptic = LocalHapticFeedback.current
     val focusRequester = remember { FocusRequester() }
     
@@ -121,9 +121,9 @@ fun EnhancedShadcnInput(
             ) {
                 Text(
                     text = labelText,
-                    style = ShadcnTypography.small,
+                    style = SparrowTypography.small,
                     color = labelColor,
-                    modifier = Modifier.padding(bottom = ShadcnSpacing.xs)
+                    modifier = Modifier.padding(bottom = SparrowSpacing.xs)
                 )
             }
         }
@@ -135,12 +135,12 @@ fun EnhancedShadcnInput(
                 .fillMaxWidth()
                 .background(
                     color = backgroundColor,
-                    shape = RoundedCornerShape(ShadcnBorderRadius.md)
+                    shape = RoundedCornerShape(SparrowBorderRadius.md)
                 )
                 .border(
                     width = borderWidth,
                     color = borderColor,
-                    shape = RoundedCornerShape(ShadcnBorderRadius.md)
+                    shape = RoundedCornerShape(SparrowBorderRadius.md)
                 )
         ) {
             BasicTextField(
@@ -149,7 +149,7 @@ fun EnhancedShadcnInput(
                 modifier = Modifier
                     .fillMaxWidth()
                     .focusRequester(focusRequester),
-                textStyle = ShadcnTypography.p.copy(color = colors.foreground),
+                textStyle = SparrowTypography.p.copy(color = colors.foreground),
                 keyboardOptions = keyboardOptions,
                 keyboardActions = keyboardActions,
                 singleLine = singleLine,
@@ -184,9 +184,9 @@ fun EnhancedShadcnInput(
             supportingText?.let { text ->
                 Text(
                     text = text,
-                    style = ShadcnTypography.small,
+                    style = SparrowTypography.small,
                     color = if (isError) colors.destructive else colors.mutedForeground,
-                    modifier = Modifier.padding(top = ShadcnSpacing.xs)
+                    modifier = Modifier.padding(top = SparrowSpacing.xs)
                 )
             }
         }
@@ -201,7 +201,7 @@ private fun InputDecorationBox(
     leadingIcon: ImageVector?,
     trailingIcon: ImageVector?,
     onTrailingIconClick: (() -> Unit)?,
-    colors: ShadcnThemeColors,
+    colors: SparrowThemeColors,
     enabled: Boolean,
     isFocused: Boolean
 ) {
@@ -236,7 +236,7 @@ private fun InputDecorationBox(
                     .scale(iconScale)
                     .size(18.dp)
             )
-            Spacer(modifier = Modifier.width(ShadcnSpacing.sm))
+            Spacer(modifier = Modifier.width(SparrowSpacing.sm))
         }
         
         // Text field content
@@ -247,7 +247,7 @@ private fun InputDecorationBox(
             if (value.isEmpty()) {
                 Text(
                     text = placeholder,
-                    style = ShadcnTypography.p,
+                    style = SparrowTypography.p,
                     color = colors.mutedForeground
                 )
             }
@@ -273,7 +273,7 @@ private fun InputDecorationBox(
                 label = "trailing_icon_scale"
             )
             
-            Spacer(modifier = Modifier.width(ShadcnSpacing.sm))
+            Spacer(modifier = Modifier.width(SparrowSpacing.sm))
             IconButton(
                 onClick = { onTrailingIconClick?.invoke() },
                 modifier = Modifier.size(24.dp)

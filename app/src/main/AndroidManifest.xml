@@ -33,28 +33,28 @@
             </intent-filter>
             
             <!-- Deep Link Support -->
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="sparrowdelivery" />
-            </intent-filter>
-            
-            <!-- HTTP/HTTPS App Links (optional for web integration) -->
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="sparrowdelivery.app" />
-            </intent-filter>
-            
-            <!-- External Booking Deep Links -->
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="sparrowdelivery" android:host="book" />
-            </intent-filter>
+<!--            <intent-filter android:autoVerify="true">-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+<!--                <data android:scheme="sparrowdelivery" />-->
+<!--            </intent-filter>-->
+<!--            -->
+<!--            &lt;!&ndash; HTTP/HTTPS App Links (optional for web integration) &ndash;&gt;-->
+<!--            <intent-filter android:autoVerify="true">-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+<!--                <data android:scheme="https" android:host="sparrowdelivery.app" />-->
+<!--            </intent-filter>-->
+<!--            -->
+<!--            &lt;!&ndash; External Booking Deep Links &ndash;&gt;-->
+<!--            <intent-filter android:autoVerify="true">-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+<!--                <data android:scheme="sparrowdelivery" android:host="book" />-->
+<!--            </intent-filter>-->
         </activity>
     </application>
 

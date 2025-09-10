@@ -47,7 +47,7 @@ fun TrackingScreen(
         position = CameraPosition.fromLatLngZoom(driverLocation, 14f)
     }
     
-    ShadcnTheme {
+    SparrowTheme {
         Column(
             modifier = modifier.fillMaxSize()
         ) {

@@ -52,15 +52,15 @@ fun ShadcnWheelDateTimePickerDialog(
             usePlatformDefaultWidth = false
          )
     ) {
-        ShadcnTheme {
+        SparrowTheme {
             Card(
                 modifier = modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp) // Add some margin from screen edges
                     .wrapContentHeight(),
-                shape = RoundedCornerShape(ShadcnBorderRadius.lg),
+                shape = RoundedCornerShape(SparrowBorderRadius.lg),
                 colors = CardDefaults.cardColors(
-                    containerColor = ShadcnTheme.colors.background
+                    containerColor = SparrowTheme.colors.background
                 ),
                 elevation = CardDefaults.cardElevation(
                     defaultElevation = 24.dp
@@ -69,9 +69,9 @@ fun ShadcnWheelDateTimePickerDialog(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(ShadcnSpacing.md),
+                        .padding(SparrowSpacing.md),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(ShadcnSpacing.lg)
+                    verticalArrangement = Arrangement.spacedBy(SparrowSpacing.lg)
                 ) {
                     // Header with sliding toggle
                     Column(
@@ -82,16 +82,16 @@ fun ShadcnWheelDateTimePickerDialog(
                         Column(modifier = Modifier.padding(top=8.dp)) {
                             Text(
                                 text = "Schedule Delivery",
-                                style = ShadcnTypography.h3.copy(
+                                style = SparrowTypography.h3.copy(
                                     fontWeight = FontWeight.SemiBold,
-                                    fontFamily = InterFontFamily
+                                    fontFamily = SparrowFontFamily
                                 ),
-                                color = ShadcnTheme.colors.foreground
+                                color = SparrowTheme.colors.foreground
                             )
                             Text(
                                 text = if (showDatePicker) "Select date" else "Select time",
-                                style = ShadcnTypography.muted,
-                                color = ShadcnTheme.colors.mutedForeground,
+                                style = SparrowTypography.muted,
+                                color = SparrowTheme.colors.mutedForeground,
                                 modifier = Modifier.padding(vertical = 8.dp)
                             )
                         }
@@ -117,7 +117,7 @@ fun ShadcnWheelDateTimePickerDialog(
                         )
                     }
                     
-                    HorizontalDivider(color = ShadcnTheme.colors.border)
+                    HorizontalDivider(color = SparrowTheme.colors.border)
                     
                     // Wheel Picker Content
                     Box(
@@ -138,15 +138,15 @@ fun ShadcnWheelDateTimePickerDialog(
                                 },
                                 selectorProperties = WheelPickerDefaults.selectorProperties(
                                     enabled = true,
-                                    shape = RoundedCornerShape(ShadcnBorderRadius.md),
-                                    color = ShadcnTheme.colors.muted.copy(alpha = 0.3f),
+                                    shape = RoundedCornerShape(SparrowBorderRadius.md),
+                                    color = SparrowTheme.colors.muted.copy(alpha = 0.3f),
                                     border = null
                                 ),
-                                textStyle = ShadcnTypography.p.copy(
-                                    fontFamily = InterFontFamily,
+                                textStyle = SparrowTypography.p.copy(
+                                    fontFamily = SparrowFontFamily,
                                     fontSize = 16.sp // Reduced from 18sp to prevent overflow
                                 ),
-                                textColor = ShadcnTheme.colors.foreground,
+                                textColor = SparrowTheme.colors.foreground,
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(200.dp)
@@ -159,15 +159,15 @@ fun ShadcnWheelDateTimePickerDialog(
                                 },
                                 selectorProperties = WheelPickerDefaults.selectorProperties(
                                     enabled = true,
-                                    shape = RoundedCornerShape(ShadcnBorderRadius.md),
-                                    color = ShadcnTheme.colors.muted.copy(alpha = 0.3f),
+                                    shape = RoundedCornerShape(SparrowBorderRadius.md),
+                                    color = SparrowTheme.colors.muted.copy(alpha = 0.3f),
                                     border = null
                                 ),
-                                textStyle = ShadcnTypography.p.copy(
-                                    fontFamily = InterFontFamily,
+                                textStyle = SparrowTypography.p.copy(
+                                    fontFamily = SparrowFontFamily,
                                     fontSize = 16.sp // Consistent with date picker
                                 ),
-                                textColor = ShadcnTheme.colors.foreground,
+                                textColor = SparrowTheme.colors.foreground,
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(200.dp)
@@ -176,12 +176,12 @@ fun ShadcnWheelDateTimePickerDialog(
                         }
                     }
                     
-                    HorizontalDivider(color = ShadcnTheme.colors.border)
+                    HorizontalDivider(color = SparrowTheme.colors.border)
                     
                     // Action buttons
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(ShadcnSpacing.md)
+                        horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.md)
                     ) {
                         ShadcnTextButton(
                             text = "Cancel",
@@ -212,24 +212,24 @@ fun ShadcnWheelDateTimePickerDialog(
                         ShadcnCard(variant = ShadcnCardVariant.Outlined) {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(ShadcnSpacing.sm)
+                                horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.sm)
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.DateRange,
                                     contentDescription = null,
-                                    tint = ShadcnTheme.colors.primary,
+                                    tint = SparrowTheme.colors.primary,
                                     modifier = Modifier.size(20.dp)
                                 )
                                 Column {
                                     Text(
                                         text = "Scheduled for:",
-                                        style = ShadcnTypography.small,
-                                        color = ShadcnTheme.colors.mutedForeground
+                                        style = SparrowTypography.small,
+                                        color = SparrowTheme.colors.mutedForeground
                                     )
                                     Text(
                                         text = "${selectedDate.dayOfWeek.name.lowercase().replaceFirstChar { it.uppercase() }}, ${selectedDate.monthValue}/${selectedDate.dayOfMonth}/${selectedDate.year} at ${selectedTime.hour.toString().padStart(2, '0')}:${selectedTime.minute.toString().padStart(2, '0')}",
-                                        style = ShadcnTypography.p.copy(fontWeight = FontWeight.Medium),
-                                        color = ShadcnTheme.colors.foreground
+                                        style = SparrowTypography.p.copy(fontWeight = FontWeight.Medium),
+                                        color = SparrowTheme.colors.foreground
                                     )
                                 }
                             }

@@ -39,7 +39,7 @@ fun OnboardingPageContent(
                 Text(
                     text = page.icon,
                     fontSize = 200.sp,
-                    color = ShadcnTheme.colors.primary.copy(alpha = 0.05f),
+                    color = SparrowTheme.colors.primary.copy(alpha = 0.05f),
                     textAlign = TextAlign.Center
                 )
             }
@@ -58,7 +58,7 @@ fun OnboardingProgressIndicator(
 ) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(ShadcnSpacing.sm),
+        horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.sm),
         verticalAlignment = Alignment.CenterVertically
     ) {
         repeat(totalPages) { index ->
@@ -75,9 +75,9 @@ fun OnboardingProgressIndicator(
                     .height(8.dp)
                     .background(
                         color = if (isActive) 
-                            ShadcnTheme.colors.primary 
+                            SparrowTheme.colors.primary 
                         else 
-                            ShadcnTheme.colors.muted,
+                            SparrowTheme.colors.muted,
                         shape = CircleShape
                     )
             )
@@ -97,7 +97,7 @@ fun OnboardingBottomSection(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(ShadcnSpacing.xl),
+            .padding(SparrowSpacing.xl),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         OnboardingProgressIndicator(
@@ -105,7 +105,7 @@ fun OnboardingBottomSection(
             totalPages = totalPages
         )
         
-        Spacer(modifier = Modifier.height(ShadcnSpacing.xl))
+        Spacer(modifier = Modifier.height(SparrowSpacing.xl))
         
         // Action buttons
         Row(

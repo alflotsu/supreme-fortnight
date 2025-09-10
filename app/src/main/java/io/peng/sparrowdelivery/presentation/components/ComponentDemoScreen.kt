@@ -32,14 +32,14 @@ fun ComponentDemoScreen(
         ShadcnSelectOption("tema", "Tema Port", "Industrial Area", Icons.Default.LocationOn)
     )
 
-    ShadcnTheme {
+    SparrowTheme {
         Box(modifier = Modifier.fillMaxSize()) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
-                    .padding(ShadcnSpacing.lg),
-                verticalArrangement = Arrangement.spacedBy(ShadcnSpacing.xl)
+                    .padding(SparrowSpacing.lg),
+                verticalArrangement = Arrangement.spacedBy(SparrowSpacing.xl)
             ) {
                 // Header
                 Row(
@@ -51,12 +51,12 @@ fun ComponentDemoScreen(
                         ShadcnHeading(
                             text = "Component Library",
                             level = 1,
-                            color = ShadcnTheme.colors.primary
+                            color = SparrowTheme.colors.primary
                         )
                         ShadcnText(
                             text = "shadcn/ui style components for Android",
                             style = ShadcnTextStyle.Muted,
-                            color = ShadcnTheme.colors.mutedForeground
+                            color = SparrowTheme.colors.mutedForeground
                         )
                     }
                     
@@ -73,11 +73,11 @@ fun ComponentDemoScreen(
                     description = "Professional typography with Inter font family"
                 ) {
                     Column(
-                        verticalArrangement = Arrangement.spacedBy(ShadcnSpacing.md)
+                        verticalArrangement = Arrangement.spacedBy(SparrowSpacing.md)
                     ) {
                         // App branding showcase
                         ShadcnCard(variant = ShadcnCardVariant.Default) {
-                            ShadcnHeading(text = "SparrowDelivery", level = 1, color = ShadcnTheme.colors.primary)
+                            ShadcnHeading(text = "SparrowDelivery", level = 1, color = SparrowTheme.colors.primary)
                             ShadcnMutedText("48px ExtraBold - Perfect for hero sections and branding")
                         }
                         
@@ -124,11 +124,11 @@ fun ComponentDemoScreen(
                     description = "Various button styles and states"
                 ) {
                     Column(
-                        verticalArrangement = Arrangement.spacedBy(ShadcnSpacing.md)
+                        verticalArrangement = Arrangement.spacedBy(SparrowSpacing.md)
                     ) {
                         // Primary buttons
                         Row(
-                            horizontalArrangement = Arrangement.spacedBy(ShadcnSpacing.sm)
+                            horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.sm)
                         ) {
                             ShadcnTextButton(
                                 text = "Primary",
@@ -149,7 +149,7 @@ fun ComponentDemoScreen(
                         
                         // Destructive and other variants
                         Row(
-                            horizontalArrangement = Arrangement.spacedBy(ShadcnSpacing.sm)
+                            horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.sm)
                         ) {
                             ShadcnTextButton(
                                 text = "Destructive",
@@ -170,7 +170,7 @@ fun ComponentDemoScreen(
                         
                         // Buttons with icons
                         Row(
-                            horizontalArrangement = Arrangement.spacedBy(ShadcnSpacing.sm)
+                            horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.sm)
                         ) {
                             ShadcnTextButton(
                                 text = "Send Message",
@@ -193,7 +193,7 @@ fun ComponentDemoScreen(
                         
                         // Button sizes
                         Row(
-                            horizontalArrangement = Arrangement.spacedBy(ShadcnSpacing.sm),
+                            horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.sm),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             ShadcnTextButton(
@@ -224,11 +224,11 @@ fun ComponentDemoScreen(
                     var selectedViewType by remember { mutableStateOf("list") }
                     
                     Column(
-                        verticalArrangement = Arrangement.spacedBy(ShadcnSpacing.md)
+                        verticalArrangement = Arrangement.spacedBy(SparrowSpacing.md)
                     ) {
                         // Delivery schedule toggle (matches the actual app implementation)
                         Column(
-                            verticalArrangement = Arrangement.spacedBy(ShadcnSpacing.sm)
+                            verticalArrangement = Arrangement.spacedBy(SparrowSpacing.sm)
                         ) {
                             ShadcnText(text = "Delivery Schedule", style = ShadcnTextStyle.Small)
                             SlidingToggle(
@@ -258,7 +258,7 @@ fun ComponentDemoScreen(
                         
                         // View type toggle (additional example)
                         Column(
-                            verticalArrangement = Arrangement.spacedBy(ShadcnSpacing.sm)
+                            verticalArrangement = Arrangement.spacedBy(SparrowSpacing.sm)
                         ) {
                             ShadcnText(text = "View Type", style = ShadcnTextStyle.Small)
                             SlidingToggle(
@@ -319,7 +319,7 @@ fun ComponentDemoScreen(
                     description = "Form inputs with validation and states"
                 ) {
                     Column(
-                        verticalArrangement = Arrangement.spacedBy(ShadcnSpacing.md)
+                        verticalArrangement = Arrangement.spacedBy(SparrowSpacing.md)
                     ) {
                         ShadcnEmailInput(
                             value = email,
@@ -365,7 +365,7 @@ fun ComponentDemoScreen(
                             ShadcnText(
                                 text = "Smart Address Input",
                                 style = ShadcnTextStyle.Small,
-                                color = ShadcnTheme.colors.foreground
+                                color = SparrowTheme.colors.foreground
                             )
                             SmartAddressInput(
                                 value = addressValue,
@@ -379,14 +379,14 @@ fun ComponentDemoScreen(
                             ShadcnText(
                                 text = "📍 Shows favorites & recents first • 💰 Reduces API costs",
                                 style = ShadcnTextStyle.Small,
-                                color = ShadcnTheme.colors.mutedForeground,
+                                color = SparrowTheme.colors.mutedForeground,
                                 modifier = Modifier.padding(top = 4.dp)
                             )
                         }
                         
                         // Input variants
                         Row(
-                            horizontalArrangement = Arrangement.spacedBy(ShadcnSpacing.sm)
+                            horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.sm)
                         ) {
                             ShadcnInput(
                                 value = "",
@@ -437,15 +437,15 @@ fun ComponentDemoScreen(
                     description = "Status indicators and labels"
                 ) {
                     Column(
-                        verticalArrangement = Arrangement.spacedBy(ShadcnSpacing.md)
+                        verticalArrangement = Arrangement.spacedBy(SparrowSpacing.md)
                     ) {
                         // Badge variants
                         Column(
-                            verticalArrangement = Arrangement.spacedBy(ShadcnSpacing.sm)
+                            verticalArrangement = Arrangement.spacedBy(SparrowSpacing.sm)
                         ) {
                             ShadcnText(text = "Badge Variants", style = ShadcnTextStyle.Small)
                             Row(
-                                horizontalArrangement = Arrangement.spacedBy(ShadcnSpacing.sm),
+                                horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.sm),
                                 modifier = Modifier.fillMaxWidth()
                             ) {
                                 ShadcnBadge(text = "Default", variant = ShadcnBadgeVariant.Default)
@@ -458,29 +458,29 @@ fun ComponentDemoScreen(
                         
                         // Status indicators
                         Column(
-                            verticalArrangement = Arrangement.spacedBy(ShadcnSpacing.sm)
+                            verticalArrangement = Arrangement.spacedBy(SparrowSpacing.sm)
                         ) {
                             ShadcnText(text = "Status Indicators", style = ShadcnTextStyle.Small)
                             Row(
-                                horizontalArrangement = Arrangement.spacedBy(ShadcnSpacing.sm),
+                                horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.sm),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Row(
-                                    horizontalArrangement = Arrangement.spacedBy(ShadcnSpacing.xs),
+                                    horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.xs),
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     ShadcnStatusDot(variant = ShadcnBadgeVariant.Success)
                                     ShadcnText(text = "Online", style = ShadcnTextStyle.Small)
                                 }
                                 Row(
-                                    horizontalArrangement = Arrangement.spacedBy(ShadcnSpacing.xs),
+                                    horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.xs),
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     ShadcnStatusDot(variant = ShadcnBadgeVariant.Destructive)
                                     ShadcnText(text = "Offline", style = ShadcnTextStyle.Small)
                                 }
                                 Row(
-                                    horizontalArrangement = Arrangement.spacedBy(ShadcnSpacing.xs),
+                                    horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.xs),
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     ShadcnStatusDot(variant = ShadcnBadgeVariant.Warning)
@@ -491,11 +491,11 @@ fun ComponentDemoScreen(
                         
                         // Removable chips
                         Column(
-                            verticalArrangement = Arrangement.spacedBy(ShadcnSpacing.sm)
+                            verticalArrangement = Arrangement.spacedBy(SparrowSpacing.sm)
                         ) {
                             ShadcnText(text = "Removable Chips", style = ShadcnTextStyle.Small)
                             Row(
-                                horizontalArrangement = Arrangement.spacedBy(ShadcnSpacing.sm)
+                                horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.sm)
                             ) {
                                 ShadcnChip(
                                     text = "Fast Delivery",
@@ -518,11 +518,11 @@ fun ComponentDemoScreen(
                         
                         // Notification badge
                         Column(
-                            verticalArrangement = Arrangement.spacedBy(ShadcnSpacing.sm)
+                            verticalArrangement = Arrangement.spacedBy(SparrowSpacing.sm)
                         ) {
                             ShadcnText(text = "Notification Badges", style = ShadcnTextStyle.Small)
                             Row(
-                                horizontalArrangement = Arrangement.spacedBy(ShadcnSpacing.lg),
+                                horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.lg),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Box {
@@ -559,7 +559,7 @@ fun ComponentDemoScreen(
                     description = "Selection controls with search"
                 ) {
                     Column(
-                        verticalArrangement = Arrangement.spacedBy(ShadcnSpacing.md)
+                        verticalArrangement = Arrangement.spacedBy(SparrowSpacing.md)
                     ) {
                         ShadcnSelect(
                             options = locations,
@@ -589,7 +589,7 @@ fun ComponentDemoScreen(
                     description = "Status messages and notifications"
                 ) {
                     Column(
-                        verticalArrangement = Arrangement.spacedBy(ShadcnSpacing.md)
+                        verticalArrangement = Arrangement.spacedBy(SparrowSpacing.md)
                     ) {
                         ShadcnAlert(
                             title = "Success",
@@ -641,7 +641,7 @@ fun ComponentDemoScreen(
                         
                         // Inline alerts
                         Column(
-                            verticalArrangement = Arrangement.spacedBy(ShadcnSpacing.xs)
+                            verticalArrangement = Arrangement.spacedBy(SparrowSpacing.xs)
                         ) {
                             ShadcnInlineAlert(
                                 message = "Please select a pickup location",
@@ -672,10 +672,10 @@ fun ComponentDemoScreen(
                     description = "Content containers and layouts"
                 ) {
                     Column(
-                        verticalArrangement = Arrangement.spacedBy(ShadcnSpacing.md)
+                        verticalArrangement = Arrangement.spacedBy(SparrowSpacing.md)
                     ) {
                         Row(
-                            horizontalArrangement = Arrangement.spacedBy(ShadcnSpacing.md)
+                            horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.md)
                         ) {
                             ShadcnCard(
                                 variant = ShadcnCardVariant.Default,
@@ -695,7 +695,7 @@ fun ComponentDemoScreen(
                         }
                         
                         Row(
-                            horizontalArrangement = Arrangement.spacedBy(ShadcnSpacing.md)
+                            horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.md)
                         ) {
                             ShadcnCard(
                                 variant = ShadcnCardVariant.Outlined,
@@ -717,7 +717,7 @@ fun ComponentDemoScreen(
                 }
 
                 // Spacer at the bottom
-                Spacer(modifier = Modifier.height(ShadcnSpacing.xl))
+                Spacer(modifier = Modifier.height(SparrowSpacing.xl))
             }
 
             // Toast overlay
@@ -729,7 +729,7 @@ fun ComponentDemoScreen(
                     onDismiss = { showToast = false },
                     modifier = Modifier
                         .align(Alignment.TopCenter)
-                        .padding(ShadcnSpacing.md)
+                        .padding(SparrowSpacing.md)
                 )
             }
         }

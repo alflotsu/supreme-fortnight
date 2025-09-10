@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.Dp
 import io.peng.sparrowdelivery.ui.icons.SparrowIconContext
 import io.peng.sparrowdelivery.ui.icons.SparrowIconWeight
 import io.peng.sparrowdelivery.ui.icons.SparrowIcons
-import io.peng.sparrowdelivery.ui.theme.ShadcnTheme
+import io.peng.sparrowdelivery.ui.theme.SparrowTheme
 
 /**
  * SparrowIcon - SF Symbols-inspired icon component
@@ -64,7 +64,7 @@ fun NavigationIcon(
     imageVector: ImageVector,
     contentDescription: String?,
     modifier: Modifier = Modifier,
-    tint: Color = ShadcnTheme.colors.foreground
+    tint: Color = SparrowTheme.colors.foreground
 ) {
     SparrowIcon(
         imageVector = imageVector,
@@ -117,7 +117,7 @@ fun ContentIcon(
     imageVector: ImageVector,
     contentDescription: String?,
     modifier: Modifier = Modifier,
-    tint: Color = ShadcnTheme.colors.mutedForeground
+    tint: Color = SparrowTheme.colors.mutedForeground
 ) {
     SparrowIcon(
         imageVector = imageVector,
@@ -142,27 +142,27 @@ fun DeliveryStatusIcon(
     val (icon, tint, description) = when (status) {
         DeliveryStatus.PENDING -> Triple(
             SparrowIcons.Delivery.Pending,
-            ShadcnTheme.colors.warning,
+            SparrowTheme.colors.warning,
             "Delivery pending"
         )
         DeliveryStatus.IN_TRANSIT -> Triple(
             SparrowIcons.Delivery.InTransit,
-            ShadcnTheme.colors.primary,
+            SparrowTheme.colors.primary,
             "In transit"
         )
         DeliveryStatus.DELIVERED -> Triple(
             SparrowIcons.Delivery.Delivered,
-            ShadcnTheme.colors.success,
+            SparrowTheme.colors.success,
             "Delivered"
         )
         DeliveryStatus.CANCELLED -> Triple(
             SparrowIcons.Delivery.Cancelled,
-            ShadcnTheme.colors.destructive,
+            SparrowTheme.colors.destructive,
             "Cancelled"
         )
         DeliveryStatus.DELAYED -> Triple(
             SparrowIcons.Delivery.Delayed,
-            ShadcnTheme.colors.warning,
+            SparrowTheme.colors.warning,
             "Delayed"
         )
     }
@@ -183,7 +183,7 @@ fun VehicleIcon(
     vehicleType: VehicleType,
     modifier: Modifier = Modifier,
     size: Dp = SparrowIcons.Size.Medium,
-    tint: Color = ShadcnTheme.colors.foreground
+    tint: Color = SparrowTheme.colors.foreground
 ) {
     val (icon, description) = when (vehicleType) {
         VehicleType.TRUCK -> SparrowIcons.Delivery.Truck to "Truck delivery"

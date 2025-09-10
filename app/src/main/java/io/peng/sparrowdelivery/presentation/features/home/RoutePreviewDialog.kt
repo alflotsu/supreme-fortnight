@@ -46,10 +46,10 @@ fun RoutePreviewDialog(
             usePlatformDefaultWidth = false
         )
     ) {
-        ShadcnTheme {
+        SparrowTheme {
             Surface(
                 modifier = modifier.fillMaxSize(),
-                color = ShadcnTheme.colors.background
+                color = SparrowTheme.colors.background
             ) {
             Column(
                 modifier = Modifier.fillMaxSize()
@@ -59,7 +59,7 @@ fun RoutePreviewDialog(
                     title = {
                         Text(
                             text = "Route Preview",
-                            color = ShadcnTheme.colors.foreground
+                            color = SparrowTheme.colors.foreground
                         )
                     },
                     navigationIcon = {
@@ -67,12 +67,12 @@ fun RoutePreviewDialog(
                             Icon(
                                 imageVector = Icons.Default.Close,
                                 contentDescription = "Close route preview",
-                                tint = ShadcnTheme.colors.foreground
+                                tint = SparrowTheme.colors.foreground
                             )
                         }
                     },
                     colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = ShadcnTheme.colors.background
+                        containerColor = SparrowTheme.colors.background
                     )
                 )
                 
@@ -97,7 +97,7 @@ fun RoutePreviewDialog(
                 if (routes.size > 1) {
                     Text(
                         text = "Choose your route",
-                        color = ShadcnTheme.colors.foreground,
+                        color = SparrowTheme.colors.foreground,
                         modifier = Modifier.padding(horizontal = 16.dp)
                     )
                     
@@ -173,9 +173,9 @@ fun RouteCard(
                 modifier = Modifier.size(32.dp),
                 shape = RoundedCornerShape(16.dp),
                 color = if (isSelected) {
-                    ShadcnTheme.colors.primary
+                    SparrowTheme.colors.primary
                 } else {
-                    ShadcnTheme.colors.muted
+                    SparrowTheme.colors.muted
                 }
             ) {
                 Box(
@@ -184,9 +184,9 @@ fun RouteCard(
                     Text(
                         text = routeNumber.toString(),
                         color = if (isSelected) {
-                            ShadcnTheme.colors.primaryForeground
+                            SparrowTheme.colors.primaryForeground
                         } else {
-                            ShadcnTheme.colors.mutedForeground
+                            SparrowTheme.colors.mutedForeground
                         },
                         fontWeight = FontWeight.Bold
                     )
@@ -208,11 +208,11 @@ fun RouteCard(
                     ) {
                         Text(
                             text = "⏱",
-                            color = ShadcnTheme.colors.mutedForeground
+                            color = SparrowTheme.colors.mutedForeground
                         )
                         Text(
                             text = formatDuration(route.duration),
-                            color = ShadcnTheme.colors.foreground,
+                            color = SparrowTheme.colors.foreground,
                             fontWeight = FontWeight.SemiBold
                         )
                     }
@@ -224,11 +224,11 @@ fun RouteCard(
                     ) {
                         Text(
                             text = "📏",
-                            color = ShadcnTheme.colors.mutedForeground
+                            color = SparrowTheme.colors.mutedForeground
                         )
                         Text(
                             text = formatDistance(route.distance),
-                            color = ShadcnTheme.colors.foreground
+                            color = SparrowTheme.colors.foreground
                         )
                     }
                 }
@@ -242,11 +242,11 @@ fun RouteCard(
                     ) {
                         Text(
                             text = "🚗",
-                            color = ShadcnTheme.colors.warning // Orange for traffic
+                            color = SparrowTheme.colors.warning // Orange for traffic
                         )
                         Text(
                             text = "Current traffic conditions included",
-                            color = ShadcnTheme.colors.mutedForeground
+                            color = SparrowTheme.colors.mutedForeground
                         )
                     }
                 }
@@ -262,9 +262,9 @@ fun RouteCard(
                     Text(
                         text = routeType,
                         color = if (isSelected) {
-                            ShadcnTheme.colors.primary
+                            SparrowTheme.colors.primary
                         } else {
-                            ShadcnTheme.colors.mutedForeground
+                            SparrowTheme.colors.mutedForeground
                         },
                         fontWeight = if (isSelected) FontWeight.Medium else FontWeight.Normal
                     )
@@ -276,7 +276,7 @@ fun RouteCard(
                 Surface(
                     modifier = Modifier.size(8.dp),
                     shape = RoundedCornerShape(4.dp),
-                    color = ShadcnTheme.colors.primary
+                    color = SparrowTheme.colors.primary
                 ) {}
             }
         }

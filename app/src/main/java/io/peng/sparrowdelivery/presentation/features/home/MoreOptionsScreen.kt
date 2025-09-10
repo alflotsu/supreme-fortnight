@@ -21,7 +21,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.peng.sparrowdelivery.ui.components.*
 import io.peng.sparrowdelivery.ui.theme.*
-import io.peng.sparrowdelivery.ui.theme.ShadcnTheme
+import io.peng.sparrowdelivery.ui.theme.SparrowTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,25 +31,25 @@ fun MoreOptionsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    ShadcnTheme {
+    SparrowTheme {
         Scaffold(
-            containerColor = ShadcnTheme.colors.background,
+            containerColor = SparrowTheme.colors.background,
             topBar = {
                 TopAppBar(
-                    title = { Text("Delivery Options", color = ShadcnTheme.colors.foreground) },
+                    title = { Text("Delivery Options", color = SparrowTheme.colors.foreground) },
                     navigationIcon = {
                         IconButton(onClick = onBackClick) {
                             Icon(
                                 Icons.Default.ArrowBack,
                                 contentDescription = "Back",
-                                tint = ShadcnTheme.colors.foreground
+                                tint = SparrowTheme.colors.foreground
                             )
                         }
                     },
                     colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = ShadcnTheme.colors.background,
-                        titleContentColor = ShadcnTheme.colors.foreground,
-                        navigationIconContentColor = ShadcnTheme.colors.foreground
+                        containerColor = SparrowTheme.colors.background,
+                        titleContentColor = SparrowTheme.colors.foreground,
+                        navigationIconContentColor = SparrowTheme.colors.foreground
                     )
                 )
             }
@@ -471,9 +471,9 @@ private fun TransportModeSection(
                                     text = mode.displayName,
                                     style = ShadcnTextStyle.P,
                                     color = if (isCompatible) 
-                                        ShadcnTheme.colors.foreground 
+                                        SparrowTheme.colors.foreground 
                                     else 
-                                        ShadcnTheme.colors.mutedForeground
+                                        SparrowTheme.colors.mutedForeground
                                 )
                                 
                                 if (!isCompatible) {
@@ -481,7 +481,7 @@ private fun TransportModeSection(
                                     ShadcnText(
                                         text = "⚠️ Too heavy",
                                         style = ShadcnTextStyle.Small,
-                                        color = ShadcnTheme.colors.destructive
+                                        color = SparrowTheme.colors.destructive
                                     )
                                 }
                             }
@@ -490,9 +490,9 @@ private fun TransportModeSection(
                                 text = "${mode.description} • Max ${mode.maxWeight}kg",
                                 style = ShadcnTextStyle.Small,
                                 color = if (isCompatible) 
-                                    ShadcnTheme.colors.mutedForeground 
+                                    SparrowTheme.colors.mutedForeground 
                                 else 
-                                    ShadcnTheme.colors.mutedForeground
+                                    SparrowTheme.colors.mutedForeground
                             )
                             
                             ShadcnText(
@@ -503,9 +503,9 @@ private fun TransportModeSection(
                                 },
                                 style = ShadcnTextStyle.Small,
                                 color = when {
-                                    mode.priceMultiplier < 1.0 -> ShadcnTheme.colors.success
-                                    mode.priceMultiplier > 1.0 -> ShadcnTheme.colors.warning
-                                    else -> ShadcnTheme.colors.mutedForeground
+                                    mode.priceMultiplier < 1.0 -> SparrowTheme.colors.success
+                                    mode.priceMultiplier > 1.0 -> SparrowTheme.colors.warning
+                                    else -> SparrowTheme.colors.mutedForeground
                                 }
                             )
                         }
@@ -539,7 +539,7 @@ private fun PriceEstimateCard(estimatedPrice: Double) {
                         Icons.Default.Info,
                         contentDescription = null,
                         modifier = Modifier.size(16.dp),
-                        tint = ShadcnTheme.colors.mutedForeground
+                        tint = SparrowTheme.colors.mutedForeground
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     ShadcnText(
@@ -551,7 +551,7 @@ private fun PriceEstimateCard(estimatedPrice: Double) {
             ShadcnText(
                 text = "GH₵ %.2f".format(estimatedPrice),
                 style = ShadcnTextStyle.H4,
-                color = ShadcnTheme.colors.success
+                color = SparrowTheme.colors.success
             )
         }
     }

@@ -55,7 +55,7 @@ fun AuthScreen(
         }
     }
     
-    ShadcnTheme {
+    SparrowTheme {
         // Add contextual haptic feedback for auth states
         ContextualHapticFeedback(
             isSuccess = uiState.isLoggedIn,
@@ -87,7 +87,7 @@ fun AuthScreen(
                     onClick = { /* No-op for container */ },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(ShadcnSpacing.lg),
+                        .padding(SparrowSpacing.lg),
                     hapticFeedback = false,
                     elevationAnimation = false,
                     scaleAnimation = false
@@ -120,23 +120,23 @@ private fun AuthContent(
     var passwordVisible by remember { mutableStateOf(false) }
     
     Column(
-        verticalArrangement = Arrangement.spacedBy(ShadcnSpacing.lg),
+        verticalArrangement = Arrangement.spacedBy(SparrowSpacing.lg),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // Header
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(ShadcnSpacing.sm)
+            verticalArrangement = Arrangement.spacedBy(SparrowSpacing.sm)
         ) {
             ShadcnHeading(
                 text = "Velourcity",
                 level = 1,
-                color = ShadcnTheme.colors.primary
+                color = SparrowTheme.colors.primary
             )
             ShadcnText(
                 text = if (uiState.isSignUpMode) "Create your account" else "Welcome back",
                 style = ShadcnTextStyle.Large,
-                color = ShadcnTheme.colors.mutedForeground
+                color = SparrowTheme.colors.mutedForeground
             )
         }
         
@@ -177,7 +177,7 @@ private fun AuthContent(
         
         // Action buttons
         Column(
-            verticalArrangement = Arrangement.spacedBy(ShadcnSpacing.md),
+            verticalArrangement = Arrangement.spacedBy(SparrowSpacing.md),
             modifier = Modifier.fillMaxWidth()
         ) {
             // Primary action button
@@ -214,9 +214,9 @@ private fun AuthContent(
             ShadcnText(
                 text = if (uiState.isSignUpMode) "Already have an account?" else "Don't have an account?",
                 style = ShadcnTextStyle.Small,
-                color = ShadcnTheme.colors.mutedForeground
+                color = SparrowTheme.colors.mutedForeground
             )
-            Spacer(modifier = Modifier.width(ShadcnSpacing.xs))
+            Spacer(modifier = Modifier.width(SparrowSpacing.xs))
             ShadcnTextButton(
                 text = if (uiState.isSignUpMode) "Sign In" else "Sign Up",
                 onClick = onToggleMode,

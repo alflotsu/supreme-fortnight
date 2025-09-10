@@ -116,7 +116,7 @@ fun EnhancedPullToRefresh(
                     .background(
                         Brush.verticalGradient(
                             colors = listOf(
-                                ShadcnTheme.colors.primary.copy(alpha = 0.1f),
+                                SparrowTheme.colors.primary.copy(alpha = 0.1f),
                                 Color.Transparent
                             )
                         )
@@ -129,7 +129,7 @@ fun EnhancedPullToRefresh(
                 Icon(
                     imageVector = Icons.Default.Refresh,
                     contentDescription = "Pull to refresh",
-                    tint = ShadcnTheme.colors.primary,
+                    tint = SparrowTheme.colors.primary,
                     modifier = Modifier
                         .size(24.dp)
                         .scale(scale)
@@ -209,8 +209,8 @@ fun ScrollToTopFab(
             .scale(scale)
             .alpha(alpha)
             .zIndex(1f),
-        containerColor = ShadcnTheme.colors.primary,
-        contentColor = ShadcnTheme.colors.primaryForeground
+        containerColor = SparrowTheme.colors.primary,
+        contentColor = SparrowTheme.colors.primaryForeground
     )
 }
 
@@ -219,8 +219,8 @@ fun ScrollToTopFab(
 fun EnhancedScrollIndicator(
     listState: LazyListState,
     modifier: Modifier = Modifier,
-    trackColor: Color = ShadcnTheme.colors.border,
-    thumbColor: Color = ShadcnTheme.colors.primary,
+    trackColor: Color = SparrowTheme.colors.border,
+    thumbColor: Color = SparrowTheme.colors.primary,
     thickness: Float = 4f,
     minThumbSize: Float = 20f
 ) {
@@ -381,8 +381,8 @@ fun StickyHeaderWithFade(
                 .background(
                     Brush.verticalGradient(
                         colors = listOf(
-                            ShadcnTheme.colors.background,
-                            ShadcnTheme.colors.background.copy(alpha = 0f)
+                            SparrowTheme.colors.background,
+                            SparrowTheme.colors.background.copy(alpha = 0f)
                         )
                     )
                 )

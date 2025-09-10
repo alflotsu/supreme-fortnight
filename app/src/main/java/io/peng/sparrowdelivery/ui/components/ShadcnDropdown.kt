@@ -51,7 +51,7 @@ fun <T> ShadcnSelect(
 ) {
     var expanded by remember { mutableStateOf(false) }
     var searchText by remember { mutableStateOf("") }
-    val colors = ShadcnTheme.colors
+    val colors = SparrowTheme.colors
     
     val filteredOptions = remember(searchText, options) {
         if (searchable && searchText.isNotEmpty()) {
@@ -71,7 +71,7 @@ fun <T> ShadcnSelect(
                 text = label,
                 style = ShadcnTextStyle.Small,
                 color = colors.foreground,
-                modifier = Modifier.padding(bottom = ShadcnSpacing.xs)
+                modifier = Modifier.padding(bottom = SparrowSpacing.xs)
             )
         }
         
@@ -103,18 +103,18 @@ fun <T> ShadcnSelect(
                     modifier = Modifier
                         .background(
                             color = colors.popover,
-                            shape = RoundedCornerShape(ShadcnBorderRadius.md)
+                            shape = RoundedCornerShape(SparrowBorderRadius.md)
                         )
                         .border(
                             width = 1.dp,
                             color = colors.border,
-                            shape = RoundedCornerShape(ShadcnBorderRadius.md)
+                            shape = RoundedCornerShape(SparrowBorderRadius.md)
                         )
                         .width(200.dp)
                         .heightIn(max = 300.dp)
                 ) {
                     LazyColumn(
-                        modifier = Modifier.padding(ShadcnSpacing.xs)
+                        modifier = Modifier.padding(SparrowSpacing.xs)
                     ) {
                         // Search input (if searchable)
                         if (searchable) {
@@ -125,7 +125,7 @@ fun <T> ShadcnSelect(
                                     placeholder = "Search options...",
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(bottom = ShadcnSpacing.xs)
+                                        .padding(bottom = SparrowSpacing.xs)
                                 )
                             }
                         }
@@ -149,7 +149,7 @@ fun <T> ShadcnSelect(
                                 Box(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(ShadcnSpacing.md),
+                                        .padding(SparrowSpacing.md),
                                     contentAlignment = Alignment.Center
                                 ) {
                                     ShadcnText(
@@ -178,24 +178,24 @@ private fun <T> ShadcnDropdownItem(
     showCheckbox: Boolean = false,
     modifier: Modifier = Modifier
 ) {
-    val colors = ShadcnTheme.colors
+    val colors = SparrowTheme.colors
     
     Box(
         modifier = modifier
             .fillMaxWidth()
             .background(
                 color = if (selected) colors.accent.copy(alpha = 0.1f) else Color.Transparent,
-                shape = RoundedCornerShape(ShadcnBorderRadius.sm)
+                shape = RoundedCornerShape(SparrowBorderRadius.sm)
             )
             .clickable(enabled = option.enabled) { onClick() }
             .padding(
-                horizontal = ShadcnSpacing.sm,
-                vertical = ShadcnSpacing.xs
+                horizontal = SparrowSpacing.sm,
+                vertical = SparrowSpacing.xs
             )
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(ShadcnSpacing.sm)
+            horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.sm)
         ) {
             // Checkbox for multi-select
             if (showCheckbox) {
@@ -297,8 +297,8 @@ fun <T> ShadcnCombobox(
             ShadcnText(
                 text = label,
                 style = ShadcnTextStyle.Small,
-                color = ShadcnTheme.colors.foreground,
-                modifier = Modifier.padding(bottom = ShadcnSpacing.xs)
+                color = SparrowTheme.colors.foreground,
+                modifier = Modifier.padding(bottom = SparrowSpacing.xs)
             )
         }
         
@@ -335,19 +335,19 @@ fun <T> ShadcnCombobox(
             Box(
                 modifier = Modifier
                     .background(
-                        color = ShadcnTheme.colors.popover,
-                        shape = RoundedCornerShape(ShadcnBorderRadius.md)
+                        color = SparrowTheme.colors.popover,
+                        shape = RoundedCornerShape(SparrowBorderRadius.md)
                     )
                     .border(
                         width = 1.dp,
-                        color = ShadcnTheme.colors.border,
-                        shape = RoundedCornerShape(ShadcnBorderRadius.md)
+                        color = SparrowTheme.colors.border,
+                        shape = RoundedCornerShape(SparrowBorderRadius.md)
                     )
                     .fillMaxWidth()
                     .heightIn(max = 200.dp)
             ) {
                 LazyColumn(
-                    modifier = Modifier.padding(ShadcnSpacing.xs)
+                    modifier = Modifier.padding(SparrowSpacing.xs)
                 ) {
                     items(filteredOptions.take(8)) { option ->
                         ShadcnDropdownItem(

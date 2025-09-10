@@ -47,7 +47,7 @@ fun ShadcnBadge(
     icon: ImageVector? = null,
     onClick: (() -> Unit)? = null
 ) {
-    val colors = ShadcnTheme.colors
+    val colors = SparrowTheme.colors
     
     val (backgroundColor, textColor, borderColor) = when (variant) {
         ShadcnBadgeVariant.Default -> Triple(
@@ -88,21 +88,21 @@ fun ShadcnBadge(
     }
     
     val horizontalPadding = when (size) {
-        ShadcnBadgeSize.Small -> ShadcnSpacing.xs
-        ShadcnBadgeSize.Default -> ShadcnSpacing.sm
-        ShadcnBadgeSize.Large -> ShadcnSpacing.md
+        ShadcnBadgeSize.Small -> SparrowSpacing.xs
+        ShadcnBadgeSize.Default -> SparrowSpacing.sm
+        ShadcnBadgeSize.Large -> SparrowSpacing.md
     }
     
     val verticalPadding = when (size) {
         ShadcnBadgeSize.Small -> 2.dp
         ShadcnBadgeSize.Default -> 4.dp
-        ShadcnBadgeSize.Large -> ShadcnSpacing.xs
+        ShadcnBadgeSize.Large -> SparrowSpacing.xs
     }
     
     val textStyle = when (size) {
-        ShadcnBadgeSize.Small -> ShadcnTypography.small.copy(fontWeight = FontWeight.Medium)
-        ShadcnBadgeSize.Default -> ShadcnTypography.small.copy(fontWeight = FontWeight.Medium)
-        ShadcnBadgeSize.Large -> ShadcnTypography.p.copy(fontWeight = FontWeight.Medium)
+        ShadcnBadgeSize.Small -> SparrowTypography.small.copy(fontWeight = FontWeight.Medium)
+        ShadcnBadgeSize.Default -> SparrowTypography.small.copy(fontWeight = FontWeight.Medium)
+        ShadcnBadgeSize.Large -> SparrowTypography.p.copy(fontWeight = FontWeight.Medium)
     }
     
     val iconSize = when (size) {
@@ -115,14 +115,14 @@ fun ShadcnBadge(
         modifier = modifier
             .background(
                 color = backgroundColor,
-                shape = RoundedCornerShape(ShadcnBorderRadius.md)
+                shape = RoundedCornerShape(SparrowBorderRadius.md)
             )
             .let { mod ->
                 if (borderColor != Color.Transparent) {
                     mod.border(
                         width = 1.dp,
                         color = borderColor,
-                        shape = RoundedCornerShape(ShadcnBorderRadius.md)
+                        shape = RoundedCornerShape(SparrowBorderRadius.md)
                     )
                 } else mod
             }
@@ -139,7 +139,7 @@ fun ShadcnBadge(
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(ShadcnSpacing.xs)
+            horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.xs)
         ) {
             icon?.let {
                 Icon(
@@ -172,7 +172,7 @@ fun ShadcnChip(
     onRemove: (() -> Unit)? = null,
     onClick: (() -> Unit)? = null
 ) {
-    val colors = ShadcnTheme.colors
+    val colors = SparrowTheme.colors
     
     val (backgroundColor, textColor, borderColor) = when (variant) {
         ShadcnBadgeVariant.Default -> Triple(
@@ -213,21 +213,21 @@ fun ShadcnChip(
     }
     
     val horizontalPadding = when (size) {
-        ShadcnBadgeSize.Small -> ShadcnSpacing.xs
-        ShadcnBadgeSize.Default -> ShadcnSpacing.sm
-        ShadcnBadgeSize.Large -> ShadcnSpacing.md
+        ShadcnBadgeSize.Small -> SparrowSpacing.xs
+        ShadcnBadgeSize.Default -> SparrowSpacing.sm
+        ShadcnBadgeSize.Large -> SparrowSpacing.md
     }
     
     val verticalPadding = when (size) {
         ShadcnBadgeSize.Small -> 2.dp
         ShadcnBadgeSize.Default -> 4.dp
-        ShadcnBadgeSize.Large -> ShadcnSpacing.xs
+        ShadcnBadgeSize.Large -> SparrowSpacing.xs
     }
     
     val textStyle = when (size) {
-        ShadcnBadgeSize.Small -> ShadcnTypography.small
-        ShadcnBadgeSize.Default -> ShadcnTypography.small
-        ShadcnBadgeSize.Large -> ShadcnTypography.p
+        ShadcnBadgeSize.Small -> SparrowTypography.small
+        ShadcnBadgeSize.Default -> SparrowTypography.small
+        ShadcnBadgeSize.Large -> SparrowTypography.p
     }
     
     val iconSize = when (size) {
@@ -240,12 +240,12 @@ fun ShadcnChip(
         modifier = modifier
             .background(
                 color = backgroundColor,
-                shape = RoundedCornerShape(ShadcnBorderRadius.lg)
+                shape = RoundedCornerShape(SparrowBorderRadius.lg)
             )
             .border(
                 width = 1.dp,
                 color = borderColor,
-                shape = RoundedCornerShape(ShadcnBorderRadius.lg)
+                shape = RoundedCornerShape(SparrowBorderRadius.lg)
             )
             .let { mod ->
                 if (onClick != null) {
@@ -259,7 +259,7 @@ fun ShadcnChip(
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(ShadcnSpacing.xs)
+            horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.xs)
         ) {
             icon?.let {
                 Icon(
@@ -299,7 +299,7 @@ fun ShadcnStatusDot(
     variant: ShadcnBadgeVariant = ShadcnBadgeVariant.Default,
     size: Dp = 8.dp
 ) {
-    val colors = ShadcnTheme.colors
+    val colors = SparrowTheme.colors
     
     val dotColor = when (variant) {
         ShadcnBadgeVariant.Default -> colors.primary
@@ -356,7 +356,7 @@ fun ShadcnTag(
     onClick: (() -> Unit)? = null,
     onRemove: (() -> Unit)? = null
 ) {
-    val colors = ShadcnTheme.colors
+    val colors = SparrowTheme.colors
     
     val actualVariant = if (selected) ShadcnBadgeVariant.Default else variant
     

@@ -53,13 +53,13 @@ fun <T> SlidingToggle(
         label = "sliding_toggle_offset"
     )
 
-    ShadcnTheme {
+    SparrowTheme {
         Box(
             modifier = modifier
                 .height(height)
                 .onSizeChanged { size -> containerWidth = size.width }
                 .clip(RoundedCornerShape(cornerRadius))
-                .background(ShadcnTheme.colors.muted)
+                .background(SparrowTheme.colors.muted)
                 .padding(2.dp)
         ) {
             // Sliding background indicator
@@ -72,7 +72,7 @@ fun <T> SlidingToggle(
                             height = height - 4.dp
                         )
                         .clip(RoundedCornerShape(cornerRadius - 2.dp))
-                        .background(ShadcnTheme.colors.background)
+                        .background(SparrowTheme.colors.background)
                         // Add subtle shadow/elevation effect
                         .background(
                             Color.Black.copy(alpha = 0.04f),
@@ -110,13 +110,13 @@ private fun <T> SlidingToggleOptionButton(
     cornerRadius: Dp = 18.dp
 ) {
     val textColor by animateColorAsState(
-        targetValue = if (isSelected) ShadcnTheme.colors.foreground else ShadcnTheme.colors.mutedForeground,
+        targetValue = if (isSelected) SparrowTheme.colors.foreground else SparrowTheme.colors.mutedForeground,
         animationSpec = tween(200),
         label = "text_color"
     )
     
     val iconTint by animateColorAsState(
-        targetValue = if (isSelected) ShadcnTheme.colors.primary else ShadcnTheme.colors.mutedForeground,
+        targetValue = if (isSelected) SparrowTheme.colors.primary else SparrowTheme.colors.mutedForeground,
         animationSpec = tween(200),
         label = "icon_tint"
     )
@@ -148,7 +148,7 @@ private fun <T> SlidingToggleOptionButton(
                 fontSize = 13.sp,
                 fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Medium,
                 color = textColor,
-                fontFamily = InterFontFamily
+                fontFamily = SparrowFontFamily
             )
         }
     }

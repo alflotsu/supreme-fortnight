@@ -17,6 +17,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import io.peng.sparrowdelivery.presentation.features.profile.ProfileDrawer
 import io.peng.sparrowdelivery.ui.components.*
 import io.peng.sparrowdelivery.ui.theme.*
+import io.peng.sparrowdelivery.ui.theme.StitchTheme
+import io.peng.sparrowdelivery.ui.theme.LocalStitchColorScheme
 import io.peng.sparrowdelivery.ui.components.ContextualHapticFeedback
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
@@ -139,7 +141,9 @@ fun HomeScreen(
         }
     }
     
-    ShadcnTheme {
+    StitchTheme {
+        val stitchColors = LocalStitchColorScheme.current
+        
         // Add contextual haptic feedback for map and delivery states
         ContextualHapticFeedback(
             isSuccess = uiState.isDriverFound,
@@ -154,44 +158,31 @@ fun HomeScreen(
             containerColor = Color.Transparent,
             sheetDragHandle = null, // Disable default handle - we have custom one
             sheetContent = {
-                // Ultra-thin gradient sheet wrapper
+                // Opaque sheet wrapper with Stitch design
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp))
                         .background(
-                            brush = Brush.verticalGradient(
-                                colors = listOf(
-                                    Color.White.copy(alpha = 0.95f),
-                                    Color.White.copy(alpha = 0.85f),
-                                    Color.White.copy(alpha = 0.75f)
-                                )
-                            )
+                            color = stitchColors.surface, // Solid opaque background
+                            shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
                         )
                         .border(
-                            width = 0.5.dp,
-                            color = Color.White.copy(alpha = 0.4f),
+                            width = 1.dp,
+                            color = stitchColors.outline.copy(alpha = 0.2f),
                             shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
                         )
                         .padding(horizontal = 20.dp, vertical = 16.dp)
                 ) {
                     Column {
-                        // Elegant gradient handle
+                        // Simple handle for opaque sheet
                         Box(
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally)
-                                .width(36.dp)
+                                .width(40.dp)
                                 .height(4.dp)
                                 .clip(RoundedCornerShape(2.dp))
-                                .background(
-                                    brush = Brush.horizontalGradient(
-                                        colors = listOf(
-                                            Color.Gray.copy(alpha = 0.3f),
-                                            Color.Gray.copy(alpha = 0.5f),
-                                            Color.Gray.copy(alpha = 0.3f)
-                                        )
-                                    )
-                                )
+                                .background(stitchColors.outline.copy(alpha = 0.6f))
                         )
                         
                         Spacer(modifier = Modifier.height(16.dp))
@@ -386,8 +377,8 @@ fun HomeScreen(
                         .align(Alignment.TopEnd)
                         .padding(16.dp)
                         .padding(top = 32.dp),
-                    containerColor = ShadcnColors.Primary,
-                    contentColor = ShadcnColors.PrimaryForeground
+                    containerColor = SparrowColors.Primary,
+                    contentColor = SparrowColors.PrimaryForeground
                 ) {
                     Text(
                         "UI",
@@ -564,11 +555,11 @@ fun TimePickerDialog(
         properties = DialogProperties(usePlatformDefaultWidth = false),
         title = {
             Column {
-                Text("Select delivery time", color = ShadcnTheme.colors.foreground)
+                Text("Select delivery time", color = LocalStitchColorScheme.current.onSurface)
                 selectedDate?.let { millis ->
                     Text(
                         text = SimpleDateFormat("EEEE, MMM dd, yyyy", Locale.getDefault()).format(Date(millis)),
-                        color = ShadcnTheme.colors.mutedForeground
+                        color = LocalStitchColorScheme.current.textSecondary
                     )
                 }
             }
@@ -670,7 +661,7 @@ fun FindingDriversOverlay(
                             .fillMaxSize()
                             .scale(scale)
                             .background(
-                                ShadcnTheme.colors.primary.copy(alpha = alpha * 0.3f),
+                                SparrowTheme.colors.primary.copy(alpha = alpha * 0.3f),
                                 CircleShape
                             )
                     )
@@ -681,7 +672,7 @@ fun FindingDriversOverlay(
                             .size(80.dp)
                             .scale(scale * 0.8f)
                             .background(
-                                ShadcnTheme.colors.primary.copy(alpha = alpha * 0.6f),
+                                SparrowTheme.colors.primary.copy(alpha = alpha * 0.6f),
                                 CircleShape
                             )
                     )
@@ -692,13 +683,13 @@ fun FindingDriversOverlay(
                         modifier = Modifier
                             .size(50.dp)
                             .background(
-                                ShadcnTheme.colors.primary,
+                                SparrowTheme.colors.primary,
                                 CircleShape
                             )
                     ) {
                         Text(
                             text = "🚗",
-                            color = ShadcnTheme.colors.primaryForeground
+                            color = SparrowTheme.colors.primaryForeground
                         )
                     }
                 }
@@ -736,7 +727,7 @@ fun FindingDriversOverlay(
                                     modifier = Modifier
                                         .size(8.dp)
                                         .background(
-                                            ShadcnTheme.colors.success,
+                                            SparrowTheme.colors.success,
                                             CircleShape
                                         )
                                         .padding(top = 4.dp)
@@ -763,7 +754,7 @@ fun FindingDriversOverlay(
                                     modifier = Modifier
                                         .size(8.dp)
                                         .background(
-                                            ShadcnTheme.colors.destructive,
+                                            SparrowTheme.colors.destructive,
                                             CircleShape
                                         )
                                         .padding(top = 4.dp)
@@ -783,7 +774,7 @@ fun FindingDriversOverlay(
 
                             HorizontalDivider(
                                 modifier = Modifier.padding(vertical = 8.dp),
-                                color = ShadcnTheme.colors.border
+                                color = SparrowTheme.colors.border
                             )
 
                             // Estimated price
@@ -799,7 +790,7 @@ fun FindingDriversOverlay(
                                 ShadcnText(
                                     text = "₵ ${String.format(Locale.US, "%.2f", estimatedPrice)}",
                                     style = ShadcnTextStyle.H4,
-                                    color = ShadcnTheme.colors.success
+                                    color = SparrowTheme.colors.success
                                 )
                             }
                         }
@@ -830,7 +821,7 @@ fun FindingDriversOverlay(
                                     .size(8.dp)
                                     .scale(dotScale)
                                     .background(
-                                        ShadcnTheme.colors.primary,
+                                        SparrowTheme.colors.primary,
                                         CircleShape
                                     )
                             )
