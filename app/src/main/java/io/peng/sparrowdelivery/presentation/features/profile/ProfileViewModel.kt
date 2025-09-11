@@ -68,6 +68,9 @@ data class PaymentMethod(
 
 data class ProfileUiState(
     val userProfile: UserProfile = UserProfile(),
+    val recentOrders: List<Order> = emptyList(),
+    val savedAddresses: List<SavedAddress> = emptyList(),
+    val notificationPreferences: NotificationPreferences = NotificationPreferences(),
     val isLoading: Boolean = false,
     val isEditing: Boolean = false,
     val showLogoutDialog: Boolean = false,
@@ -256,6 +259,9 @@ class ProfileViewModel : ViewModel() {
 
         _uiState.value = _uiState.value.copy(
             userProfile = sampleProfile,
+            recentOrders = sampleOrders,
+            savedAddresses = sampleAddresses,
+            notificationPreferences = sampleProfile.deliveryPreferences.notifications,
             isLoading = false
         )
     }

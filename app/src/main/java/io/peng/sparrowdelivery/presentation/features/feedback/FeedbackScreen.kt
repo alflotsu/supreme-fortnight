@@ -1,6 +1,11 @@
+package io.peng.sparrowdelivery.presentation.features.feedback
+
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -8,18 +13,24 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import io.peng.sparrowdelivery.ui.components.*
+import io.peng.sparrowdelivery.ui.components.stitch.*
 import io.peng.sparrowdelivery.ui.theme.*
 
+/**
+ * Modern FeedbackScreen using pure Stitch Design System
+ * Matches the HTML reference designs with dark/light mode support
+ */
 @Composable
 fun FeedbackScreen(
     onBackClick: () -> Unit,
     onSubmitFeedback: (FeedbackData) -> Unit
 ) {
     var feedbackType by remember { mutableStateOf(FeedbackType.GENERAL) }
-    var rating by remember { mutableStateOf(5) }
+    var rating by remember { mutableIntStateOf(5) }
     var feedbackText by remember { mutableStateOf("") }
     var isSubmitted by remember { mutableStateOf(false) }
     
@@ -56,138 +67,124 @@ private fun FeedbackSubmissionScreen(
     onSubmit: () -> Unit,
     onBackClick: () -> Unit
 ) {
-    SparrowTheme {
+    StitchTheme {
+        val stitchColors = LocalStitchColorScheme.current
+        
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(SparrowTheme.colors.background)
+                .background(stitchColors.background)
         ) {
             // Header
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(SparrowSpacing.lg),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.md)
-                ) {
-                    ShadcnIconButton(
-                        icon = Icons.Default.ArrowBack,
-                        onClick = onBackClick,
-                        contentDescription = "Back"
-                    )
-                    ShadcnHeading(
-                        text = "Send Feedback",
-                        level = 3
-                    )
-                }
-            }
+            FeedbackHeader(onBackClick = onBackClick)
             
             // Content
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
-                    .padding(SparrowSpacing.lg),
-                verticalArrangement = Arrangement.spacedBy(SparrowSpacing.lg)
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
-                SparrowCard(
-                    modifier = Modifier.fillMaxWidth(),
-                    variant = ShadcnCardVariant.Default
-                ) {
-                    Column(
-                        modifier = Modifier.padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(16.dp)
-                    ) {
-                        // Feedback Type Selection
-                        Column(
-                            verticalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            ShadcnText(
-                                text = "Feedback Type",
-                                style = ShadcnTextStyle.H4
-                            )
-                            
-                            ShadcnSelect(
-                                options = FeedbackType.entries.map { 
-                                    ShadcnSelectOption(it, it.displayName, it.description) 
-                                },
-                                selectedOption = ShadcnSelectOption(feedbackType, feedbackType.displayName, feedbackType.description),
-                                onOptionSelected = { onFeedbackTypeChange(it.value) },
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                        }
-                        
-                        HorizontalDivider()
-                        
-                        // Rating
-                        Column(
-                            verticalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            ShadcnText(
-                                text = "Overall Rating",
-                                style = ShadcnTextStyle.H4
-                            )
-                            
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.Center
-                            ) {
-                                RatingBar(
-                                    rating = rating,
-                                    onRatingChange = onRatingChange
-                                )
-                            }
-                            
-                            ShadcnText(
-                                text = when (rating) {
-                                    1 -> "Poor"
-                                    2 -> "Fair"
-                                    3 -> "Good"
-                                    4 -> "Very Good"
-                                    5 -> "Excellent"
-                                    else -> ""
-                                },
-                                style = ShadcnTextStyle.P,
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                        }
-                        
-                        HorizontalDivider()
-                        
-                        // Feedback Text
-                        Column(
-                            verticalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
-                            ShadcnText(
-                                text = "Your Feedback",
-                                style = ShadcnTextStyle.H4
-                            )
-                            
-                            ShadcnTextField(
-                                value = feedbackText,
-                                onValueChange = onFeedbackTextChange,
-                                label = "Describe your experience",
-                                placeholder = "Please share your detailed feedback...",
-                                modifier = Modifier.fillMaxWidth(),
-                                minLines = 4,
-                                maxLines = 6
-                            )
-                        }
-                    }
-                }
+                // Feedback Type Selection
+                FeedbackTypeSection(
+                    selectedType = feedbackType,
+                    onTypeChange = onFeedbackTypeChange
+                )
+                
+                // Rating Section
+                RatingSection(
+                    rating = rating,
+                    onRatingChange = onRatingChange
+                )
+                
+                // Feedback Text Section
+                FeedbackTextSection(
+                    feedbackText = feedbackText,
+                    onTextChange = onFeedbackTextChange
+                )
                 
                 // Submit Button
-                ShadcnButton(
+                StitchPrimaryButton(
+                    text = "Submit Feedback",
                     onClick = onSubmit,
                     modifier = Modifier.fillMaxWidth(),
-                    enabled = feedbackText.isNotBlank()
-                ) {
-                    Text(text = "Submit Feedback")
+                    enabled = feedbackText.isNotBlank(),
+                    icon = Icons.Default.Send
+                )
+                
+                // Bottom spacing
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+        }
+    }
+}
+
+@Composable
+private fun FeedbackHeader(
+    onBackClick: () -> Unit
+) {
+    val stitchColors = LocalStitchColorScheme.current
+    
+    Surface(
+        modifier = Modifier.fillMaxWidth(),
+        color = stitchColors.background.copy(alpha = 0.9f)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            StitchIconButton(
+                icon = Icons.Default.ArrowBack,
+                onClick = onBackClick,
+                variant = StitchIconButtonVariant.Secondary
+            )
+            
+            StitchHeading(
+                text = "Send Feedback",
+                level = 2,
+                textAlign = TextAlign.Center
+            )
+            
+            // Balance the layout
+            Spacer(modifier = Modifier.width(48.dp))
+        }
+    }
+}
+
+@Composable
+private fun FeedbackTypeSection(
+    selectedType: FeedbackType,
+    onTypeChange: (FeedbackType) -> Unit
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        StitchHeading(
+            text = "Feedback Type",
+            level = 4,
+            modifier = Modifier.padding(horizontal = 4.dp)
+        )
+        
+        StitchCard {
+            Column {
+                FeedbackType.entries.forEachIndexed { index, type ->
+                    FeedbackTypeItem(
+                        type = type,
+                        isSelected = type == selectedType,
+                        onClick = { onTypeChange(type) }
+                    )
+                    
+                    if (index < FeedbackType.entries.size - 1) {
+                        val stitchColors = LocalStitchColorScheme.current
+                        HorizontalDivider(
+                            modifier = Modifier.padding(start = 16.dp),
+                            color = stitchColors.outline
+                        )
+                    }
                 }
             }
         }
@@ -195,19 +192,149 @@ private fun FeedbackSubmissionScreen(
 }
 
 @Composable
-private fun RatingBar(
+private fun FeedbackTypeItem(
+    type: FeedbackType,
+    isSelected: Boolean,
+    onClick: () -> Unit
+) {
+    val stitchColors = LocalStitchColorScheme.current
+    
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() }
+            .padding(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        // Selection indicator
+        RadioButton(
+            selected = isSelected,
+            onClick = onClick,
+            colors = RadioButtonDefaults.colors(
+                selectedColor = stitchColors.primary
+            )
+        )
+        
+        // Type info
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            StitchText(
+                text = type.displayName,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
+            )
+            StitchText(
+                text = type.description,
+                style = MaterialTheme.typography.bodyMedium,
+                color = stitchColors.textSecondary
+            )
+        }
+    }
+}
+
+@Composable
+private fun RatingSection(
     rating: Int,
     onRatingChange: (Int) -> Unit
 ) {
-    Row(
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    val stitchColors = LocalStitchColorScheme.current
+    
+    Column(
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        for (i in 1..5) {
-            ShadcnIconButton(
-                icon = if (i <= rating) Icons.Default.Star else Icons.Default.StarBorder,
-                onClick = { onRatingChange(i) },
-                contentDescription = "Rate $i stars"
-            )
+        StitchHeading(
+            text = "Overall Rating",
+            level = 4,
+            modifier = Modifier.padding(horizontal = 4.dp)
+        )
+        
+        StitchCard {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                // Star rating
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    for (i in 1..5) {
+                        IconButton(
+                            onClick = { onRatingChange(i) }
+                        ) {
+                            Icon(
+                                imageVector = if (i <= rating) Icons.Default.Star else Icons.Default.StarBorder,
+                                contentDescription = "Rate $i stars",
+                                tint = if (i <= rating) stitchColors.accent else stitchColors.textMuted,
+                                modifier = Modifier.size(32.dp)
+                            )
+                        }
+                    }
+                }
+                
+                // Rating label
+                StitchText(
+                    text = when (rating) {
+                        1 -> "Poor"
+                        2 -> "Fair"
+                        3 -> "Good"
+                        4 -> "Very Good"
+                        5 -> "Excellent"
+                        else -> ""
+                    },
+                    style = MaterialTheme.typography.titleMedium,
+                    color = stitchColors.primary,
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun FeedbackTextSection(
+    feedbackText: String,
+    onTextChange: (String) -> Unit
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        StitchHeading(
+            text = "Your Feedback",
+            level = 4,
+            modifier = Modifier.padding(horizontal = 4.dp)
+        )
+        
+        StitchCard {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                StitchTextField(
+                    value = feedbackText,
+                    onValueChange = onTextChange,
+                    label = "Describe your experience",
+                    placeholder = "Please share your detailed feedback...",
+                    modifier = Modifier.fillMaxWidth(),
+                    maxLines = 6,
+                    singleLine = false
+                )
+                
+                val stitchColors = LocalStitchColorScheme.current
+                StitchText(
+                    text = "${feedbackText.length}/500 characters",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = stitchColors.textMuted,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.End
+                )
+            }
         }
     }
 }
@@ -217,70 +344,73 @@ private fun FeedbackConfirmationScreen(
     onBackToFeedback: () -> Unit,
     onExit: () -> Unit
 ) {
-    SparrowTheme {
+    StitchTheme {
+        val stitchColors = LocalStitchColorScheme.current
+        
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(SparrowTheme.colors.background)
-                .padding(SparrowSpacing.lg),
+                .background(stitchColors.background)
+                .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             // Success Icon
             Box(
                 modifier = Modifier
-                    .size(80.dp)
-                    .background(SparrowTheme.colors.success.copy(alpha = 0.1f), androidx.compose.foundation.shape.CircleShape),
+                    .size(120.dp)
+                    .clip(CircleShape)
+                    .background(stitchColors.accent.copy(alpha = 0.1f)),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    imageVector = Icons.Default.Check,
+                    imageVector = Icons.Default.CheckCircle,
                     contentDescription = null,
-                    tint = SparrowTheme.colors.success,
-                    modifier = Modifier.size(40.dp)
+                    tint = stitchColors.accent,
+                    modifier = Modifier.size(60.dp)
                 )
             }
             
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(32.dp))
             
             // Title
-            ShadcnHeading(
+            StitchHeading(
                 text = "Thank You!",
-                level = 2,
+                level = 1,
                 textAlign = TextAlign.Center
             )
             
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             
             // Description
-            ShadcnText(
+            StitchText(
                 text = "Your feedback has been submitted successfully. We appreciate you taking the time to help us improve our service.",
-                style = ShadcnTextStyle.P,
+                style = MaterialTheme.typography.bodyLarge,
+                color = stitchColors.textSecondary,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth(0.8f)
+                modifier = Modifier.fillMaxWidth()
             )
             
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(48.dp))
             
             // Buttons
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                ShadcnButton(
+                StitchPrimaryButton(
+                    text = "Back to App",
+                    onClick = onExit,
+                    modifier = Modifier.fillMaxWidth(),
+                    icon = Icons.Default.Home
+                )
+                
+                StitchOutlineButton(
+                    text = "Send More Feedback",
                     onClick = onBackToFeedback,
                     modifier = Modifier.fillMaxWidth(),
-                    variant = ShadcnButtonVariant.Outline
-                ) {
-                    Text(text = "Send More Feedback")
-                }
-                
-                ShadcnButton(
-                    onClick = onExit,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(text = "Back to App")
-                }
+                    icon = Icons.Default.Feedback
+                )
             }
         }
     }

@@ -8,7 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
-import io.peng.sparrowdelivery.ui.theme.SparrowTheme
+import io.peng.sparrowdelivery.ui.theme.StitchTheme
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -25,7 +25,7 @@ fun OnboardingFlow(
     )
     val scope = rememberCoroutineScope()
     
-    SparrowTheme {
+    StitchTheme {
         Box(modifier = Modifier.fillMaxSize()) {
             // Main content with horizontal pager
             HorizontalPager(

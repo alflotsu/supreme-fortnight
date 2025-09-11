@@ -7,7 +7,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import io.peng.sparrowdelivery.ui.components.stitch.*
 
-enum class ShadcnTextStyle {
+enum class TextStyle {
     H1,
     H2,
     H3,
@@ -20,10 +20,10 @@ enum class ShadcnTextStyle {
 }
 
 @Composable
-fun ShadcnText(
+fun SText(
     text: String,
     modifier: Modifier = Modifier,
-    style: ShadcnTextStyle = ShadcnTextStyle.P,
+    style: TextStyle = TextStyle.P,
     color: Color? = null,
     textAlign: TextAlign? = null,
     maxLines: Int = Int.MAX_VALUE,
@@ -31,11 +31,11 @@ fun ShadcnText(
 ) {
     // Map to StitchText or StitchHeading based on style
     when (style) {
-        ShadcnTextStyle.H1, ShadcnTextStyle.H2, ShadcnTextStyle.H3, ShadcnTextStyle.H4 -> {
+        TextStyle.H1, TextStyle.H2, TextStyle.H3, TextStyle.H4 -> {
             val level = when (style) {
-                ShadcnTextStyle.H1 -> 1
-                ShadcnTextStyle.H2 -> 2
-                ShadcnTextStyle.H3 -> 3
+                TextStyle.H1 -> 1
+                TextStyle.H2 -> 2
+                TextStyle.H3 -> 3
                 else -> 4
             }
             StitchHeading(

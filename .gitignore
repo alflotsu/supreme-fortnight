@@ -15,3 +15,7 @@
 local.properties
 styles/*
 /styles/
+# Backup components - migrated to Stitch design system
+backup_components/
+# Backup components - migrated to Stitch design system
+backup_components/

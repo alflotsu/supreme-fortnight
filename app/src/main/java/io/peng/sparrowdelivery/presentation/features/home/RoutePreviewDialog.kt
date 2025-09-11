@@ -22,7 +22,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.maps.android.compose.*
 import io.peng.sparrowdelivery.data.services.RouteInfo
-import io.peng.sparrowdelivery.ui.components.*
+import io.peng.sparrowdelivery.ui.components.stitch.*
 import io.peng.sparrowdelivery.ui.theme.*
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,10 +45,12 @@ fun RoutePreviewDialog(
             usePlatformDefaultWidth = false
         )
     ) {
-        SparrowTheme {
+        StitchTheme {
+            val stitchColors = LocalStitchColorScheme.current
+            
             Surface(
                 modifier = modifier.fillMaxSize(),
-                color = SparrowTheme.colors.background
+                color = stitchColors.background
             ) {
             Column(
                 modifier = Modifier.fillMaxSize()
@@ -56,9 +58,9 @@ fun RoutePreviewDialog(
                 // Header with close button
                 TopAppBar(
                     title = {
-                        Text(
+                        StitchText(
                             text = "Route Preview",
-                            color = SparrowTheme.colors.foreground
+                            color = stitchColors.onBackground
                         )
                     },
                     navigationIcon = {
@@ -66,12 +68,12 @@ fun RoutePreviewDialog(
                             Icon(
                                 imageVector = Icons.Default.Close,
                                 contentDescription = "Close route preview",
-                                tint = SparrowTheme.colors.foreground
+                                tint = stitchColors.onBackground
                             )
                         }
                     },
                     colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = SparrowTheme.colors.background
+                        containerColor = stitchColors.background
                     )
                 )
                 
@@ -94,9 +96,9 @@ fun RoutePreviewDialog(
                 
                 // Route alternatives list
                 if (routes.size > 1) {
-                    Text(
+                    StitchText(
                         text = "Choose your route",
-                        color = SparrowTheme.colors.foreground,
+                        color = stitchColors.onBackground,
                         modifier = Modifier.padding(horizontal = 16.dp)
                     )
                     
@@ -130,18 +132,18 @@ fun RoutePreviewDialog(
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
 
                 ) {
-                    SparrowTextButton(
+                    StitchTextButton(
                         text = "Cancel",
                         onClick = onCancel,
                         modifier = Modifier.weight(1f),
-                        variant = ShadcnButtonVariant.Outline
+                        variant = StitchButtonVariant.Outline
                     )
                     
-                    SparrowTextButton(
+                    StitchTextButton(
                         text = "Confirm Route",
                         onClick = onConfirm,
                         modifier = Modifier.weight(1f),
-                        variant = ShadcnButtonVariant.Default
+                        variant = StitchButtonVariant.Primary
                     )
                 }
             }
@@ -158,9 +160,11 @@ fun RouteCard(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    SparrowCard(
+    val stitchColors = LocalStitchColorScheme.current
+    
+    StitchCard(
         modifier = modifier.fillMaxWidth(),
-        variant = if (isSelected) ShadcnCardVariant.Elevated else ShadcnCardVariant.Default
+        variant = if (isSelected) StitchCardVariant.Elevated else StitchCardVariant.Default
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
@@ -172,20 +176,20 @@ fun RouteCard(
                 modifier = Modifier.size(32.dp),
                 shape = RoundedCornerShape(16.dp),
                 color = if (isSelected) {
-                    SparrowTheme.colors.primary
+                    stitchColors.primary
                 } else {
-                    SparrowTheme.colors.muted
+                    stitchColors.outline
                 }
             ) {
                 Box(
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(
+                    StitchText(
                         text = routeNumber.toString(),
                         color = if (isSelected) {
-                            SparrowTheme.colors.primaryForeground
+                            stitchColors.onPrimary
                         } else {
-                            SparrowTheme.colors.mutedForeground
+                            stitchColors.textSecondary
                         },
                         fontWeight = FontWeight.Bold
                     )
@@ -205,13 +209,13 @@ fun RouteCard(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        Text(
+                        StitchText(
                             text = "⏱",
-                            color = SparrowTheme.colors.mutedForeground
+                            color = stitchColors.textSecondary
                         )
-                        Text(
+                        StitchText(
                             text = formatDuration(route.duration),
-                            color = SparrowTheme.colors.foreground,
+                            color = stitchColors.onSurface,
                             fontWeight = FontWeight.SemiBold
                         )
                     }
@@ -221,13 +225,13 @@ fun RouteCard(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        Text(
+                        StitchText(
                             text = "📏",
-                            color = SparrowTheme.colors.mutedForeground
+                            color = stitchColors.textSecondary
                         )
-                        Text(
+                        StitchText(
                             text = formatDistance(route.distance),
-                            color = SparrowTheme.colors.foreground
+                            color = stitchColors.onSurface
                         )
                     }
                 }
@@ -239,13 +243,13 @@ fun RouteCard(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        Text(
+                        StitchText(
                             text = "🚗",
-                            color = SparrowTheme.colors.warning // Orange for traffic
+                            color = stitchColors.warning // Orange for traffic
                         )
-                        Text(
+                        StitchText(
                             text = "Current traffic conditions included",
-                            color = SparrowTheme.colors.mutedForeground
+                            color = stitchColors.textSecondary
                         )
                     }
                 }
@@ -258,12 +262,12 @@ fun RouteCard(
                 
                 if (routeNumber <= 3) { // Only show route type for first few routes
                     Spacer(modifier = Modifier.height(2.dp))
-                    Text(
+                    StitchText(
                         text = routeType,
                         color = if (isSelected) {
-                            SparrowTheme.colors.primary
+                            stitchColors.primary
                         } else {
-                            SparrowTheme.colors.mutedForeground
+                            stitchColors.textSecondary
                         },
                         fontWeight = if (isSelected) FontWeight.Medium else FontWeight.Normal
                     )
@@ -275,7 +279,7 @@ fun RouteCard(
                 Surface(
                     modifier = Modifier.size(8.dp),
                     shape = RoundedCornerShape(4.dp),
-                    color = SparrowTheme.colors.primary
+                    color = stitchColors.primary
                 ) {}
             }
         }

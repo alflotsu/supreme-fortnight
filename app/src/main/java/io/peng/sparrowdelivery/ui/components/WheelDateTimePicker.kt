@@ -19,6 +19,8 @@ import com.commandiron.wheel_picker_compose.WheelDatePicker
 import com.commandiron.wheel_picker_compose.WheelTimePicker
 import com.commandiron.wheel_picker_compose.core.WheelPickerDefaults
 import io.peng.sparrowdelivery.ui.theme.*
+import io.peng.sparrowdelivery.ui.components.stitch.StitchCard
+import androidx.compose.material3.MaterialTheme
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -43,15 +45,15 @@ fun WheelDateTimePickerDialog(
             usePlatformDefaultWidth = false
          )
     ) {
-        SparrowTheme {
+        StitchTheme {
             Card(
                 modifier = modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp) // Add some margin from screen edges
                     .wrapContentHeight(),
-                shape = RoundedCornerShape(SparrowBorderRadius.lg),
+                shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = SparrowTheme.colors.background
+                    containerColor = MaterialTheme.colorScheme.background
                 ),
                 elevation = CardDefaults.cardElevation(
                     defaultElevation = 24.dp
@@ -60,9 +62,9 @@ fun WheelDateTimePickerDialog(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(SparrowSpacing.md),
+                        .padding(16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(SparrowSpacing.lg)
+                    verticalArrangement = Arrangement.spacedBy(24.dp)
                 ) {
                     // Header with sliding toggle
                     Column(
@@ -172,12 +174,12 @@ fun WheelDateTimePickerDialog(
                     // Action buttons
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.md)
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         SparrowTextButton(
                             text = "Cancel",
                             onClick = onDismiss,
-                            variant = ShadcnButtonVariant.Outline,
+                            variant = ButtonVariant.Outline,
                             modifier = Modifier.weight(1f)
                         )
                         
@@ -193,17 +195,17 @@ fun WheelDateTimePickerDialog(
                                     onDateTimeSelected(millis)
                                 }
                             },
-                            variant = ShadcnButtonVariant.Default,
+                            variant = ButtonVariant.Default,
                             modifier = Modifier.weight(1f)
                         )
                     }
                     
                     // Preview of selected date/time
                     if (!showDatePicker) {
-                        SparrowCard(variant = ShadcnCardVariant.Outlined) {
+                        StitchCard {
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.sm)
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.DateRange,

@@ -16,36 +16,45 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import io.peng.sparrowdelivery.ui.components.*
-import io.peng.sparrowdelivery.ui.theme.SparrowTheme
+import io.peng.sparrowdelivery.ui.components.stitch.*
+import io.peng.sparrowdelivery.ui.theme.StitchTheme
+import io.peng.sparrowdelivery.ui.theme.LocalStitchColorScheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MoreOptionsScreen(
     onBackClick: () -> Unit,
+    onApiTestingClick: () -> Unit = {},
     viewModel: MoreOptionsViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    SparrowTheme {
+    StitchTheme {
+        val stitchColors = LocalStitchColorScheme.current
+        
         Scaffold(
-            containerColor = SparrowTheme.colors.background,
+            containerColor = stitchColors.background,
             topBar = {
                 TopAppBar(
-                    title = { Text("Delivery Options", color = SparrowTheme.colors.foreground) },
+                    title = { 
+                        StitchText(
+                            text = "Delivery Options", 
+                            color = stitchColors.onBackground
+                        ) 
+                    },
                     navigationIcon = {
                         IconButton(onClick = onBackClick) {
                             Icon(
                                 Icons.Default.ArrowBack,
                                 contentDescription = "Back",
-                                tint = SparrowTheme.colors.foreground
+                                tint = stitchColors.onBackground
                             )
                         }
                     },
                     colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = SparrowTheme.colors.background,
-                        titleContentColor = SparrowTheme.colors.foreground,
-                        navigationIconContentColor = SparrowTheme.colors.foreground
+                        containerColor = stitchColors.background,
+                        titleContentColor = stitchColors.onBackground,
+                        navigationIconContentColor = stitchColors.onBackground
                     )
                 )
             }
@@ -103,12 +112,51 @@ fun MoreOptionsScreen(
                 // Price Estimate Card
                 PriceEstimateCard(estimatedPrice = uiState.estimatedPrice)
 
+                // API Testing Button (Development Tool)
+                StitchCard(
+                    modifier = Modifier.fillMaxWidth(),
+                    variant = StitchCardVariant.Outlined
+                ) {
+                    Column(
+                        modifier = Modifier.padding(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            Icon(
+                                Icons.Default.Info,
+                                contentDescription = null,
+                                tint = stitchColors.primary,
+                                modifier = Modifier.size(20.dp)
+                            )
+                            StitchHeading(
+                                text = "🧪 Developer Tools",
+                                level = 4
+                            )
+                        }
+                        
+                        StitchText(
+                            text = "Test different routing API providers and their responses",
+                            style = StitchTextStyle.Muted
+                        )
+                        
+                        StitchTextButton(
+                            text = "Open API Testing",
+                            onClick = onApiTestingClick,
+                            modifier = Modifier.fillMaxWidth(),
+                            variant = StitchButtonVariant.Secondary
+                        )
+                    }
+                }
+
                 // Save Button
-                SparrowTextButton(
+                StitchTextButton(
                     text = "Save Options",
                     onClick = onBackClick,
                     modifier = Modifier.fillMaxWidth(),
-                    variant = ShadcnButtonVariant.Default
+                    variant = StitchButtonVariant.Primary
                 )
             }
         }
@@ -122,22 +170,24 @@ private fun PackageDetailsSection(
     onPackageWeightChange: (String) -> Unit,
     onPackageDescriptionChange: (String) -> Unit
 ) {
-    SparrowCard(
+    val stitchColors = LocalStitchColorScheme.current
+    
+    StitchCard(
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(
             modifier = Modifier.padding(vertical =12.dp).padding(horizontal = 8.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            ShadcnText(
+            StitchHeading(
                 text = "📦 Package Details",
-                style = ShadcnTextStyle.H3
+                level = 3
             )
             
             // Package Size Selection
-            ShadcnText(
+            StitchText(
                 text = "Package Size",
-                style = ShadcnTextStyle.H4
+                style = StitchTextStyle.H4
             )
             
             Column(modifier = Modifier.selectableGroup()) {
@@ -159,10 +209,10 @@ private fun PackageDetailsSection(
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Column {
-                            ShadcnText(text = size.displayName, style = ShadcnTextStyle.P)
-                            ShadcnText(
+                            StitchText(text = size.displayName, style = StitchTextStyle.P)
+                            StitchText(
                                 text = size.description,
-                                style = ShadcnTextStyle.Muted
+                                style = StitchTextStyle.Muted
                             )
                         }
                     }
@@ -170,7 +220,7 @@ private fun PackageDetailsSection(
             }
             
             // Package Weight
-            ShadcnTextField(
+            StitchInput(
                 value = uiState.packageWeight,
                 onValueChange = onPackageWeightChange,
                 label = "Package Weight (kg)",
@@ -179,7 +229,7 @@ private fun PackageDetailsSection(
             )
             
             // Package Description
-            ShadcnTextField(
+            StitchInput(
                 value = uiState.packageDescription,
                 onValueChange = onPackageDescriptionChange,
                 label = "Package Description",
@@ -195,16 +245,18 @@ private fun DeliveryTimeSection(
     uiState: MoreOptionsUiState,
     onDeliveryTimeChange: (MoreDeliveryTime) -> Unit
 ) {
-    SparrowCard(
+    val stitchColors = LocalStitchColorScheme.current
+    
+    StitchCard(
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(
             modifier = Modifier.padding(vertical =12.dp).padding(horizontal = 8.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            ShadcnText(
+            StitchHeading(
                 text = "⏰ Delivery Time",
-                style = ShadcnTextStyle.H3
+                level = 3
             )
             
             Column(modifier = Modifier.selectableGroup()) {
@@ -226,10 +278,10 @@ private fun DeliveryTimeSection(
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Column {
-                            ShadcnText(text = time.displayName, style = ShadcnTextStyle.P)
-                            ShadcnText(
+                            StitchText(text = time.displayName, style = StitchTextStyle.P)
+                            StitchText(
                                 text = time.description,
-                                style = ShadcnTextStyle.Muted
+                                style = StitchTextStyle.Muted
                             )
                         }
                     }
@@ -246,16 +298,18 @@ private fun SpecialServicesSection(
     onFragileItemsChange: (Boolean) -> Unit,
     onPriorityDeliveryChange: (Boolean) -> Unit
 ) {
-    SparrowCard(
+    val stitchColors = LocalStitchColorScheme.current
+    
+    StitchCard(
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(
             modifier = Modifier.padding(vertical =12.dp).padding(horizontal = 8.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            ShadcnText(
+            StitchHeading(
                 text = "✨ Special Services",
-                style = ShadcnTextStyle.H3
+                level = 3
             )
             
             // Require Signature
@@ -265,10 +319,10 @@ private fun SpecialServicesSection(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(modifier = Modifier.weight(1f)) {
-                    ShadcnText("Require Signature", style = ShadcnTextStyle.P)
-                    ShadcnText(
+                    StitchText("Require Signature", style = StitchTextStyle.P)
+                    StitchText(
                         "Recipient must sign upon delivery (+$3)",
-                        style = ShadcnTextStyle.Muted
+                        style = StitchTextStyle.Muted
                     )
                 }
                 Switch(
@@ -284,10 +338,10 @@ private fun SpecialServicesSection(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(modifier = Modifier.weight(1f)) {
-                    ShadcnText("Fragile Items", style = ShadcnTextStyle.P)
-                    ShadcnText(
+                    StitchText("Fragile Items", style = StitchTextStyle.P)
+                    StitchText(
                         "Extra care handling (+$8)",
-                        style = ShadcnTextStyle.Muted
+                        style = StitchTextStyle.Muted
                     )
                 }
                 Switch(
@@ -303,10 +357,10 @@ private fun SpecialServicesSection(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(modifier = Modifier.weight(1f)) {
-                    ShadcnText("Priority Delivery", style = ShadcnTextStyle.P)
-                    ShadcnText(
+                    StitchText("Priority Delivery", style = StitchTextStyle.P)
+                    StitchText(
                         "Higher priority in queue (+$12)",
-                        style = ShadcnTextStyle.Muted
+                        style = StitchTextStyle.Muted
                     )
                 }
                 Switch(
@@ -325,16 +379,18 @@ private fun RecipientInformationSection(
     onRecipientNameChange: (String) -> Unit,
     onRecipientPhoneChange: (String) -> Unit
 ) {
-    SparrowCard(
+    val stitchColors = LocalStitchColorScheme.current
+    
+    StitchCard(
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(
             modifier = Modifier.padding(vertical =12.dp).padding(horizontal = 8.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            ShadcnText(
+            StitchHeading(
                 text = "👤 Recipient Information",
-                style = ShadcnTextStyle.H3
+                level = 3
             )
             
             // Contact Recipient Toggle
@@ -344,10 +400,10 @@ private fun RecipientInformationSection(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(modifier = Modifier.weight(1f)) {
-                    ShadcnText("Contact Recipient", style = ShadcnTextStyle.P)
-                    ShadcnText(
+                    StitchText("Contact Recipient", style = StitchTextStyle.P)
+                    StitchText(
                         "Notify recipient about delivery",
-                        style = ShadcnTextStyle.Muted
+                        style = StitchTextStyle.Muted
                     )
                 }
                 Switch(
@@ -358,7 +414,7 @@ private fun RecipientInformationSection(
             
             // Recipient details (only show if contact is enabled)
             if (uiState.contactRecipient) {
-                ShadcnTextField(
+                StitchInput(
                     value = uiState.recipientName,
                     onValueChange = onRecipientNameChange,
                     label = "Recipient Name",
@@ -366,7 +422,7 @@ private fun RecipientInformationSection(
                     modifier = Modifier.fillMaxWidth()
                 )
                 
-                ShadcnTextField(
+                StitchInput(
                     value = uiState.recipientPhone,
                     onValueChange = onRecipientPhoneChange,
                     label = "Recipient Phone",
@@ -383,19 +439,21 @@ private fun SpecialInstructionsSection(
     uiState: MoreOptionsUiState,
     onSpecialInstructionsChange: (String) -> Unit
 ) {
-    SparrowCard(
+    val stitchColors = LocalStitchColorScheme.current
+    
+    StitchCard(
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(
             modifier = Modifier.padding(vertical =12.dp).padding(horizontal = 8.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            ShadcnText(
+            StitchHeading(
                 text = "📝 Special Instructions",
-                style = ShadcnTextStyle.H3
+                level = 3
             )
             
-            ShadcnTextField(
+            StitchTextArea(
                 value = uiState.specialInstructions,
                 onValueChange = onSpecialInstructionsChange,
                 label = "Special Instructions",
@@ -411,16 +469,18 @@ private fun TransportModeSection(
     uiState: MoreOptionsUiState,
     onTransportModeChange: (TransportMode) -> Unit
 ) {
-    SparrowCard(
+    val stitchColors = LocalStitchColorScheme.current
+    
+    StitchCard(
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(
             modifier = Modifier.padding(vertical =12.dp).padding(horizontal = 8.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            ShadcnText(
+            StitchHeading(
                 text = "🚗 Transport Mode",
-                style = ShadcnTextStyle.H3
+                level = 3
             )
             
             Column(modifier = Modifier.selectableGroup()) {
@@ -451,9 +511,9 @@ private fun TransportModeSection(
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         
-                        ShadcnText(
+                        StitchText(
                             text = mode.emoji,
-                            style = ShadcnTextStyle.H2,
+                            style = StitchTextStyle.H2,
                             modifier = Modifier.width(40.dp)
                         )
                         
@@ -463,45 +523,45 @@ private fun TransportModeSection(
                             Row(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
-                                ShadcnText(
+                                StitchText(
                                     text = mode.displayName,
-                                    style = ShadcnTextStyle.P,
+                                    style = StitchTextStyle.P,
                                     color = if (isCompatible) 
-                                        SparrowTheme.colors.foreground 
+                                        stitchColors.onSurface 
                                     else 
-                                        SparrowTheme.colors.mutedForeground
+                                        stitchColors.textSecondary
                                 )
                                 
                                 if (!isCompatible) {
                                     Spacer(modifier = Modifier.width(8.dp))
-                                    ShadcnText(
+                                    StitchText(
                                         text = "⚠️ Too heavy",
-                                        style = ShadcnTextStyle.Small,
-                                        color = SparrowTheme.colors.destructive
+                                        style = StitchTextStyle.Small,
+                                        color = stitchColors.destructive
                                     )
                                 }
                             }
                             
-                            ShadcnText(
+                            StitchText(
                                 text = "${mode.description} • Max ${mode.maxWeight}kg",
-                                style = ShadcnTextStyle.Small,
+                                style = StitchTextStyle.Small,
                                 color = if (isCompatible) 
-                                    SparrowTheme.colors.mutedForeground 
+                                    stitchColors.textSecondary
                                 else 
-                                    SparrowTheme.colors.mutedForeground
+                                    stitchColors.textSecondary
                             )
                             
-                            ShadcnText(
+                            StitchText(
                                 text = when {
                                     mode.priceMultiplier < 1.0 -> "${(100 - mode.priceMultiplier * 100).toInt()}% cheaper"
                                     mode.priceMultiplier > 1.0 -> "+${((mode.priceMultiplier - 1) * 100).toInt()}% cost"
                                     else -> "Standard pricing"
                                 },
-                                style = ShadcnTextStyle.Small,
+                                style = StitchTextStyle.Small,
                                 color = when {
-                                    mode.priceMultiplier < 1.0 -> SparrowTheme.colors.success
-                                    mode.priceMultiplier > 1.0 -> SparrowTheme.colors.warning
-                                    else -> SparrowTheme.colors.mutedForeground
+                                    mode.priceMultiplier < 1.0 -> stitchColors.success
+                                    mode.priceMultiplier > 1.0 -> stitchColors.warning
+                                    else -> stitchColors.textSecondary
                                 }
                             )
                         }
@@ -514,9 +574,11 @@ private fun TransportModeSection(
 
 @Composable
 private fun PriceEstimateCard(estimatedPrice: Double) {
-    SparrowCard(
+    val stitchColors = LocalStitchColorScheme.current
+    
+    StitchCard(
         modifier = Modifier.fillMaxWidth(),
-        variant = ShadcnCardVariant.Elevated
+        variant = StitchCardVariant.Elevated
     ) {
         Row(
             modifier = Modifier
@@ -526,28 +588,28 @@ private fun PriceEstimateCard(estimatedPrice: Double) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column {
-                ShadcnText(
+                StitchHeading(
                     text = "Estimated Price",
-                    style = ShadcnTextStyle.H4
+                    level = 4
                 )
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
                         Icons.Default.Info,
                         contentDescription = null,
                         modifier = Modifier.size(16.dp),
-                        tint = SparrowTheme.colors.mutedForeground
+                        tint = stitchColors.textSecondary
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    ShadcnText(
+                    StitchText(
                         text = "Final price may vary",
-                        style = ShadcnTextStyle.Small
+                        style = StitchTextStyle.Small
                     )
                 }
             }
-            ShadcnText(
+            StitchText(
                 text = "GH₵ %.2f".format(estimatedPrice),
-                style = ShadcnTextStyle.H4,
-                color = SparrowTheme.colors.success
+                style = StitchTextStyle.H4,
+                color = stitchColors.success
             )
         }
     }

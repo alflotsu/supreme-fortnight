@@ -2,7 +2,6 @@ package io.peng.sparrowdelivery.presentation.features.home
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.rememberScrollState
@@ -15,13 +14,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import io.peng.sparrowdelivery.ui.components.*
+import io.peng.sparrowdelivery.ui.components.stitch.*
 import io.peng.sparrowdelivery.ui.theme.*
-import io.peng.sparrowdelivery.ui.components.stitch.StitchPrimaryButton
-import io.peng.sparrowdelivery.ui.components.stitch.StitchSecondaryButton
-import io.peng.sparrowdelivery.ui.components.stitch.StitchHtmlLocationField
-import io.peng.sparrowdelivery.ui.icons.SparrowIcons
 import io.peng.sparrowdelivery.data.services.PlaceDetails
+import io.peng.sparrowdelivery.ui.components.SlidingToggle
+import io.peng.sparrowdelivery.ui.components.SlidingToggleOption
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,6 +52,8 @@ fun EnhancedDeliveryFormBottomSheet(
     val shouldShowRoutePreview = hasValidLocations && hasRouteData
     
     StitchTheme {
+        val stitchColors = LocalStitchColorScheme.current
+        
         // Fast concurrent transition between different sheet content modes
         AnimatedContent(
             targetState = shouldShowRoutePreview,
@@ -133,6 +132,8 @@ private fun StandardFormBottomSheetContent(
     onClearFields: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val stitchColors = LocalStitchColorScheme.current
+    
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -152,7 +153,7 @@ private fun StandardFormBottomSheetContent(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                ShadcnHeading(
+                StitchHeading(
                     text = "Where to?",
                     level = 4
                 )
@@ -193,8 +194,8 @@ private fun StandardFormBottomSheetContent(
                     animationSpec = tween(150, easing = LinearOutSlowInEasing)
                 )
             ) {
-                SparrowCard(
-                    variant = ShadcnCardVariant.Outlined,
+                StitchCard(
+                    variant = StitchCardVariant.Outlined,
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Row(
@@ -205,20 +206,20 @@ private fun StandardFormBottomSheetContent(
                         Icon(
                             imageVector = Icons.Default.DateRange,
                             contentDescription = null,
-                            tint = LocalStitchColorScheme.current.primary,
+                            tint = stitchColors.primary,
                             modifier = Modifier.size(20.dp)
                         )
                         Column {
-                            ShadcnText(
+                            StitchText(
                                 text = "Scheduled Delivery",
-                                style = ShadcnTextStyle.Muted
+                                style = StitchTextStyle.Muted
                             )
                             val formatter = java.text.SimpleDateFormat("EEEE, MMM dd, yyyy 'at' h:mm a", java.util.Locale.getDefault())
-                            ShadcnText(
+                            StitchText(
                                 text = deliveryForm.scheduledDateTime?.let { timestamp ->
                                     formatter.format(java.util.Date(timestamp))
                                 } ?: "No date selected",
-                                style = ShadcnTextStyle.P
+                                style = StitchTextStyle.P
                             )
                         }
                         Spacer(modifier = Modifier.weight(1f))
@@ -229,7 +230,7 @@ private fun StandardFormBottomSheetContent(
                             Icon(
                                 imageVector = Icons.Default.Edit,
                                 contentDescription = "Change time",
-                                tint = LocalStitchColorScheme.current.onSurface,
+                                tint = stitchColors.onSurface,
                                 modifier = Modifier.size(16.dp)
                             )
                         }
@@ -243,7 +244,7 @@ private fun StandardFormBottomSheetContent(
             ) {
                 // Pickup location with GPS icon
                 LocationInputRow(
-                    icon = SparrowIcons.Delivery.GPS, // GPS icon for pickup location
+                    icon = io.peng.sparrowdelivery.ui.icons.SparrowIcons.Delivery.GPS, // GPS icon for pickup location
                     iconColor = Color(0xFF2563eb), // Blue-600
                     value = deliveryForm.pickupLocation,
                     onValueChange = onPickupLocationChange,
@@ -266,7 +267,7 @@ private fun StandardFormBottomSheetContent(
 //                            Surface(
 //                                modifier = Modifier.fillMaxSize(),
 //                                shape = androidx.compose.foundation.shape.CircleShape,
-//                                color = SparrowTheme.colors.border
+//                                color = stitchColors.outline
 //                            ) {}
 //                        }
 //                    }
@@ -274,7 +275,7 @@ private fun StandardFormBottomSheetContent(
                 
                 // Dropoff location with navigation arrow
                 LocationInputRow(
-                    icon = SparrowIcons.Delivery.Navigation, // Navigation arrow for destination
+                    icon = io.peng.sparrowdelivery.ui.icons.SparrowIcons.Delivery.Navigation, // Navigation arrow for destination
                     iconColor = Color(0xFF059669), // Emerald-600
                     value = deliveryForm.dropoffLocation,
                     onValueChange = onDestinationChange,
@@ -335,7 +336,7 @@ private fun StandardFormBottomSheetContent(
                             modifier = Modifier.padding(horizontal = 16.dp)
                         ) {
                             Icon(
-                                imageVector = SparrowIcons.UI.Close,
+                                imageVector = io.peng.sparrowdelivery.ui.icons.SparrowIcons.UI.Close,
                                 contentDescription = null,
                                 modifier = Modifier
                                     .size(16.dp)
@@ -343,7 +344,7 @@ private fun StandardFormBottomSheetContent(
                             )
                             Text(
                                 text = "Clear Route",
-                                style = SparrowTypography.small
+                                style = MaterialTheme.typography.bodySmall
                             )
                         }
                     }
@@ -393,7 +394,7 @@ private fun StandardFormBottomSheetContent(
             // Action buttons
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.md)
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 // More Options Button
                 StitchSecondaryButton(
@@ -431,14 +432,16 @@ private fun LocationInputRow(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        // HTML-matching location input field with icon inside
+        // HTML-matching location input field with icon inside and Places Autocomplete
         StitchHtmlLocationField(
             value = value,
             onValueChange = onValueChange,
             onMapPinClick = onMapPinClick,
+            onPlaceSelected = onPlaceSelected,
             placeholder = placeholder,
             leadingIcon = icon,
             iconColor = iconColor,
+            isPickupField = isPickupField,
             modifier = Modifier.weight(1f)
         )
         
@@ -454,14 +457,16 @@ private fun RoutePreviewCard(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
 ) {
-    SparrowCard(
+    val stitchColors = LocalStitchColorScheme.current
+    
+    StitchCard(
         modifier = modifier.fillMaxWidth(),
-        variant = ShadcnCardVariant.Elevated,
+        variant = StitchCardVariant.Elevated,
         onClick = onClick
     ) {
         Column(
             modifier = Modifier.padding(0.dp),
-            verticalArrangement = Arrangement.spacedBy(SparrowSpacing.sm)
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -469,9 +474,9 @@ private fun RoutePreviewCard(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Column {
-                    ShadcnText(
+                    StitchHeading(
                         text = "Route Preview",
-                        style = ShadcnTextStyle.H4
+                        level = 4
                     )
                     
                     if (isLoading) {
@@ -483,22 +488,22 @@ private fun RoutePreviewCard(
                                 modifier = Modifier.size(16.dp),
                                 strokeWidth = 2.dp
                             )
-                            ShadcnText(
+                            StitchText(
                                 text = "Loading route...",
-                                style = ShadcnTextStyle.Muted
+                                style = StitchTextStyle.Muted
                             )
                         }
                     } else if (error != null) {
-                        ShadcnText(
+                        StitchText(
                             text = error,
-                            style = ShadcnTextStyle.Small,
-                            color = SparrowTheme.colors.destructive
+                            style = StitchTextStyle.Small,
+                            color = stitchColors.destructive
                         )
                     } else {
                         // TODO: Show actual distance and duration when available
-                        ShadcnText(
+                        StitchText(
                             text = "~15 min • Route calculated",
-                            style = ShadcnTextStyle.Muted
+                            style = StitchTextStyle.Muted
                         )
                     }
                 }
@@ -506,14 +511,14 @@ private fun RoutePreviewCard(
                 Column(
                     horizontalAlignment = Alignment.End
                 ) {
-                    ShadcnText(
+                    StitchText(
                         text = "Estimated fare",
-                        style = ShadcnTextStyle.Small
+                        style = StitchTextStyle.Small
                     )
-                    ShadcnText(
+                    StitchText(
                         text = "₵ ${String.format("%.2f", estimatedPrice)}",
-                        style = ShadcnTextStyle.H4,
-                        color = SparrowTheme.colors.success
+                        style = StitchTextStyle.H4,
+                        color = stitchColors.success
                     )
                     
                     // Tap indicator
@@ -523,15 +528,15 @@ private fun RoutePreviewCard(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
-                            ShadcnText(
+                            StitchText(
                                 text = "View on map",
-                                style = ShadcnTextStyle.Small,
-                                color = SparrowTheme.colors.primary
+                                style = StitchTextStyle.Small,
+                                color = stitchColors.primary
                             )
                             Icon(
                                 imageVector = Icons.Default.KeyboardArrowRight,
                                 contentDescription = null,
-                                tint = SparrowTheme.colors.primary,
+                                tint = stitchColors.primary,
                                 modifier = Modifier.size(16.dp)
                             )
                         }
@@ -580,17 +585,19 @@ private fun QuickActionButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    ShadcnCompactCard(
+    val stitchColors = LocalStitchColorScheme.current
+    
+    CompactCard(
         modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp),
-        variant = ShadcnCardVariant.Outlined,
+        variant = StitchCardVariant.Outlined,
         onClick = onClick
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp),
+                .fillMaxWidth(),
+//                .padding(12.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
@@ -598,12 +605,12 @@ private fun QuickActionButton(
                 imageVector = icon,
                 contentDescription = title,
                 modifier = Modifier.size(20.dp),
-                tint = SparrowTheme.colors.primary
+                tint = stitchColors.primary
             )
             Spacer(modifier = Modifier.height(4.dp))
-            ShadcnText(
+            StitchText(
                 text = title,
-                style = ShadcnTextStyle.Small,
+                style = StitchTextStyle.Small,
                 maxLines = 1
             )
         }
@@ -645,21 +652,23 @@ private fun IntermediateStopsSection(
     onStopChange: (Int, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    SparrowCard(
+    val stitchColors = LocalStitchColorScheme.current
+    
+    StitchCard(
         modifier = modifier.fillMaxWidth()
     ) {
         Column(
-            modifier = Modifier.padding(SparrowSpacing.md),
-            verticalArrangement = Arrangement.spacedBy(SparrowSpacing.sm)
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                ShadcnText(
+                StitchHeading(
                     text = "Intermediate Stops",
-                    style = ShadcnTextStyle.H4
+                    level = 4
                 )
                 
                 Row(
@@ -677,9 +686,9 @@ private fun IntermediateStopsSection(
                         Icon(Icons.Default.Delete, contentDescription = "Remove stop") // Using available alternative
                     }
                     
-                    ShadcnText(
+                    StitchText(
                         text = "$numberOfStops stops",
-                        style = ShadcnTextStyle.P
+                        style = StitchTextStyle.P
                     )
                     
                     IconButton(
@@ -697,7 +706,7 @@ private fun IntermediateStopsSection(
             
             // Stop input fields
             stops.forEachIndexed { index, stop ->
-                ShadcnTextField(
+                StitchInput(
                     value = stop,
                     onValueChange = { onStopChange(index, it) },
                     label = "Stop ${index + 1}",
@@ -720,6 +729,8 @@ private fun RoutePreviewBottomSheetContent(
     onConfirmRoute: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val stitchColors = LocalStitchColorScheme.current
+    
     Column(
         verticalArrangement = Arrangement.Center,
         modifier = modifier
@@ -739,20 +750,20 @@ private fun RoutePreviewBottomSheetContent(
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
                     contentDescription = "Back to form",
-                    tint = SparrowTheme.colors.foreground
+                    tint = stitchColors.onBackground
                 )
             }
             
             Column(
                 modifier = Modifier.weight(1f)
             ) {
-                ShadcnHeading(
+                StitchHeading(
                     text = "Choose Route",
                     level = 4
                 )
-                ShadcnText(
+                StitchText(
                     text = "${routes.size} route${if (routes.size != 1) "s" else ""} found",
-                    style = ShadcnTextStyle.Muted
+                    style = StitchTextStyle.Muted
                 )
             }
         }
@@ -761,8 +772,8 @@ private fun RoutePreviewBottomSheetContent(
         
         // Trip summary
 //        TODO: please revisit
-        SparrowCard(
-            variant = ShadcnCardVariant.Outlined,
+        StitchCard(
+            variant = StitchCardVariant.Outlined,
             modifier = Modifier.fillMaxWidth()
         ) {
             Row(
@@ -771,7 +782,7 @@ private fun RoutePreviewBottomSheetContent(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Icon(
-                    imageVector = SparrowIcons.Delivery.GPS,
+                    imageVector = io.peng.sparrowdelivery.ui.icons.SparrowIcons.Delivery.GPS,
                     contentDescription = null,
                     tint = Color(0xFF4CAF50),
                     modifier = Modifier.size(20.dp)
@@ -781,14 +792,14 @@ private fun RoutePreviewBottomSheetContent(
                 ) {
                     Row {
                         Icon(
-                            imageVector = SparrowIcons.Delivery.Navigation,
+                            imageVector = io.peng.sparrowdelivery.ui.icons.SparrowIcons.Delivery.Navigation,
                             contentDescription = null,
                             tint = Color(0xFFF44336),
                             modifier = Modifier.size(18.dp)
                         )
-                        ShadcnText(
+                        StitchText(
                             text = pickupLocation,
-                            style = ShadcnTextStyle.P,
+                            style = StitchTextStyle.P,
                             maxLines = 1
                         )
                     }
@@ -806,7 +817,7 @@ private fun RoutePreviewBottomSheetContent(
                                 Surface(
                                     modifier = Modifier.fillMaxSize(),
                                     shape = androidx.compose.foundation.shape.CircleShape,
-                                    color = SparrowTheme.colors.border
+                                    color = stitchColors.outline
                                 ) {}
                             }
                         }
@@ -817,14 +828,14 @@ private fun RoutePreviewBottomSheetContent(
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         Icon(
-                            imageVector = SparrowIcons.Delivery.Navigation,
+                            imageVector = io.peng.sparrowdelivery.ui.icons.SparrowIcons.Delivery.Navigation,
                             contentDescription = null,
                             tint = Color(0xFFF44336),
                             modifier = Modifier.size(18.dp)
                         )
-                        ShadcnText(
+                        StitchText(
                             text = dropoffLocation,
-                            style = ShadcnTextStyle.P,
+                            style = StitchTextStyle.P,
                             maxLines = 1
                         )
                     }
@@ -835,9 +846,9 @@ private fun RoutePreviewBottomSheetContent(
         Spacer(modifier = Modifier.height(12.dp)) // Reduced from 16dp
         
         // Route options
-        ShadcnText(
+        StitchText(
             text = "Select your preferred route",
-            style = ShadcnTextStyle.Muted
+            style = StitchTextStyle.Muted
         )
         
         Spacer(modifier = Modifier.height(8.dp))
@@ -863,18 +874,18 @@ private fun RoutePreviewBottomSheetContent(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            SparrowTextButton(
+            StitchTextButton(
                 text = "Back",
                 onClick = onBackClick,
                 modifier = Modifier.weight(1f),
-                variant = ShadcnButtonVariant.Outline
+                variant = StitchButtonVariant.Outline
             )
             
-            SparrowTextButton(
+            StitchTextButton(
                 text = "Find Driver",
                 onClick = onConfirmRoute,
                 modifier = Modifier.weight(1f),
-                variant = ShadcnButtonVariant.Default
+                variant = StitchButtonVariant.Primary
             )
         }
     }
@@ -888,9 +899,11 @@ private fun RouteOptionCard(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    SparrowCard(
+    val stitchColors = LocalStitchColorScheme.current
+    
+    StitchCard(
         modifier = modifier.fillMaxWidth(),
-        variant = if (isSelected) ShadcnCardVariant.Elevated else ShadcnCardVariant.Default,
+        variant = if (isSelected) StitchCardVariant.Elevated else StitchCardVariant.Default,
         onClick = onClick
     ) {
         Row(
@@ -903,21 +916,21 @@ private fun RouteOptionCard(
                 modifier = Modifier.size(24.dp), // Reduced from 32dp
                 shape = androidx.compose.foundation.shape.CircleShape,
                 color = if (isSelected) {
-                    SparrowTheme.colors.primary
+                    stitchColors.primary
                 } else {
-                    SparrowTheme.colors.muted
+                    stitchColors.outline
                 }
             ) {
                 Box(
                     contentAlignment = Alignment.Center
                 ) {
-                    ShadcnText(
+                    StitchText(
                         text = routeNumber.toString(),
-                        style = ShadcnTextStyle.Small, // Smaller text
+                        style = StitchTextStyle.Small, // Smaller text
                         color = if (isSelected) {
-                            SparrowTheme.colors.primaryForeground
+                            stitchColors.onPrimary
                         } else {
-                            SparrowTheme.colors.mutedForeground
+                            stitchColors.textSecondary
                         }
                     )
                 }
@@ -936,13 +949,13 @@ private fun RouteOptionCard(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(3.dp) // Reduced from 4dp
                     ) {
-                        ShadcnText(
+                        StitchText(
                             text = "⏱",
-                            style = ShadcnTextStyle.Small
+                            style = StitchTextStyle.Small
                         )
-                        ShadcnText(
+                        StitchText(
                             text = formatDuration(route.duration),
-                            style = ShadcnTextStyle.Small // Changed from P to Small
+                            style = StitchTextStyle.Small // Changed from P to Small
                         )
                     }
                     
@@ -951,13 +964,13 @@ private fun RouteOptionCard(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(3.dp) // Reduced from 4dp
                     ) {
-                        ShadcnText(
+                        StitchText(
                             text = "📏",
-                            style = ShadcnTextStyle.Small
+                            style = StitchTextStyle.Small
                         )
-                        ShadcnText(
+                        StitchText(
                             text = formatDistance(route.distance),
-                            style = ShadcnTextStyle.Small // Changed from P to Small
+                            style = StitchTextStyle.Small // Changed from P to Small
                         )
                     }
                     
@@ -967,13 +980,13 @@ private fun RouteOptionCard(
                         else -> "• Alternative"
                     }
                     
-                    ShadcnText(
+                    StitchText(
                         text = routeType,
-                        style = ShadcnTextStyle.Small,
+                        style = StitchTextStyle.Small,
                         color = if (isSelected) {
-                            SparrowTheme.colors.primary
+                            stitchColors.primary
                         } else {
-                            SparrowTheme.colors.mutedForeground
+                            stitchColors.textSecondary
                         }
                     )
                 }
@@ -985,14 +998,14 @@ private fun RouteOptionCard(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(3.dp)
                     ) {
-                        ShadcnText(
+                        StitchText(
                             text = "🚗",
-                            style = ShadcnTextStyle.Small
+                            style = StitchTextStyle.Small
                         )
-                        ShadcnText(
+                        StitchText(
                             text = "Traffic included",
-                            style = ShadcnTextStyle.Small,
-                            color = SparrowTheme.colors.mutedForeground
+                            style = StitchTextStyle.Small,
+                            color = stitchColors.textSecondary
                         )
                     }
                 }
@@ -1003,7 +1016,7 @@ private fun RouteOptionCard(
                 Surface(
                     modifier = Modifier.size(6.dp), // Reduced from 8dp
                     shape = androidx.compose.foundation.shape.CircleShape,
-                    color = SparrowTheme.colors.primary
+                    color = stitchColors.primary
                 ) {}
             }
         }

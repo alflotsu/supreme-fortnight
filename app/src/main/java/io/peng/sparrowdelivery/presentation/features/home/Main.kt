@@ -16,6 +16,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.peng.sparrowdelivery.presentation.features.profile.ProfileDrawer
 import io.peng.sparrowdelivery.ui.components.*
+import io.peng.sparrowdelivery.ui.components.stitch.*
 import io.peng.sparrowdelivery.ui.theme.*
 import io.peng.sparrowdelivery.ui.theme.StitchTheme
 import io.peng.sparrowdelivery.ui.theme.LocalStitchColorScheme
@@ -414,14 +415,30 @@ fun HomeScreen(
                         .align(Alignment.TopEnd)
                         .padding(16.dp)
                         .padding(top = 32.dp),
-                    containerColor = SparrowColors.Primary,
-                    contentColor = SparrowColors.PrimaryForeground
+                    containerColor = stitchColors.primary,
+                    contentColor = stitchColors.onPrimary
                 ) {
                     Text(
                         "UI",
                         style = MaterialTheme.typography.labelSmall.copy(
                             fontWeight = FontWeight.Bold
                         )
+                    )
+                }
+                
+                // DEBUG: Test Route FAB (temporary for debugging polyline issue)
+                SmallFloatingActionButton(
+                    onClick = { viewModel.testRouteManually() },
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(16.dp)
+                        .padding(top = 88.dp), // Below the UI button
+                    containerColor = Color(0xFFFF9800), // Orange for debug
+                    contentColor = Color.White
+                ) {
+                    Text(
+                        "🗺️",
+                        style = MaterialTheme.typography.labelSmall
                     )
                 }
             }
@@ -623,14 +640,14 @@ fun TimePickerDialog(
                     set(Calendar.MINUTE, timePickerState.minute)
                 }
                 
-                SparrowCard(
-                    variant = ShadcnCardVariant.Outlined,
+                StitchCard(
+                    variant = io.peng.sparrowdelivery.ui.components.stitch.StitchCardVariant.Outlined,
                     modifier = Modifier.padding(top = 16.dp)
                 ) {
-                    ShadcnText(
+                    StitchText(
                         text = "Delivery at ${timeFormat.format(calendar.time)}",
                         modifier = Modifier.padding(12.dp),
-                        style = ShadcnTextStyle.P
+                        style = StitchTextStyle.P
                     )
                 }
             }
@@ -647,6 +664,8 @@ fun FindingDriversOverlay(
     onCancel: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val stitchColors = LocalStitchColorScheme.current
+    
     // Ping animation
     val infiniteTransition = rememberInfiniteTransition(label = "ping")
     
@@ -676,8 +695,8 @@ fun FindingDriversOverlay(
             .background(Color.Black.copy(alpha = 0.6f)),
         contentAlignment = Alignment.Center
     ) {
-        SparrowCard(
-            variant = ShadcnCardVariant.Elevated,
+        StitchCard(
+            variant = io.peng.sparrowdelivery.ui.components.stitch.StitchCardVariant.Elevated,
             modifier = Modifier
                 .padding(32.dp)
                 .fillMaxWidth()
@@ -698,7 +717,7 @@ fun FindingDriversOverlay(
                             .fillMaxSize()
                             .scale(scale)
                             .background(
-                                SparrowTheme.colors.primary.copy(alpha = alpha * 0.3f),
+                                stitchColors.primary.copy(alpha = alpha * 0.3f),
                                 CircleShape
                             )
                     )
@@ -709,7 +728,7 @@ fun FindingDriversOverlay(
                             .size(80.dp)
                             .scale(scale * 0.8f)
                             .background(
-                                SparrowTheme.colors.primary.copy(alpha = alpha * 0.6f),
+                                stitchColors.primary.copy(alpha = alpha * 0.6f),
                                 CircleShape
                             )
                     )
@@ -720,13 +739,13 @@ fun FindingDriversOverlay(
                         modifier = Modifier
                             .size(50.dp)
                             .background(
-                                SparrowTheme.colors.primary,
+                                stitchColors.primary,
                                 CircleShape
                             )
                     ) {
                         Text(
                             text = "🚗",
-                            color = SparrowTheme.colors.primaryForeground
+                            color = stitchColors.onPrimary
                         )
                     }
                 }
@@ -736,23 +755,24 @@ fun FindingDriversOverlay(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    ShadcnText(
+                    StitchHeading(
                         text = "Finding a driver",
-                        style = ShadcnTextStyle.H3
+                        level = 3
                     )
                     
-                    ShadcnText(
+                    StitchText(
                         text = "Please standby...",
-                        style = ShadcnTextStyle.Muted
+                        style = StitchTextStyle.Muted
                     )
                     
                     Spacer(modifier = Modifier.height(8.dp))
                     
                     // Trip details
-                    ShadcnCompactCard(
-                        variant = ShadcnCardVariant.Outlined
+                    CompactCard(
+                        variant = io.peng.sparrowdelivery.ui.components.stitch.StitchCardVariant.Outlined
                     ) {
                         Column(
+                            modifier = Modifier.padding(8.dp),
                             verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             // From location
@@ -764,20 +784,20 @@ fun FindingDriversOverlay(
                                     modifier = Modifier
                                         .size(8.dp)
                                         .background(
-                                            SparrowTheme.colors.success,
+                                            stitchColors.success,
                                             CircleShape
                                         )
                                         .padding(top = 4.dp)
                                 )
                                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                                    ShadcnText(
+                                    StitchText(
                                         text = "From",
-                                        style = ShadcnTextStyle.Small,
+                                        style = StitchTextStyle.Small,
 
                                     )
-                                    ShadcnText(
+                                    StitchText(
                                         text = pickupLocation.ifEmpty { "Pickup location" },
-                                        style = ShadcnTextStyle.P
+                                        style = StitchTextStyle.P
                                     )
                                 }
                             }
@@ -791,27 +811,27 @@ fun FindingDriversOverlay(
                                     modifier = Modifier
                                         .size(8.dp)
                                         .background(
-                                            SparrowTheme.colors.destructive,
+                                            stitchColors.destructive,
                                             CircleShape
                                         )
                                         .padding(top = 4.dp)
                                 )
                                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                                    ShadcnText(
+                                    StitchText(
                                         text = "To",
-                                        style = ShadcnTextStyle.Small,
+                                        style = StitchTextStyle.Small,
 
                                     )
-                                    ShadcnText(
+                                    StitchText(
                                         text = dropoffLocation.ifEmpty { "Dropoff location" },
-                                        style = ShadcnTextStyle.P,
+                                        style = StitchTextStyle.P,
                                     )
                                 }
                             }
 
                             HorizontalDivider(
                                 modifier = Modifier.padding(vertical = 8.dp),
-                                color = SparrowTheme.colors.border
+                                color = stitchColors.outline
                             )
 
                             // Estimated price
@@ -820,14 +840,14 @@ fun FindingDriversOverlay(
                                 horizontalArrangement = Arrangement.SpaceBetween,
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
-                                ShadcnText(
+                                StitchText(
                                     text = "Estimated fare",
-                                    style = ShadcnTextStyle.Muted
+                                    style = StitchTextStyle.Muted
                                 )
-                                ShadcnText(
+                                StitchText(
                                     text = "₵ ${String.format(Locale.US, "%.2f", estimatedPrice)}",
-                                    style = ShadcnTextStyle.H4,
-                                    color = SparrowTheme.colors.success
+                                    style = StitchTextStyle.H4,
+                                    color = stitchColors.success
                                 )
                             }
                         }
@@ -858,7 +878,7 @@ fun FindingDriversOverlay(
                                     .size(8.dp)
                                     .scale(dotScale)
                                     .background(
-                                        SparrowTheme.colors.primary,
+                                        stitchColors.primary,
                                         CircleShape
                                     )
                             )
@@ -868,10 +888,10 @@ fun FindingDriversOverlay(
                     // Cancel button
                     Spacer(modifier = Modifier.height(16.dp))
                     
-                    SparrowTextButton(
+                    StitchTextButton(
                         text = "Cancel",
                         onClick = onCancel,
-                        variant = ShadcnButtonVariant.Outline,
+                        variant = io.peng.sparrowdelivery.ui.components.stitch.StitchButtonVariant.Outline,
                         modifier = Modifier.fillMaxWidth()
                     )
                 }

@@ -18,7 +18,7 @@ import io.peng.sparrowdelivery.ui.theme.SparrowBorderRadius
 import io.peng.sparrowdelivery.ui.theme.SparrowElevation
 import io.peng.sparrowdelivery.ui.theme.SparrowSpacing
 
-enum class ShadcnCardVariant {
+enum class CardVariant {
     Default,
     Elevated,
     Outlined,

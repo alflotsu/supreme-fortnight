@@ -21,6 +21,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.*
 import com.google.maps.android.compose.*
 import io.peng.sparrowdelivery.data.services.RouteInfo
+import io.peng.sparrowdelivery.ui.components.getMapStyleOptions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.*
@@ -45,6 +46,7 @@ fun InteractiveMapView(
 ) {
     val context = LocalContext.current
     var selectedMarkerState by remember { mutableStateOf<MarkerState?>(null) }
+    val mapStyleOptions = getMapStyleOptions()
     
     Box(modifier = modifier) {
         GoogleMap(
@@ -52,7 +54,8 @@ fun InteractiveMapView(
             cameraPositionState = cameraPositionState,
             properties = MapProperties(
                 isMyLocationEnabled = hasLocationPermission,
-                mapType = MapType.NORMAL
+                mapType = MapType.NORMAL,
+                mapStyleOptions = mapStyleOptions
             ),
             uiSettings = MapUiSettings(
                 myLocationButtonEnabled = hasLocationPermission,
@@ -106,11 +109,17 @@ fun InteractiveMapView(
                 )
             }
             
-            // Multiple route polylines (if available from HERE routing)
+            // Multiple route polylines (if available from Google Maps routing)
             if (availableRoutes.isNotEmpty() && interactionMode == MapInteractionMode.NONE) {
+                println("🗺️ InteractiveMapView: Rendering ${availableRoutes.size} available routes")
                 availableRoutes.forEachIndexed { index, route ->
                     val points = route.polylinePoints.map { it.toLatLng() }
                     val isSelected = index == selectedRouteIndex
+                    
+                    println("🔵 Route $index: ${points.size} points, selected: $isSelected")
+                    if (points.size >= 2) {
+                        println("📍 Route $index: ${points.first().latitude}, ${points.first().longitude} -> ${points.last().latitude}, ${points.last().longitude}")
+                    }
                     
                     Polyline(
                         points = points,
@@ -157,7 +166,12 @@ fun InteractiveMapView(
             }
             // Fallback: Legacy route polyline (for backward compatibility)
             else if (currentRoute.isNotEmpty() && interactionMode == MapInteractionMode.NONE) {
+                println("🔄 InteractiveMapView: Rendering legacy currentRoute with ${currentRoute.size} points")
                 val points = currentRoute.map { it.toLatLng() }
+                if (points.size >= 2) {
+                    println("📍 Legacy route: ${points.first().latitude}, ${points.first().longitude} -> ${points.last().latitude}, ${points.last().longitude}")
+                }
+                
                 Polyline(
                     points = points,
                     color = Color(0xFF2196F3), // Blue color

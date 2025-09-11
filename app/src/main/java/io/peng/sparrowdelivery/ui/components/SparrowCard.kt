@@ -8,7 +8,7 @@ import androidx.compose.ui.unit.dp
 import io.peng.sparrowdelivery.ui.theme.SparrowSpacing
 import io.peng.sparrowdelivery.ui.components.stitch.*
 
-enum class ShadcnCardVariant {
+enum class CardVariant {
     Default,
     Elevated,
     Outlined,
@@ -18,7 +18,7 @@ enum class ShadcnCardVariant {
 @Composable
 fun SparrowCard(
     modifier: Modifier = Modifier,
-    variant: ShadcnCardVariant = ShadcnCardVariant.Default,
+    variant: CardVariant = CardVariant.Default,
     onClick: (() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
@@ -30,9 +30,9 @@ fun SparrowCard(
 }
 
 @Composable
-fun ShadcnCompactCard(
+fun CompactCard(
     modifier: Modifier = Modifier,
-    variant: ShadcnCardVariant = ShadcnCardVariant.Default,
+    variant: CardVariant = CardVariant.Default,
     onClick: (() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
@@ -55,7 +55,7 @@ fun ShadcnCompactCard(
 }
 
 @Composable
-fun ShadcnSection(
+fun Section(
     modifier: Modifier = Modifier,
     title: String? = null,
     description: String? = null,

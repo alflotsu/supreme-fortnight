@@ -17,7 +17,7 @@ import androidx.compose.foundation.clickable
 import io.peng.sparrowdelivery.ui.theme.*
 import io.peng.sparrowdelivery.ui.components.stitch.*
 
-enum class ShadcnButtonVariant {
+enum class ButtonVariant {
     Default,
     Destructive,
     Outline,
@@ -27,7 +27,7 @@ enum class ShadcnButtonVariant {
     Success
 }
 
-enum class ShadcnButtonSize {
+enum class ButtonSize {
     Small,
     Default,
     Large,
@@ -35,84 +35,61 @@ enum class ShadcnButtonSize {
 }
 
 @Composable
-fun ShadcnButton(
+fun StitchButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    variant: ShadcnButtonVariant = ShadcnButtonVariant.Default,
-    size: ShadcnButtonSize = ShadcnButtonSize.Default,
+    variant: io.peng.sparrowdelivery.ui.components.stitch.StitchButtonVariant = io.peng.sparrowdelivery.ui.components.stitch.StitchButtonVariant.Primary,
+    size: io.peng.sparrowdelivery.ui.components.stitch.StitchButtonSize = io.peng.sparrowdelivery.ui.components.stitch.StitchButtonSize.Default,
     enabled: Boolean = true,
     leadingIcon: ImageVector? = null,
     trailingIcon: ImageVector? = null,
     content: @Composable RowScope.() -> Unit
 ) {
-    val colors = SparrowTheme.colors
+    val stitchColors = LocalStitchColorScheme.current
     
     val (backgroundColor, contentColor, borderStroke, elevation) = when (variant) {
-        ShadcnButtonVariant.Default -> Quadruple(
-            colors.primary,
-            colors.primaryForeground,
+        io.peng.sparrowdelivery.ui.components.stitch.StitchButtonVariant.Primary -> Quadruple(
+            stitchColors.primary,
+            stitchColors.onPrimary,
             null,
-            SparrowElevation.sm
+            2.dp
         )
-        ShadcnButtonVariant.Destructive -> Quadruple(
-            colors.destructive,
-            colors.destructiveForeground,
+        io.peng.sparrowdelivery.ui.components.stitch.StitchButtonVariant.Secondary -> Quadruple(
+            stitchColors.secondaryContainer,
+            stitchColors.onSecondaryContainer,
             null,
-            SparrowElevation.sm
+            1.dp
         )
-        ShadcnButtonVariant.Outline -> Quadruple(
+        io.peng.sparrowdelivery.ui.components.stitch.StitchButtonVariant.Outline -> Quadruple(
             Color.Transparent,
-            colors.foreground,
-            BorderStroke(1.dp, colors.border),
+            stitchColors.onSurface,
+            BorderStroke(1.dp, stitchColors.outline),
             0.dp
         )
-        ShadcnButtonVariant.Secondary -> Quadruple(
-            colors.secondary,
-            colors.secondaryForeground,
+        io.peng.sparrowdelivery.ui.components.stitch.StitchButtonVariant.Destructive -> Quadruple(
+            stitchColors.error,
+            stitchColors.onError,
             null,
-            0.dp
+            2.dp
         )
-        ShadcnButtonVariant.Ghost -> Quadruple(
+        io.peng.sparrowdelivery.ui.components.stitch.StitchButtonVariant.Ghost -> Quadruple(
             Color.Transparent,
-            colors.foreground,
+            stitchColors.onSurface,
             null,
             0.dp
         )
-        ShadcnButtonVariant.Link -> Quadruple(
-            Color.Transparent,
-            colors.primary,
+        io.peng.sparrowdelivery.ui.components.stitch.StitchButtonVariant.Success -> Quadruple(
+            stitchColors.success,
+            stitchColors.onSuccess,
             null,
-            0.dp
-        )
-        ShadcnButtonVariant.Success -> Quadruple(
-            colors.success ?: colors.primary,
-            colors.primaryForeground,
-            null,
-            SparrowElevation.sm
+            2.dp
         )
     }
     
-    val (horizontalPadding, verticalPadding, textStyle) = when (size) {
-        ShadcnButtonSize.Small -> Triple(
-            SparrowSpacing.sm,
-            SparrowSpacing.xs,
-            SparrowTypography.small
-        )
-        ShadcnButtonSize.Default -> Triple(
-            SparrowSpacing.md,
-            SparrowSpacing.sm,
-            SparrowTypography.p
-        )
-        ShadcnButtonSize.Large -> Triple(
-            SparrowSpacing.lg,
-            SparrowSpacing.md,
-            SparrowTypography.large
-        )
-        ShadcnButtonSize.Icon -> Triple(
-            SparrowSpacing.sm,
-            SparrowSpacing.sm,
-            SparrowTypography.p
-        )
+    val (horizontalPadding, verticalPadding) = when (size) {
+        io.peng.sparrowdelivery.ui.components.stitch.StitchButtonSize.Small -> Pair(8.dp, 4.dp)
+        io.peng.sparrowdelivery.ui.components.stitch.StitchButtonSize.Default -> Pair(16.dp, 8.dp)
+        io.peng.sparrowdelivery.ui.components.stitch.StitchButtonSize.Large -> Pair(24.dp, 16.dp)
     }
     
     Button(
@@ -120,12 +97,12 @@ fun ShadcnButton(
         modifier = modifier
             .shadow(
                 elevation = if (enabled) elevation else 0.dp,
-                shape = RoundedCornerShape(SparrowBorderRadius.md),
-                ambientColor = colors.foreground.copy(alpha = 0.1f),
-                spotColor = colors.foreground.copy(alpha = 0.1f)
+                shape = RoundedCornerShape(12.dp),
+                ambientColor = stitchColors.onSurface.copy(alpha = 0.1f),
+                spotColor = stitchColors.onSurface.copy(alpha = 0.1f)
             ),
         enabled = enabled,
-        shape = RoundedCornerShape(SparrowBorderRadius.md),
+        shape = RoundedCornerShape(12.dp),
         colors = ButtonDefaults.buttonColors(
             containerColor = backgroundColor,
             contentColor = contentColor,
@@ -144,7 +121,7 @@ fun ShadcnButton(
         )
     ) {
         Row(
-            horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.xs),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             leadingIcon?.let {
@@ -168,20 +145,21 @@ fun ShadcnButton(
     }
 }
 
+
 @Composable
 fun SparrowTextButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    variant: ShadcnButtonVariant = ShadcnButtonVariant.Default,
-    size: ShadcnButtonSize = ShadcnButtonSize.Default,
+    variant: ButtonVariant = ButtonVariant.Default,
+    size: ButtonSize = ButtonSize.Default,
     enabled: Boolean = true,
     leadingIcon: ImageVector? = null,
     trailingIcon: ImageVector? = null
 ) {
     // Map Shadcn variants to Stitch button components
     when (variant) {
-        ShadcnButtonVariant.Default -> {
+        ButtonVariant.Default -> {
             StitchPrimaryButton(
                 onClick = onClick,
                 text = text,
@@ -190,7 +168,7 @@ fun SparrowTextButton(
                 icon = leadingIcon ?: trailingIcon
             )
         }
-        ShadcnButtonVariant.Secondary -> {
+        ButtonVariant.Secondary -> {
             StitchSecondaryButton(
                 onClick = onClick,
                 text = text,
@@ -198,7 +176,7 @@ fun SparrowTextButton(
                 enabled = enabled
             )
         }
-        ShadcnButtonVariant.Outline -> {
+        ButtonVariant.Outline -> {
             StitchOutlineButton(
                 onClick = onClick,
                 text = text,
@@ -206,14 +184,14 @@ fun SparrowTextButton(
                 enabled = enabled
             )
         }
-        ShadcnButtonVariant.Ghost -> {
+        ButtonVariant.Ghost -> {
             StitchIconButton(
                 onClick = onClick,
                 icon = leadingIcon ?: trailingIcon ?: Icons.Default.Add,
                 variant = StitchIconButtonVariant.Secondary
             )
         }
-        ShadcnButtonVariant.Link -> {
+        ButtonVariant.Link -> {
             StitchText(
                 text = text,
                 modifier = modifier.clickable(
@@ -223,7 +201,7 @@ fun SparrowTextButton(
                 color = androidx.compose.ui.graphics.Color.Blue // Use appropriate color from Stitch theme
             )
         }
-        ShadcnButtonVariant.Destructive -> {
+        ButtonVariant.Destructive -> {
             StitchPrimaryButton(
                 onClick = onClick,
                 text = text,
@@ -232,7 +210,7 @@ fun SparrowTextButton(
             )
             // Note: Would need to customize styling for destructive variant
         }
-        ShadcnButtonVariant.Success -> {
+        ButtonVariant.Success -> {
             StitchSuccessButton(
                 onClick = onClick,
                 text = text,
@@ -248,8 +226,8 @@ fun ShadcnIconButton(
     icon: ImageVector,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    variant: ShadcnButtonVariant = ShadcnButtonVariant.Ghost,
-    size: ShadcnButtonSize = ShadcnButtonSize.Icon,
+    variant: ButtonVariant = ButtonVariant.Ghost,
+    size: ButtonSize = ButtonSize.Icon,
     enabled: Boolean = true,
     contentDescription: String? = null
 ) {
@@ -259,9 +237,9 @@ fun ShadcnIconButton(
         icon = icon,
         modifier = modifier,
         variant = when (variant) {
-            ShadcnButtonVariant.Default -> StitchIconButtonVariant.Primary
-            ShadcnButtonVariant.Secondary -> StitchIconButtonVariant.Secondary
-            ShadcnButtonVariant.Success -> StitchIconButtonVariant.Success
+            ButtonVariant.Default -> StitchIconButtonVariant.Primary
+            ButtonVariant.Secondary -> StitchIconButtonVariant.Secondary
+            ButtonVariant.Success -> StitchIconButtonVariant.Success
             else -> StitchIconButtonVariant.Secondary
         }
     )

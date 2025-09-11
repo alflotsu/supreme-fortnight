@@ -17,7 +17,7 @@ import io.peng.sparrowdelivery.integration.DeepLinkHandler
 import io.peng.sparrowdelivery.integration.LocationData
 import io.peng.sparrowdelivery.navigation.Screen
 import io.peng.sparrowdelivery.navigation.SparrowDeliveryNavigation
-import io.peng.sparrowdelivery.ui.theme.SparrowDeliveryTheme
+import io.peng.sparrowdelivery.ui.theme.StitchTheme
 
 class MainActivity : ComponentActivity() {
     private var externalBookingData: Triple<LocationData, LocationData, String?>? = null
@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            SparrowDeliveryTheme {
+            StitchTheme {
                 val navController = rememberNavController()
                 val deepLinkProcessed = remember { mutableStateOf(false) }
                 

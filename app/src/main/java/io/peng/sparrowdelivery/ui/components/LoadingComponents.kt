@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.peng.sparrowdelivery.ui.theme.*
+import io.peng.sparrowdelivery.ui.components.stitch.StitchCard
 
 // Shimmer effect for skeleton loading
 @Composable
@@ -158,9 +159,8 @@ fun LoadingCard(
     modifier: Modifier = Modifier,
     showAvatar: Boolean = true
 ) {
-    SparrowCard(
-        modifier = modifier.fillMaxWidth(),
-        variant = ShadcnCardVariant.Default
+    StitchCard(
+        modifier = modifier.fillMaxWidth()
     ) {
         Column(
             modifier = Modifier.padding(SparrowSpacing.lg)
@@ -307,9 +307,8 @@ fun LoadingOverlay(
                 .background(backgroundColor),
             contentAlignment = Alignment.Center
         ) {
-            SparrowCard(
-                modifier = Modifier.wrapContentSize(),
-                variant = ShadcnCardVariant.Default
+            StitchCard(
+                modifier = Modifier.wrapContentSize()
             ) {
                 Column(
                     modifier = Modifier.padding(SparrowSpacing.xl),
@@ -319,9 +318,9 @@ fun LoadingOverlay(
                     
                     Spacer(modifier = Modifier.height(SparrowSpacing.lg))
                     
-                    ShadcnText(
+                    SText(
                         text = message,
-                        style = ShadcnTextStyle.Large,
+                        style = TextStyle.Large,
                         color = SparrowTheme.colors.foreground
                     )
                 }

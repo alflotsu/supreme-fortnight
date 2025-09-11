@@ -5,6 +5,8 @@ import io.peng.sparrowdelivery.data.auth.AuthRepository
 import io.peng.sparrowdelivery.data.services.*
 import io.peng.sparrowdelivery.data.repository.*
 import io.peng.sparrowdelivery.domain.repository.*
+import io.peng.sparrowdelivery.domain.repositories.RouteRepository
+import io.peng.sparrowdelivery.data.repositories.RouteRepositoryImpl
 import io.peng.sparrowdelivery.core.error.ErrorHandler
 import io.peng.sparrowdelivery.presentation.features.home.LocationCoordinate
 
@@ -36,6 +38,9 @@ object ServiceLocator {
     private var _locationRepository: LocationRepository? = null
     private var _placesRepository: PlacesRepository? = null
     private var _deliveryTrackingRepository: DeliveryTrackingRepository? = null
+    
+    // New enhanced route repository with Mapbox/Google Maps support
+    private var _newRouteRepository: RouteRepository? = null
     
     // Enhanced services (used by repositories)
     private var _enhancedGoogleDirectionsService: EnhancedGoogleDirectionsService? = null
@@ -104,6 +109,28 @@ object ServiceLocator {
         return _deliveryTrackingRepository ?: run {
             val repository = MockDeliveryTrackingRepository()
             _deliveryTrackingRepository = repository
+            repository
+        }
+    }
+    
+    /**
+     * Get New Enhanced Route Repository singleton
+     * Supports Mapbox (primary) and Google Maps (fallback) with proper polyline handling
+     */
+    fun getNewRouteRepository(context: Context): RouteRepository {
+        return _newRouteRepository ?: run {
+            val repository = RouteRepositoryImpl(
+                httpClient = okhttp3.OkHttpClient.Builder()
+                    .addInterceptor { chain ->
+                        val request = chain.request().newBuilder()
+                            .addHeader("User-Agent", "SupremeFortnight/1.0 (Android)")
+                            .build()
+                        chain.proceed(request)
+                    }
+                    .build(),
+                gson = com.google.gson.Gson()
+            )
+            _newRouteRepository = repository
             repository
         }
     }

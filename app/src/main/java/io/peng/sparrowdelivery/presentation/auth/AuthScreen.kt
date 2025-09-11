@@ -7,6 +7,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.peng.sparrowdelivery.data.auth.GoogleSignInLauncher
@@ -46,7 +47,7 @@ fun AuthScreen(
         }
     }
     
-    SparrowTheme {
+    StitchTheme {
         // Add contextual haptic feedback for auth states
         ContextualHapticFeedback(
             isSuccess = uiState.isLoggedIn,
@@ -78,7 +79,7 @@ fun AuthScreen(
                     onClick = { /* No-op for container */ },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(SparrowSpacing.lg),
+                        .padding(16.dp),
                     hapticFeedback = false,
                     elevationAnimation = false,
                     scaleAnimation = false
@@ -110,24 +111,26 @@ private fun AuthContent(
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
     
+    val stitchColors = LocalStitchColorScheme.current
+    
     Column(
-        verticalArrangement = Arrangement.spacedBy(SparrowSpacing.lg),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // Header
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(SparrowSpacing.sm)
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             ShadcnHeading(
                 text = "Velourcity",
                 level = 1,
-                color = SparrowTheme.colors.primary
+                color = stitchColors.primary
             )
-            ShadcnText(
+            SText(
                 text = if (uiState.isSignUpMode) "Create your account" else "Welcome back",
-                style = ShadcnTextStyle.Large,
-                color = SparrowTheme.colors.mutedForeground
+                style = TextStyle.Large,
+                color = stitchColors.textSecondary
             )
         }
         
@@ -159,16 +162,16 @@ private fun AuthContent(
         
         // Error message
         if (uiState.errorMessage != null) {
-            ShadcnInlineAlert(
+            InlineAlert(
                 message = uiState.errorMessage,
-                variant = ShadcnAlertVariant.Destructive,
+                variant = AlertVariant.Destructive,
                 modifier = Modifier.fillMaxWidth()
             )
         }
         
         // Action buttons
         Column(
-            verticalArrangement = Arrangement.spacedBy(SparrowSpacing.md),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier.fillMaxWidth()
         ) {
             // Primary action button
@@ -182,7 +185,7 @@ private fun AuthContent(
                     }
                 },
                 modifier = Modifier.fillMaxWidth(),
-                variant = ShadcnButtonVariant.Default,
+                variant = ButtonVariant.Default,
                 enabled = !uiState.isLoading && email.isNotBlank() && password.isNotBlank()
             )
             
@@ -191,7 +194,7 @@ private fun AuthContent(
                 text = "Continue with Google",
                 onClick = onGoogleSignIn,
                 modifier = Modifier.fillMaxWidth(),
-                variant = ShadcnButtonVariant.Outline,
+                variant = ButtonVariant.Outline,
                 enabled = !uiState.isLoading,
                 leadingIcon = Icons.Default.Email // Replace with Google icon in production
             )
@@ -202,17 +205,17 @@ private fun AuthContent(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ShadcnText(
+            SText(
                 text = if (uiState.isSignUpMode) "Already have an account?" else "Don't have an account?",
-                style = ShadcnTextStyle.Small,
-                color = SparrowTheme.colors.mutedForeground
+                style = TextStyle.Small,
+                color = stitchColors.textSecondary
             )
-            Spacer(modifier = Modifier.width(SparrowSpacing.xs))
+            Spacer(modifier = Modifier.width(4.dp))
             SparrowTextButton(
                 text = if (uiState.isSignUpMode) "Sign In" else "Sign Up",
                 onClick = onToggleMode,
-                variant = ShadcnButtonVariant.Link,
-                size = ShadcnButtonSize.Small,
+                variant = ButtonVariant.Link,
+                size = ButtonSize.Small,
                 enabled = !uiState.isLoading
             )
         }

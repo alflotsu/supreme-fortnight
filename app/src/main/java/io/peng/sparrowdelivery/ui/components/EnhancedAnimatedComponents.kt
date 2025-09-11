@@ -2,7 +2,6 @@ package io.peng.sparrowdelivery.ui.components
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
@@ -17,12 +16,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -30,6 +26,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import io.peng.sparrowdelivery.ui.theme.*
 import kotlinx.coroutines.delay
+
 
 // Enhanced animated card with press effects and hover states
 @Composable
@@ -40,7 +37,7 @@ fun EnhancedAnimatedCard(
     hapticFeedback: Boolean = true,
     elevationAnimation: Boolean = true,
     scaleAnimation: Boolean = true,
-    variant: ShadcnCardVariant = ShadcnCardVariant.Default,
+    variant: io.peng.sparrowdelivery.ui.components.stitch.StitchCardVariant = io.peng.sparrowdelivery.ui.components.stitch.StitchCardVariant.Default,
     content: @Composable ColumnScope.() -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -68,10 +65,11 @@ fun EnhancedAnimatedCard(
     
     val colors = SparrowTheme.colors
     val cardColors = when (variant) {
-        ShadcnCardVariant.Default -> colors.card
-        ShadcnCardVariant.Elevated -> colors.card
-        ShadcnCardVariant.Outlined -> colors.card
-        ShadcnCardVariant.Ghost -> colors.card
+        io.peng.sparrowdelivery.ui.components.stitch.StitchCardVariant.Default -> colors.card
+        io.peng.sparrowdelivery.ui.components.stitch.StitchCardVariant.Elevated -> colors.card
+        io.peng.sparrowdelivery.ui.components.stitch.StitchCardVariant.Outlined -> colors.card
+        io.peng.sparrowdelivery.ui.components.stitch.StitchCardVariant.Filled -> colors.card
+        io.peng.sparrowdelivery.ui.components.stitch.StitchCardVariant.Compact -> colors.card
     }
     
     Card(
@@ -185,9 +183,9 @@ fun AnimatedListItem(
                     Box(
                         modifier = Modifier
                     ) {
-                        ShadcnText(
+                        SText(
                             text = title,
-                            style = ShadcnTextStyle.Large,
+                            style = TextStyle.Large,
                             color = SparrowTheme.colors.foreground
                         )
                     }
@@ -197,9 +195,9 @@ fun AnimatedListItem(
                         Box(
                             modifier = Modifier
                         ) {
-                            ShadcnText(
+                            SText(
                                 text = sub,
-                                style = ShadcnTextStyle.Small,
+                                style = TextStyle.Small,
                                 color = SparrowTheme.colors.mutedForeground
                             )
                         }
@@ -279,9 +277,9 @@ fun ExpandableAnimatedCard(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            ShadcnText(
+            SText(
                 text = title,
-                style = ShadcnTextStyle.Large,
+                style = TextStyle.Large,
                 color = SparrowTheme.colors.foreground
             )
             
@@ -425,9 +423,9 @@ fun AnimatedHeroSection(
                     animationSpec = tween(800, easing = FastOutSlowInEasing)
                 )
             ) {
-                ShadcnText(
+                SText(
                     text = subtitle,
-                    style = ShadcnTextStyle.Large,
+                    style = TextStyle.Large,
                     color = SparrowTheme.colors.mutedForeground,
                     modifier = Modifier.padding(bottom = SparrowSpacing.xl)
                 )

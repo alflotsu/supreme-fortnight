@@ -21,18 +21,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import io.peng.sparrowdelivery.ui.theme.*
 
 @Composable
-fun EnhancedShadcnInput(
+fun EnhancedInput(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
@@ -301,7 +299,7 @@ fun EnhancedShadcnEmailInput(
     placeholder: String = "Enter your email",
     enabled: Boolean = true
 ) {
-    EnhancedShadcnInput(
+    EnhancedInput(
         value = value,
         onValueChange = onValueChange,
         modifier = modifier,
@@ -326,7 +324,7 @@ fun EnhancedShadcnPasswordInput(
 ) {
     var passwordVisible by remember { mutableStateOf(false) }
     
-    EnhancedShadcnInput(
+    EnhancedInput(
         value = value,
         onValueChange = onValueChange,
         modifier = modifier,

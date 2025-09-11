@@ -104,7 +104,18 @@ data class StitchColorScheme(
     val inputBackground: Color,
     val inputBorder: Color,
     val inputFocused: Color,
-)
+    // Semantic colors for badges and components
+    val success: Color,
+    val onSuccess: Color,
+    val warning: Color,
+    val onWarning: Color,
+    val info: Color,
+    val onInfo: Color,
+) {
+    // Convenient aliases for common usage patterns
+    val destructive: Color get() = error
+    val onDestructive: Color get() = onError
+}
 
 val StitchLightColorScheme = StitchColorScheme(
     primary = StitchColors.Red,
@@ -145,6 +156,13 @@ val StitchLightColorScheme = StitchColorScheme(
     inputBackground = StitchColors.InputBackground,
     inputBorder = StitchColors.InputBorder,
     inputFocused = StitchColors.InputFocused,
+    // Semantic colors
+    success = StitchColors.Success,
+    onSuccess = Color.White,
+    warning = StitchColors.Warning,
+    onWarning = Color.White,
+    info = StitchColors.Info,
+    onInfo = Color.White,
 )
 
 val StitchDarkColorScheme = StitchColorScheme(
@@ -186,4 +204,11 @@ val StitchDarkColorScheme = StitchColorScheme(
     inputBackground = StitchColors.InputBackgroundDark,
     inputBorder = StitchColors.InputBorderDark,
     inputFocused = StitchColors.InputFocusedDark,
+    // Semantic colors
+    success = StitchColors.Success,
+    onSuccess = Color.White,
+    warning = StitchColors.Warning,
+    onWarning = Color.White,
+    info = StitchColors.Info,
+    onInfo = Color.White,
 )

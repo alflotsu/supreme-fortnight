@@ -15,12 +15,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import io.peng.sparrowdelivery.ui.theme.*
 
-enum class ShadcnAlertVariant {
+enum class AlertVariant {
     Default,
     Destructive,
     Warning,
@@ -28,15 +27,13 @@ enum class ShadcnAlertVariant {
     Info
 }
 
-/**
- * shadcn/ui inspired Alert component for displaying important messages
- */
+
 @Composable
-fun ShadcnAlert(
+fun Alert(
     title: String? = null,
     description: String,
     modifier: Modifier = Modifier,
-    variant: ShadcnAlertVariant = ShadcnAlertVariant.Default,
+    variant: AlertVariant = AlertVariant.Default,
     icon: ImageVector? = null,
     dismissible: Boolean = false,
     onDismiss: (() -> Unit)? = null,
@@ -45,35 +42,35 @@ fun ShadcnAlert(
     val colors = SparrowTheme.colors
     
     val (backgroundColor, borderColor, iconColor, titleColor, descriptionColor) = when (variant) {
-        ShadcnAlertVariant.Default -> listOf(
+        AlertVariant.Default -> listOf(
             colors.card,
             colors.border,
             colors.foreground,
             colors.foreground,
             colors.foreground.copy(alpha = 0.8f)
         )
-        ShadcnAlertVariant.Destructive -> listOf(
+        AlertVariant.Destructive -> listOf(
             colors.destructive.copy(alpha = 0.1f),
             colors.destructive.copy(alpha = 0.5f),
             colors.destructive,
             colors.destructive,
             colors.destructive.copy(alpha = 0.8f)
         )
-        ShadcnAlertVariant.Warning -> listOf(
+        AlertVariant.Warning -> listOf(
             colors.warning.copy(alpha = 0.1f),
             colors.warning.copy(alpha = 0.5f),
             colors.warning,
             colors.warning,
             colors.warning.copy(alpha = 0.8f)
         )
-        ShadcnAlertVariant.Success -> listOf(
+        AlertVariant.Success -> listOf(
             colors.success.copy(alpha = 0.1f),
             colors.success.copy(alpha = 0.5f),
             colors.success,
             colors.success,
             colors.success.copy(alpha = 0.8f)
         )
-        ShadcnAlertVariant.Info -> listOf(
+        AlertVariant.Info -> listOf(
             colors.info.copy(alpha = 0.1f),
             colors.info.copy(alpha = 0.5f),
             colors.info,
@@ -84,11 +81,11 @@ fun ShadcnAlert(
     
     // Default icons for each variant
     val defaultIcon = icon ?: when (variant) {
-        ShadcnAlertVariant.Default -> Icons.Default.Info
-        ShadcnAlertVariant.Destructive -> Icons.Default.Warning
-        ShadcnAlertVariant.Warning -> Icons.Default.Warning
-        ShadcnAlertVariant.Success -> Icons.Default.CheckCircle
-        ShadcnAlertVariant.Info -> Icons.Default.Info
+        AlertVariant.Default -> Icons.Default.Info
+        AlertVariant.Destructive -> Icons.Default.Warning
+        AlertVariant.Warning -> Icons.Default.Warning
+        AlertVariant.Success -> Icons.Default.CheckCircle
+        AlertVariant.Info -> Icons.Default.Info
     }
     
     Box(
@@ -124,17 +121,17 @@ fun ShadcnAlert(
                 verticalArrangement = Arrangement.spacedBy(SparrowSpacing.xs)
             ) {
                 title?.let {
-                    ShadcnText(
+                    SText(
                         text = it,
-                        style = ShadcnTextStyle.Small,
+                        style = TextStyle.Small,
                         color = titleColor as Color,
                         modifier = Modifier
                     )
                 }
                 
-                ShadcnText(
+                SText(
                     text = description,
-                    style = ShadcnTextStyle.Small,
+                    style = TextStyle.Small,
                     color = descriptionColor as Color,
                     modifier = Modifier
                 )
@@ -171,7 +168,7 @@ fun ShadcnAlert(
 fun ShadcnToast(
     message: String,
     modifier: Modifier = Modifier,
-    variant: ShadcnAlertVariant = ShadcnAlertVariant.Default,
+    variant: AlertVariant = AlertVariant.Default,
     icon: ImageVector? = null,
     duration: Long = 4000L,
     action: (@Composable () -> Unit)? = null,
@@ -198,7 +195,7 @@ fun ShadcnToast(
             animationSpec = tween(300)
         ) + fadeOut(animationSpec = tween(300))
     ) {
-        ShadcnAlert(
+        Alert(
             description = message,
             modifier = modifier,
             variant = variant,
@@ -219,7 +216,7 @@ fun ShadcnToast(
 fun ShadcnBanner(
     message: String,
     modifier: Modifier = Modifier,
-    variant: ShadcnAlertVariant = ShadcnAlertVariant.Info,
+    variant: AlertVariant = AlertVariant.Info,
     icon: ImageVector? = null,
     dismissible: Boolean = true,
     onDismiss: (() -> Unit)? = null,
@@ -228,27 +225,27 @@ fun ShadcnBanner(
     val colors = SparrowTheme.colors
     
     val (backgroundColor, textColor, borderColor) = when (variant) {
-        ShadcnAlertVariant.Default -> Triple(
+        AlertVariant.Default -> Triple(
             colors.muted,
             colors.foreground,
             colors.border
         )
-        ShadcnAlertVariant.Destructive -> Triple(
+        AlertVariant.Destructive -> Triple(
             colors.destructive,
             colors.destructiveForeground,
             colors.destructive
         )
-        ShadcnAlertVariant.Warning -> Triple(
+        AlertVariant.Warning -> Triple(
             colors.warning,
             colors.foreground,
             colors.warning
         )
-        ShadcnAlertVariant.Success -> Triple(
+        AlertVariant.Success -> Triple(
             colors.success,
             colors.primaryForeground,
             colors.success
         )
-        ShadcnAlertVariant.Info -> Triple(
+        AlertVariant.Info -> Triple(
             colors.info,
             colors.primaryForeground,
             colors.info
@@ -277,9 +274,9 @@ fun ShadcnBanner(
                 )
             }
             
-            ShadcnText(
+            SText(
                 text = message,
-                style = ShadcnTextStyle.Small,
+                style = TextStyle.Small,
                 color = textColor,
                 modifier = Modifier.weight(1f)
             )
@@ -307,28 +304,28 @@ fun ShadcnBanner(
  * Inline alert for form validation and contextual messages
  */
 @Composable
-fun ShadcnInlineAlert(
+fun InlineAlert(
     message: String,
     modifier: Modifier = Modifier,
-    variant: ShadcnAlertVariant = ShadcnAlertVariant.Destructive,
+    variant: AlertVariant = AlertVariant.Destructive,
     icon: ImageVector? = null
 ) {
     val colors = SparrowTheme.colors
     
     val (iconColor, textColor) = when (variant) {
-        ShadcnAlertVariant.Default -> Pair(colors.foreground, colors.foreground)
-        ShadcnAlertVariant.Destructive -> Pair(colors.destructive, colors.destructive)
-        ShadcnAlertVariant.Warning -> Pair(colors.warning, colors.warning)
-        ShadcnAlertVariant.Success -> Pair(colors.success, colors.success)
-        ShadcnAlertVariant.Info -> Pair(colors.info, colors.info)
+        AlertVariant.Default -> Pair(colors.foreground, colors.foreground)
+        AlertVariant.Destructive -> Pair(colors.destructive, colors.destructive)
+        AlertVariant.Warning -> Pair(colors.warning, colors.warning)
+        AlertVariant.Success -> Pair(colors.success, colors.success)
+        AlertVariant.Info -> Pair(colors.info, colors.info)
     }
     
     val defaultIcon = icon ?: when (variant) {
-        ShadcnAlertVariant.Default -> Icons.Default.Info
-        ShadcnAlertVariant.Destructive -> Icons.Default.Warning
-        ShadcnAlertVariant.Warning -> Icons.Default.Warning
-        ShadcnAlertVariant.Success -> Icons.Default.CheckCircle
-        ShadcnAlertVariant.Info -> Icons.Default.Info
+        AlertVariant.Default -> Icons.Default.Info
+        AlertVariant.Destructive -> Icons.Default.Warning
+        AlertVariant.Warning -> Icons.Default.Warning
+        AlertVariant.Success -> Icons.Default.CheckCircle
+        AlertVariant.Info -> Icons.Default.Info
     }
     
     Row(
@@ -343,9 +340,9 @@ fun ShadcnInlineAlert(
             modifier = Modifier.size(14.dp)
         )
         
-        ShadcnText(
+        SText(
             text = message,
-            style = ShadcnTextStyle.Small,
+            style = TextStyle.Small,
             color = textColor
         )
     }
@@ -354,7 +351,7 @@ fun ShadcnInlineAlert(
 /**
  * Collection of commonly used alert variants
  */
-object ShadcnAlerts {
+object Alerts {
     @Composable
     fun Error(
         message: String,
@@ -362,11 +359,11 @@ object ShadcnAlerts {
         title: String? = "Error",
         dismissible: Boolean = false,
         onDismiss: (() -> Unit)? = null
-    ) = ShadcnAlert(
+    ) = Alert(
         title = title,
         description = message,
         modifier = modifier,
-        variant = ShadcnAlertVariant.Destructive,
+        variant = AlertVariant.Destructive,
         dismissible = dismissible,
         onDismiss = onDismiss
     )
@@ -378,11 +375,11 @@ object ShadcnAlerts {
         title: String? = "Success",
         dismissible: Boolean = false,
         onDismiss: (() -> Unit)? = null
-    ) = ShadcnAlert(
+    ) = Alert(
         title = title,
         description = message,
         modifier = modifier,
-        variant = ShadcnAlertVariant.Success,
+        variant = AlertVariant.Success,
         dismissible = dismissible,
         onDismiss = onDismiss
     )
@@ -394,11 +391,11 @@ object ShadcnAlerts {
         title: String? = "Warning",
         dismissible: Boolean = false,
         onDismiss: (() -> Unit)? = null
-    ) = ShadcnAlert(
+    ) = Alert(
         title = title,
         description = message,
         modifier = modifier,
-        variant = ShadcnAlertVariant.Warning,
+        variant = AlertVariant.Warning,
         dismissible = dismissible,
         onDismiss = onDismiss
     )
@@ -410,11 +407,11 @@ object ShadcnAlerts {
         title: String? = "Info",
         dismissible: Boolean = false,
         onDismiss: (() -> Unit)? = null
-    ) = ShadcnAlert(
+    ) = Alert(
         title = title,
         description = message,
         modifier = modifier,
-        variant = ShadcnAlertVariant.Info,
+        variant = AlertVariant.Info,
         dismissible = dismissible,
         onDismiss = onDismiss
     )

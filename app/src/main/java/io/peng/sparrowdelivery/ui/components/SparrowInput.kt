@@ -17,19 +17,19 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import io.peng.sparrowdelivery.ui.components.stitch.*
 
-enum class ShadcnInputVariant {
+enum class InputVariant {
     Default,
     Ghost,
     Outlined
 }
 
-enum class ShadcnInputSize {
+enum class InputSize {
     Small,
     Default,
     Large
 }
 
-enum class ShadcnInputState {
+enum class InputState {
     Default,
     Error,
     Success,
@@ -44,9 +44,9 @@ fun SparrowInput(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    variant: ShadcnInputVariant = ShadcnInputVariant.Default,
-    size: ShadcnInputSize = ShadcnInputSize.Default,
-    state: ShadcnInputState = ShadcnInputState.Default,
+    variant: InputVariant = InputVariant.Default,
+    size: InputSize = InputSize.Default,
+    state: InputState = InputState.Default,
     placeholder: String = "",
     label: String = "",
     helper: String = "",
@@ -82,8 +82,8 @@ fun ShadcnPasswordInput(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    variant: ShadcnInputVariant = ShadcnInputVariant.Default,
-    size: ShadcnInputSize = ShadcnInputSize.Default,
+    variant: InputVariant = InputVariant.Default,
+    size: InputSize = InputSize.Default,
     placeholder: String = "Enter password",
     label: String = "",
     helper: String = "",
@@ -137,7 +137,7 @@ fun ShadcnSearchInput(
         value = value,
         onValueChange = onValueChange,
         modifier = modifier,
-        variant = ShadcnInputVariant.Default,
+        variant = InputVariant.Default,
         placeholder = placeholder,
         leadingIcon = Icons.Default.Search,
         trailingIcon = if (value.isNotEmpty()) Icons.Default.Clear else null,
@@ -170,8 +170,8 @@ fun ShadcnEmailInput(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    variant: ShadcnInputVariant = ShadcnInputVariant.Default,
-    size: ShadcnInputSize = ShadcnInputSize.Default,
+    variant: InputVariant = InputVariant.Default,
+    size: InputSize = InputSize.Default,
     placeholder: String = "Enter email",
     label: String = "",
     helper: String = "",
@@ -206,8 +206,8 @@ fun ShadcnNumberInput(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    variant: ShadcnInputVariant = ShadcnInputVariant.Default,
-    size: ShadcnInputSize = ShadcnInputSize.Default,
+    variant: InputVariant = InputVariant.Default,
+    size: InputSize = InputSize.Default,
     placeholder: String = "Enter number",
     label: String = "",
     helper: String = "",
@@ -249,7 +249,7 @@ fun ShadcnTextArea(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    variant: ShadcnInputVariant = ShadcnInputVariant.Default,
+    variant: InputVariant = InputVariant.Default,
     placeholder: String = "",
     label: String = "",
     helper: String = "",
@@ -263,7 +263,7 @@ fun ShadcnTextArea(
         onValueChange = onValueChange,
         modifier = modifier.heightIn(min = (minHeight * 24).dp),
         variant = variant,
-        size = ShadcnInputSize.Default,
+        size = InputSize.Default,
         placeholder = placeholder,
         label = label,
         helper = helper,

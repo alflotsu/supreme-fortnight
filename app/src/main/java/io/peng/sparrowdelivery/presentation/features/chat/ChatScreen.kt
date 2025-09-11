@@ -16,10 +16,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Phone
-import androidx.compose.material.icons.filled.Send
+import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -38,7 +38,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import io.peng.sparrowdelivery.ui.theme.SparrowTheme
+import io.peng.sparrowdelivery.ui.theme.StitchTheme
+import io.peng.sparrowdelivery.ui.components.stitch.*
+import io.peng.sparrowdelivery.ui.theme.LocalStitchColorScheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
@@ -83,8 +85,11 @@ fun ChatScreen(
         viewModel.markMessagesAsRead()
     }
     
-    SparrowTheme {
+    StitchTheme {
+        val stitchColors = LocalStitchColorScheme.current
+        
         Scaffold(
+            containerColor = stitchColors.background,
             topBar = {
                 ChatTopBar(
                     driverName = driverName,
@@ -114,6 +119,7 @@ fun ChatScreen(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
+                    .background(stitchColors.background)
                     .padding(innerPadding)
             ) {
                 // Chat message list
@@ -133,30 +139,28 @@ fun ChatScreen(
                 
                 // Error message
                 uiState.errorMessage?.let { error ->
-                    Card(
+                    StitchCard(
                         modifier = Modifier
                             .align(Alignment.TopCenter)
                             .fillMaxWidth()
                             .padding(16.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.errorContainer
-                        )
+                        backgroundColor = MaterialTheme.colorScheme.errorContainer
                     ) {
                         Row(
                             modifier = Modifier.padding(16.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Text(
+                            StitchText(
                                 text = error,
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onErrorContainer
                             )
                             Spacer(modifier = Modifier.weight(1f))
-                            TextButton(
-                                onClick = { viewModel.clearErrorMessage() }
-                            ) {
-                                Text("Dismiss")
-                            }
+//                            TextButton(
+//                                text = "Dismiss",
+//                                onClick = { viewModel.clearErrorMessage() },
+//                                variant = StitchButtonVariant.Outline
+//                            )
                         }
                     }
                 }
@@ -176,46 +180,45 @@ fun ChatTopBar(
 ) {
     TopAppBar(
         title = {
-            Column {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    text = "Chat with Driver",
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontSize = 16.sp,
+                        lineHeight = 24.sp,
+                        fontWeight = FontWeight.SemiBold
+                    ),
+                    color = Color.White
+                )
                 Text(
                     text = driverName,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.SemiBold
+                    style = MaterialTheme.typography.bodySmall.copy(
+                        fontSize = 14.sp,
+                        lineHeight = 20.sp,
+                        fontWeight = FontWeight.Normal
+                    ),
+                    color = Color(0xFF96C5A9)
                 )
-                
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(
-                        modifier = Modifier
-                            .size(8.dp)
-                            .background(
-                                if (isOnline) Color(0xFF4CAF50) else Color.Gray,
-                                CircleShape
-                            )
-                    )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(
-                        text = lastSeen,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
-                    )
-                }
             }
         },
         navigationIcon = {
             IconButton(onClick = onBackClick) {
-                Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back", tint = Color.White)
             }
         },
         actions = {
             IconButton(onClick = onCallClick) {
-                Icon(Icons.Default.Phone, contentDescription = "Call driver")
+                Icon(Icons.Default.Phone, contentDescription = "Call driver", tint = Color.White)
             }
             IconButton(onClick = { /* Menu options */ }) {
-                Icon(Icons.Default.MoreVert, contentDescription = "More options")
+                Icon(Icons.Default.MoreVert, contentDescription = "More options", tint = Color.White)
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.surface
+            containerColor = Color(0xFF122118),
+            titleContentColor = Color.White,
+            navigationIconContentColor = Color.White,
+            actionIconContentColor = Color.White
         )
     )
 }
@@ -330,13 +333,17 @@ fun CustomerMessageBubble(message: ChatMessage) {
                         bottomEnd = 4.dp
                     )
                 )
-                .background(MaterialTheme.colorScheme.primary)
-                .padding(horizontal = 12.dp, vertical = 8.dp)
+                .background(Color(0xFF38E07B))
+                .padding(horizontal = 16.dp, vertical = 12.dp)
         ) {
             Text(
                 text = message.text,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onPrimary
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    fontSize = 16.sp,
+                    lineHeight = 24.sp,
+                    fontWeight = FontWeight.Normal
+                ),
+                color = Color(0xFF122118)
             )
         }
         
@@ -359,28 +366,28 @@ fun CustomerMessageBubble(message: ChatMessage) {
                     CircularProgressIndicator(
                         modifier = Modifier.size(10.dp),
                         strokeWidth = 1.dp,
-                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f)
+                        color = Color(0xFF38E07B).copy(alpha = 0.6f)
                     )
                 }
                 MessageStatus.SENT -> {
                     Text(
                         text = "✓",
                         fontSize = 10.sp,
-                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f)
+                        color = Color(0xFF38E07B).copy(alpha = 0.6f)
                     )
                 }
                 MessageStatus.DELIVERED -> {
                     Text(
                         text = "✓✓",
                         fontSize = 10.sp,
-                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f)
+                        color = Color(0xFF38E07B).copy(alpha = 0.6f)
                     )
                 }
                 MessageStatus.READ -> {
                     Text(
                         text = "✓✓",
                         fontSize = 10.sp,
-                        color = Color(0xFF4CAF50)
+                        color = Color(0xFF38E07B)
                     )
                 }
                 MessageStatus.FAILED -> {
@@ -413,13 +420,17 @@ fun DriverMessageBubble(message: ChatMessage) {
                         bottomEnd = 16.dp
                     )
                 )
-                .background(MaterialTheme.colorScheme.surfaceVariant)
-                .padding(horizontal = 12.dp, vertical = 8.dp)
+                .background(Color(0xFF264532))
+                .padding(horizontal = 16.dp, vertical = 12.dp)
         ) {
             Text(
                 text = message.text,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    fontSize = 16.sp,
+                    lineHeight = 24.sp,
+                    fontWeight = FontWeight.Normal
+                ),
+                color = Color.White
             )
         }
         
@@ -427,9 +438,13 @@ fun DriverMessageBubble(message: ChatMessage) {
         
         Text(
             text = message.getFormattedTime(),
-            style = MaterialTheme.typography.labelSmall,
-            fontSize = 10.sp,
-            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+            style = MaterialTheme.typography.labelSmall.copy(
+                fontSize = 10.sp,
+                lineHeight = 14.sp,
+                fontWeight = FontWeight.Medium,
+                letterSpacing = 0.5.sp
+            ),
+            color = Color(0xFF96C5A9),
             modifier = Modifier.padding(start = 4.dp)
         )
     }
@@ -441,9 +456,9 @@ fun TypingIndicator() {
     
     Row(
         modifier = Modifier
-            .clip(RoundedCornerShape(16.dp))
-            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f))
-            .padding(horizontal = 10.dp, vertical = 6.dp),
+            .clip(RoundedCornerShape(8.dp))
+            .background(Color(0xFF264532))
+            .padding(horizontal = 12.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -467,7 +482,7 @@ fun TypingIndicator() {
                     .size(6.dp)
                     .offset(y = (-offset).dp)
                     .background(
-                        MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
+                        Color(0xFF96C5A9),
                         CircleShape
                     )
             )
@@ -484,13 +499,14 @@ fun ChatInputField(
     focusRequester: FocusRequester
 ) {
     Surface(
-        tonalElevation = 2.dp,
-        shadowElevation = 4.dp
+        tonalElevation = 0.dp,
+        shadowElevation = 0.dp,
+        color = Color(0xFF122118)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 12.dp, vertical = 8.dp),
+                .padding(horizontal = 16.dp, vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Text field
@@ -501,8 +517,21 @@ fun ChatInputField(
                     .weight(1f)
                     .focusRequester(focusRequester),
                 placeholder = {
-                    Text("Message")
+                    Text(
+                        "Type a message...", 
+                        color = Color(0xFF96C5A9),
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            fontSize = 16.sp,
+                            lineHeight = 24.sp,
+                            fontWeight = FontWeight.Normal
+                        )
+                    )
                 },
+                textStyle = MaterialTheme.typography.bodyMedium.copy(
+                    fontSize = 16.sp,
+                    lineHeight = 24.sp,
+                    fontWeight = FontWeight.Normal
+                ),
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Send
                 ),
@@ -515,10 +544,14 @@ fun ChatInputField(
                 ),
                 maxLines = 4,
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f),
-                    unfocusedBorderColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.5f)
+                    focusedBorderColor = Color(0xFF38E07B),
+                    unfocusedBorderColor = Color.Transparent,
+                    focusedTextColor = Color.White,
+                    unfocusedTextColor = Color.White,
+                    focusedContainerColor = Color(0xFF264532),
+                    unfocusedContainerColor = Color(0xFF264532)
                 ),
-                shape = RoundedCornerShape(24.dp)
+                shape = RoundedCornerShape(8.dp)
             )
             
             Spacer(modifier = Modifier.width(8.dp))
@@ -528,10 +561,10 @@ fun ChatInputField(
                 onClick = onSendClick,
                 enabled = text.isNotEmpty() && !isSending,
                 colors = IconButtonDefaults.iconButtonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
-                    disabledContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f),
-                    disabledContentColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.6f)
+                    containerColor = Color(0xFF38E07B),
+                    contentColor = Color(0xFF122118),
+                    disabledContainerColor = Color(0xFF38E07B).copy(alpha = 0.6f),
+                    disabledContentColor = Color(0xFF122118).copy(alpha = 0.6f)
                 )
             ) {
                 if (isSending) {
@@ -542,7 +575,7 @@ fun ChatInputField(
                     )
                 } else {
                     Icon(
-                        Icons.Default.Send,
+                        Icons.AutoMirrored.Filled.Send,
                         contentDescription = "Send message",
                         modifier = Modifier.size(24.dp)
                     )
@@ -578,7 +611,9 @@ fun ChatScreenPreview() {
         )
     )
     
-    SparrowTheme {
+    StitchTheme {
+        val stitchColors = LocalStitchColorScheme.current
+        
         Surface {
             Column {
                 ChatTopBar(

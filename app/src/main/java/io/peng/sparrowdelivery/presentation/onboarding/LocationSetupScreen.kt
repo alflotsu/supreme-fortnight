@@ -15,7 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import io.peng.sparrowdelivery.ui.components.*
+import io.peng.sparrowdelivery.ui.components.stitch.*
 import io.peng.sparrowdelivery.ui.theme.*
 
 @Composable
@@ -33,14 +33,16 @@ fun LocationSetupScreen(
         showAddressInput = true
     }
     
-    SparrowTheme {
+    StitchTheme {
+        val stitchColors = LocalStitchColorScheme.current
+        
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(SparrowSpacing.xl),
+                .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(SparrowSpacing.xxl))
+            Spacer(modifier = Modifier.height(24.dp))
             
             // Header section
             Column(
@@ -51,7 +53,7 @@ fun LocationSetupScreen(
                     modifier = Modifier
                         .size(100.dp)
                         .background(
-                            color = SparrowTheme.colors.primary.copy(alpha = 0.1f),
+                            color = stitchColors.primary.copy(alpha = 0.1f),
                             shape = CircleShape
                         ),
                     contentAlignment = Alignment.Center
@@ -59,31 +61,31 @@ fun LocationSetupScreen(
                     Icon(
                         imageVector = Icons.Default.LocationOn,
                         contentDescription = "Location",
-                        tint = SparrowTheme.colors.primary,
+                        tint = stitchColors.primary,
                         modifier = Modifier.size(48.dp)
                     )
                 }
                 
-                Spacer(modifier = Modifier.height(SparrowSpacing.xl))
+                Spacer(modifier = Modifier.height(16.dp))
                 
-                ShadcnHeading(
+                StitchHeading(
                     text = "Set Your Default Location",
                     level = 1,
-                    color = SparrowTheme.colors.foreground,
+                    color = stitchColors.onBackground,
                     textAlign = TextAlign.Center
                 )
                 
-                Spacer(modifier = Modifier.height(SparrowSpacing.md))
+                Spacer(modifier = Modifier.height(8.dp))
                 
-                ShadcnText(
+                StitchText(
                     text = "We'll use this as your preferred delivery address. You can always change it later!",
-                    style = ShadcnTextStyle.Large,
-                    color = SparrowTheme.colors.mutedForeground,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = stitchColors.textSecondary,
                     textAlign = TextAlign.Center
                 )
             }
             
-            Spacer(modifier = Modifier.height(SparrowSpacing.xxl))
+            Spacer(modifier = Modifier.height(24.dp))
             
             // Address input section
             AnimatedVisibility(
@@ -94,7 +96,7 @@ fun LocationSetupScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     // Address input field
-                    SparrowInput(
+                    StitchTextField(
                         value = selectedAddress,
                         onValueChange = { 
                             selectedAddress = it
@@ -106,21 +108,21 @@ fun LocationSetupScreen(
                         leadingIcon = Icons.Default.LocationOn
                     )
                     
-                    Spacer(modifier = Modifier.height(SparrowSpacing.lg))
+                    Spacer(modifier = Modifier.height(16.dp))
                     
                     // Address label selection
                     if (isAddressValid) {
                         Column {
-                            ShadcnText(
+                            StitchText(
                                 text = "Label this address as:",
-                                style = ShadcnTextStyle.Small,
-                                color = SparrowTheme.colors.mutedForeground
+                                style = MaterialTheme.typography.labelSmall,
+                                color = stitchColors.textSecondary
                             )
                             
-                            Spacer(modifier = Modifier.height(SparrowSpacing.sm))
+                            Spacer(modifier = Modifier.height(8.dp))
                             
                             Row(
-                                horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.sm)
+                                horizontalArrangement = Arrangement.spacedBy(8.dp)
                             ) {
                                 AddressLabelChip(
                                     label = "Home",
@@ -141,19 +143,18 @@ fun LocationSetupScreen(
                         }
                     }
                     
-                    Spacer(modifier = Modifier.height(SparrowSpacing.md))
+                    Spacer(modifier = Modifier.height(16.dp))
                     
                     // Current location button
-                    SparrowTextButton(
+                    StitchOutlineButton(
                         text = "📍 Use Current Location",
                         onClick = {
                             // TODO: Implement current location detection
                             selectedAddress = "Current location (detected)"
                             isAddressValid = true
                         },
-                        variant = ShadcnButtonVariant.Outline,
                         modifier = Modifier.fillMaxWidth(),
-                        leadingIcon = Icons.Default.MyLocation
+                        icon = Icons.Default.MyLocation
                     )
                 }
             }
@@ -165,32 +166,30 @@ fun LocationSetupScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 // Set location button
-                SparrowTextButton(
+                StitchPrimaryButton(
                     text = "Set as Default Location",
                     onClick = { 
                         if (isAddressValid) {
                             onLocationSet(selectedAddress, selectedLabel)
                         }
                     },
-                    variant = ShadcnButtonVariant.Default,
-                    size = ShadcnButtonSize.Large,
                     modifier = Modifier.fillMaxWidth(),
                     enabled = isAddressValid
                 )
                 
-                Spacer(modifier = Modifier.height(SparrowSpacing.md))
+                Spacer(modifier = Modifier.height(8.dp))
                 
                 // Skip button
-                SparrowTextButton(
+                StitchTextButton(
                     text = "Skip for now",
                     onClick = onSkip,
-                    variant = ShadcnButtonVariant.Ghost,
-                    size = ShadcnButtonSize.Large,
+                    variant = StitchButtonVariant.Ghost,
+                    size = StitchButtonSize.Large,
                     modifier = Modifier.fillMaxWidth()
                 )
             }
             
-            Spacer(modifier = Modifier.height(SparrowSpacing.md))
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }
@@ -201,10 +200,10 @@ private fun AddressLabelChip(
     isSelected: Boolean,
     onClick: () -> Unit
 ) {
-    SparrowTextButton(
+    StitchTextButton(
         text = label,
         onClick = onClick,
-        variant = if (isSelected) ShadcnButtonVariant.Default else ShadcnButtonVariant.Outline,
-        size = ShadcnButtonSize.Small
+        variant = if (isSelected) StitchButtonVariant.Primary else StitchButtonVariant.Outline,
+        size = StitchButtonSize.Small
     )
 }

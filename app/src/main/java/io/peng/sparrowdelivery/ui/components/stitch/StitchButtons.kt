@@ -267,6 +267,84 @@ enum class StitchIconButtonVariant {
     Primary, Secondary, Success
 }
 
+enum class StitchButtonVariant {
+    Primary, Secondary, Outline, Destructive, Ghost, Success
+}
+
+enum class StitchButtonSize {
+    Small, Default, Large
+}
+
+/**
+ * Text button for less prominent actions like "Skip", "Cancel", etc.
+ */
+@Composable
+fun StitchTextButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    text: String,
+    enabled: Boolean = true,
+    variant: StitchButtonVariant = StitchButtonVariant.Primary,
+    size: StitchButtonSize = StitchButtonSize.Default,
+    icon: ImageVector? = null
+) {
+    val stitchColors = LocalStitchColorScheme.current
+    val haptic = LocalHapticFeedback.current
+    
+    val contentColor = when (variant) {
+        StitchButtonVariant.Primary -> stitchColors.primary
+        StitchButtonVariant.Secondary -> stitchColors.textSecondary
+        StitchButtonVariant.Success -> stitchColors.accent
+        StitchButtonVariant.Destructive -> stitchColors.error
+        else -> stitchColors.onSurface
+    }
+    
+    val textStyle = when (size) {
+        StitchButtonSize.Small -> MaterialTheme.typography.labelSmall
+        StitchButtonSize.Default -> MaterialTheme.typography.labelMedium
+        StitchButtonSize.Large -> MaterialTheme.typography.labelLarge
+    }
+    
+    val iconSize = when (size) {
+        StitchButtonSize.Small -> 16.dp
+        StitchButtonSize.Default -> 20.dp
+        StitchButtonSize.Large -> 24.dp
+    }
+    
+    TextButton(
+        onClick = {
+            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+            onClick()
+        },
+        enabled = enabled,
+        modifier = modifier,
+        colors = ButtonDefaults.textButtonColors(
+            contentColor = contentColor,
+            disabledContentColor = contentColor.copy(alpha = 0.5f)
+        )
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            icon?.let {
+                Icon(
+                    imageVector = it,
+                    contentDescription = null,
+                    modifier = Modifier.size(iconSize),
+                    tint = contentColor
+                )
+            }
+            
+            Text(
+                text = text,
+                style = textStyle,
+                color = contentColor
+            )
+        }
+    }
+}
+
 /**
  * Outline button for less prominent actions
  */

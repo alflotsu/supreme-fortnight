@@ -28,6 +28,19 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.clickable
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.launch
+import androidx.compose.ui.text.style.TextOverflow
+import io.peng.sparrowdelivery.data.services.PlaceDetails
+import io.peng.sparrowdelivery.data.services.PlacePrediction
+import io.peng.sparrowdelivery.data.services.PlacesAutocompleteService
 import io.peng.sparrowdelivery.ui.theme.LocalStitchColorScheme
 import io.peng.sparrowdelivery.ui.theme.StitchTheme
 
@@ -215,34 +228,83 @@ fun StitchLocationField(
 }
 
 /**
- * HTML-matching location input field with proper height and styling
+ * HTML-matching location input field with proper height, styling, and Places Autocomplete
  * Matches the design from updated_sample.html:
  * - height: 3.5rem (56dp)
  * - padding: 1rem (16dp)
  * - left padding: 3rem (48dp) for icon space
  * - background: #254632 (medium green)
  * - placeholder: #95c6a9 (secondary light)
+ * - Integrated Places Autocomplete for location suggestions
  */
+@OptIn(kotlinx.coroutines.FlowPreview::class)
 @Composable
 fun StitchHtmlLocationField(
     value: String,
     onValueChange: (String) -> Unit,
     onMapPinClick: () -> Unit = {},
+    onPlaceSelected: ((PlaceDetails) -> Unit)? = null,
     modifier: Modifier = Modifier,
     placeholder: String = "Enter location",
     leadingIcon: ImageVector = Icons.Outlined.LocationOn,
     iconColor: Color = LocalStitchColorScheme.current.textSecondary,
     enabled: Boolean = true,
-    isError: Boolean = false
+    isError: Boolean = false,
+    isPickupField: Boolean = true
 ) {
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
     val stitchColors = LocalStitchColorScheme.current
     var isFocused by remember { mutableStateOf(false) }
+    
+    // Places API integration
+    val placesService = remember { PlacesAutocompleteService(context) }
+    val predictions by placesService.predictions.collectAsStateWithLifecycle()
+    val isLoadingPlaces by placesService.isLoading.collectAsStateWithLifecycle()
+    
+    // Debounced search for Places API
+    val searchQuery = remember { kotlinx.coroutines.flow.MutableStateFlow("") }
+    var showDropdown by remember { mutableStateOf(false) }
+    
+    LaunchedEffect(searchQuery) {
+        searchQuery
+            .debounce(500) // Debounce to reduce API calls
+            .collect { query ->
+                if (query.isNotBlank()) {
+                    placesService.searchPlaces(query)
+                } else {
+                    placesService.clearPredictions()
+                }
+            }
+    }
+    
+    // Update search when value changes
+    LaunchedEffect(value) {
+        searchQuery.value = value
+    }
+    
+    // Update dropdown visibility when predictions change
+    LaunchedEffect(predictions) {
+        showDropdown = predictions.isNotEmpty() && value.isNotBlank()
+    }
+    
+    // Handle place selection
+    val handlePlaceSelection: (PlacePrediction) -> Unit = { prediction ->
+        onValueChange(prediction.primaryText)
+        showDropdown = false
+        
+        // Fetch place details
+        coroutineScope.launch {
+            placesService.fetchPlaceDetails(prediction.placeId)?.let { placeDetails ->
+                onPlaceSelected?.invoke(placeDetails)
+            }
+        }
+    }
     
     // Match HTML design: height: 3.5rem (56dp), padding: 1rem (16dp), left padding: 3rem (48dp)
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(56.dp) // 3.5rem from HTML
     ) {
         BasicTextField(
             value = value,
@@ -253,7 +315,8 @@ fun StitchHtmlLocationField(
                 fontSize = 16.sp // 1rem from HTML
             ),
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
+                .height(56.dp)
                 .background(
                     color = if (enabled) stitchColors.inputBackground else stitchColors.inputBackground.copy(alpha = 0.5f),
                     shape = RoundedCornerShape(8.dp) // 0.5rem from HTML
@@ -303,6 +366,87 @@ fun StitchHtmlLocationField(
                 tint = iconColor,
                 modifier = Modifier.size(24.dp)
             )
+        }
+        
+        // Autocomplete dropdown positioned directly below the input field
+        if (showDropdown && predictions.isNotEmpty()) {
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 60.dp) // Position below the 56dp input field
+                    .zIndex(1000f), // High z-index to ensure it appears on top
+                colors = CardDefaults.cardColors(
+                    containerColor = stitchColors.surface
+                ),
+                elevation = CardDefaults.cardElevation(defaultElevation = 16.dp)
+            ) {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(max = 200.dp)
+                        .padding(vertical = 4.dp)
+                ) {
+                    items(predictions.take(5)) { prediction ->
+                        PlacePredictionItem(
+                            prediction = prediction,
+                            onClick = { handlePlaceSelection(prediction) }
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Place prediction item for autocomplete dropdown
+ */
+@Composable
+private fun PlacePredictionItem(
+    prediction: PlacePrediction,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val stitchColors = LocalStitchColorScheme.current
+    
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { onClick() }
+            .padding(horizontal = 16.dp, vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        // Location icon
+        Icon(
+            imageVector = Icons.Outlined.LocationOn,
+            contentDescription = null,
+            tint = stitchColors.primary,
+            modifier = Modifier.size(18.dp)
+        )
+        
+        Spacer(modifier = Modifier.width(12.dp))
+        
+        // Address details
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = prediction.primaryText,
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Medium,
+                color = stitchColors.onSurface,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            
+            if (prediction.secondaryText.isNotBlank()) {
+                Text(
+                    text = prediction.secondaryText,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = stitchColors.textSecondary,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.padding(top = 2.dp)
+                )
+            }
         }
     }
 }
@@ -436,6 +580,86 @@ fun StitchScheduleSelector(
 enum class DeliverySchedule(val displayName: String) {
     Now("Now"),
     Later("Schedule")
+}
+
+/**
+ * Simple Stitch Input component (alias for StitchTextField)
+ */
+@Composable
+fun StitchInput(
+    value: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    placeholder: String = "",
+    label: String? = null,
+    leadingIcon: ImageVector? = null,
+    trailingIcon: ImageVector? = null,
+    onTrailingIconClick: (() -> Unit)? = null,
+    enabled: Boolean = true,
+    readOnly: Boolean = false,
+    isError: Boolean = false,
+    errorMessage: String? = null,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    maxLines: Int = 1,
+    singleLine: Boolean = true
+) {
+    StitchTextField(
+        value = value,
+        onValueChange = onValueChange,
+        modifier = modifier,
+        placeholder = placeholder,
+        label = label,
+        leadingIcon = leadingIcon,
+        trailingIcon = trailingIcon,
+        onTrailingIconClick = onTrailingIconClick,
+        enabled = enabled,
+        readOnly = readOnly,
+        isError = isError,
+        errorMessage = errorMessage,
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
+        visualTransformation = visualTransformation,
+        maxLines = maxLines,
+        singleLine = singleLine
+    )
+}
+
+/**
+ * Stitch Text Area component for multi-line input
+ */
+@Composable
+fun StitchTextArea(
+    value: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    placeholder: String = "",
+    label: String? = null,
+    enabled: Boolean = true,
+    readOnly: Boolean = false,
+    isError: Boolean = false,
+    errorMessage: String? = null,
+    minLines: Int = 3,
+    maxLines: Int = 6,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default
+) {
+    StitchTextField(
+        value = value,
+        onValueChange = onValueChange,
+        modifier = modifier,
+        placeholder = placeholder,
+        label = label,
+        enabled = enabled,
+        readOnly = readOnly,
+        isError = isError,
+        errorMessage = errorMessage,
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
+        maxLines = maxLines,
+        singleLine = false
+    )
 }
 
 @Preview(showBackground = true)

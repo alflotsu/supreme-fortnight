@@ -12,14 +12,15 @@ import kotlinx.coroutines.launch
 fun slideInFromRight(): EnterTransition {
     return slideInHorizontally(
         initialOffsetX = { fullWidth -> fullWidth },
-        animationSpec = tween(
-            durationMillis = 300,
-            easing = FastOutSlowInEasing
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioNoBouncy,
+            stiffness = Spring.StiffnessMedium
         )
     ) + fadeIn(
         animationSpec = tween(
-            durationMillis = 300,
-            easing = FastOutSlowInEasing
+            durationMillis = 350,
+            delayMillis = 50,
+            easing = CubicBezierEasing(0.4f, 0.0f, 0.2f, 1.0f)
         )
     )
 }
@@ -28,14 +29,14 @@ fun slideInFromRight(): EnterTransition {
 fun slideOutToLeft(): ExitTransition {
     return slideOutHorizontally(
         targetOffsetX = { fullWidth -> -fullWidth },
-        animationSpec = tween(
-            durationMillis = 300,
-            easing = FastOutSlowInEasing
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioNoBouncy,
+            stiffness = Spring.StiffnessMedium
         )
     ) + fadeOut(
         animationSpec = tween(
-            durationMillis = 300,
-            easing = FastOutSlowInEasing
+            durationMillis = 250,
+            easing = CubicBezierEasing(0.4f, 0.0f, 1.0f, 1.0f)
         )
     )
 }
@@ -44,14 +45,15 @@ fun slideOutToLeft(): ExitTransition {
 fun slideInFromLeft(): EnterTransition {
     return slideInHorizontally(
         initialOffsetX = { fullWidth -> -fullWidth },
-        animationSpec = tween(
-            durationMillis = 300,
-            easing = FastOutSlowInEasing
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioNoBouncy,
+            stiffness = Spring.StiffnessMedium
         )
     ) + fadeIn(
         animationSpec = tween(
-            durationMillis = 300,
-            easing = FastOutSlowInEasing
+            durationMillis = 350,
+            delayMillis = 50,
+            easing = CubicBezierEasing(0.4f, 0.0f, 0.2f, 1.0f)
         )
     )
 }
@@ -60,14 +62,14 @@ fun slideInFromLeft(): EnterTransition {
 fun slideOutToRight(): ExitTransition {
     return slideOutHorizontally(
         targetOffsetX = { fullWidth -> fullWidth },
-        animationSpec = tween(
-            durationMillis = 300,
-            easing = FastOutSlowInEasing
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioNoBouncy,
+            stiffness = Spring.StiffnessMedium
         )
     ) + fadeOut(
         animationSpec = tween(
-            durationMillis = 300,
-            easing = FastOutSlowInEasing
+            durationMillis = 250,
+            easing = CubicBezierEasing(0.4f, 0.0f, 1.0f, 1.0f)
         )
     )
 }
@@ -76,15 +78,15 @@ fun slideOutToRight(): ExitTransition {
 @OptIn(ExperimentalAnimationApi::class)
 fun scaleInTransition(): EnterTransition {
     return scaleIn(
-        initialScale = 0.9f,
+        initialScale = 0.85f,
         animationSpec = spring(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessMedium
+            dampingRatio = Spring.DampingRatioLowBouncy,
+            stiffness = Spring.StiffnessHigh
         )
     ) + fadeIn(
         animationSpec = tween(
-            durationMillis = 300,
-            easing = FastOutSlowInEasing
+            durationMillis = 400,
+            easing = CubicBezierEasing(0.0f, 0.0f, 0.2f, 1.0f)
         )
     )
 }
@@ -92,15 +94,15 @@ fun scaleInTransition(): EnterTransition {
 @OptIn(ExperimentalAnimationApi::class)
 fun scaleOutTransition(): ExitTransition {
     return scaleOut(
-        targetScale = 0.9f,
+        targetScale = 0.75f,
         animationSpec = spring(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessMedium
+            dampingRatio = Spring.DampingRatioNoBouncy,
+            stiffness = Spring.StiffnessHigh
         )
     ) + fadeOut(
         animationSpec = tween(
-            durationMillis = 300,
-            easing = FastOutSlowInEasing
+            durationMillis = 250,
+            easing = CubicBezierEasing(0.4f, 0.0f, 1.0f, 1.0f)
         )
     )
 }
@@ -132,13 +134,14 @@ fun slideInFromBottom(): EnterTransition {
     return slideInVertically(
         initialOffsetY = { fullHeight -> fullHeight },
         animationSpec = spring(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessMedium
+            dampingRatio = Spring.DampingRatioLowBouncy,
+            stiffness = Spring.StiffnessHigh
         )
     ) + fadeIn(
         animationSpec = tween(
-            durationMillis = 300,
-            easing = FastOutSlowInEasing
+            durationMillis = 350,
+            delayMillis = 100,
+            easing = CubicBezierEasing(0.0f, 0.0f, 0.2f, 1.0f)
         )
     )
 }
@@ -148,13 +151,13 @@ fun slideOutToBottom(): ExitTransition {
     return slideOutVertically(
         targetOffsetY = { fullHeight -> fullHeight },
         animationSpec = spring(
-            dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessMedium
+            dampingRatio = Spring.DampingRatioNoBouncy,
+            stiffness = Spring.StiffnessHigh
         )
     ) + fadeOut(
         animationSpec = tween(
-            durationMillis = 300,
-            easing = FastOutSlowInEasing
+            durationMillis = 250,
+            easing = CubicBezierEasing(0.4f, 0.0f, 1.0f, 1.0f)
         )
     )
 }
@@ -168,6 +171,12 @@ object NavigationTransitions {
         slideOutToLeft()
     )
     
+    // Enhanced forward transition with scale
+    val enhancedForwardTransition = Pair(
+        slideInFromRightWithScale(),
+        slideOutToLeftWithScale()
+    )
+    
     // For back navigation
     val backwardTransition = Pair(
         slideInFromLeft(),
@@ -178,6 +187,12 @@ object NavigationTransitions {
     val modalTransition = Pair(
         scaleInTransition(),
         scaleOutTransition()
+    )
+    
+    // For detailed views with shared element style
+    val sharedElementTransition = Pair(
+        sharedElementEnterTransition(),
+        sharedElementExitTransition()
     )
     
     // For overlay screens
@@ -210,6 +225,96 @@ fun AnimatedContentTransition(
     ) { state ->
         content(state)
     }
+}
+
+// Advanced slide animations with shared element style transitions
+@OptIn(ExperimentalAnimationApi::class)
+fun slideInFromRightWithScale(): EnterTransition {
+    return slideInHorizontally(
+        initialOffsetX = { fullWidth -> fullWidth },
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioNoBouncy,
+            stiffness = Spring.StiffnessMedium
+        )
+    ) + scaleIn(
+        initialScale = 0.95f,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioNoBouncy,
+            stiffness = Spring.StiffnessMedium
+        )
+    ) + fadeIn(
+        animationSpec = tween(
+            durationMillis = 300,
+            easing = CubicBezierEasing(0.4f, 0.0f, 0.2f, 1.0f)
+        )
+    )
+}
+
+@OptIn(ExperimentalAnimationApi::class)
+fun slideOutToLeftWithScale(): ExitTransition {
+    return slideOutHorizontally(
+        targetOffsetX = { fullWidth -> -fullWidth },
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioNoBouncy,
+            stiffness = Spring.StiffnessMedium
+        )
+    ) + scaleOut(
+        targetScale = 0.9f,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioNoBouncy,
+            stiffness = Spring.StiffnessMedium
+        )
+    ) + fadeOut(
+        animationSpec = tween(
+            durationMillis = 200,
+            easing = CubicBezierEasing(0.4f, 0.0f, 1.0f, 1.0f)
+        )
+    )
+}
+
+// Shared element style transition for detailed views
+@OptIn(ExperimentalAnimationApi::class)
+fun sharedElementEnterTransition(): EnterTransition {
+    return slideInVertically(
+        initialOffsetY = { fullHeight -> fullHeight / 3 },
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioLowBouncy,
+            stiffness = Spring.StiffnessMedium
+        )
+    ) + scaleIn(
+        initialScale = 0.9f,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioLowBouncy,
+            stiffness = Spring.StiffnessMedium
+        )
+    ) + fadeIn(
+        animationSpec = tween(
+            durationMillis = 400,
+            easing = CubicBezierEasing(0.0f, 0.0f, 0.2f, 1.0f)
+        )
+    )
+}
+
+@OptIn(ExperimentalAnimationApi::class)
+fun sharedElementExitTransition(): ExitTransition {
+    return slideOutVertically(
+        targetOffsetY = { fullHeight -> fullHeight / 4 },
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioNoBouncy,
+            stiffness = Spring.StiffnessMedium
+        )
+    ) + scaleOut(
+        targetScale = 0.85f,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioNoBouncy,
+            stiffness = Spring.StiffnessMedium
+        )
+    ) + fadeOut(
+        animationSpec = tween(
+            durationMillis = 250,
+            easing = CubicBezierEasing(0.4f, 0.0f, 1.0f, 1.0f)
+        )
+    )
 }
 
 // Staggered animation for list items

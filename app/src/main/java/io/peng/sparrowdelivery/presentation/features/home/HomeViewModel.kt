@@ -20,7 +20,14 @@ import kotlinx.coroutines.launch
 import java.util.*
 import io.peng.sparrowdelivery.data.services.PlaceDetails
 import io.peng.sparrowdelivery.data.services.*
-import io.peng.sparrowdelivery.domain.repository.*
+import io.peng.sparrowdelivery.domain.repository.RoutingRepository
+import io.peng.sparrowdelivery.domain.repository.LocationRepository
+import io.peng.sparrowdelivery.domain.repository.PlacesRepository
+import io.peng.sparrowdelivery.domain.repositories.RouteRepository
+import io.peng.sparrowdelivery.domain.entities.RouteRequest as NewRouteRequest
+import io.peng.sparrowdelivery.domain.entities.TransportMode
+import io.peng.sparrowdelivery.domain.entities.Route as NewRoute
+import io.peng.sparrowdelivery.core.common.ApiResult as NewApiResult
 import io.peng.sparrowdelivery.core.di.ServiceLocator
 import io.peng.sparrowdelivery.core.error.ApiResult
 // Booking state machine classes are in the same package
@@ -191,6 +198,9 @@ class HomeViewModel : ViewModel() {
     private var locationRepository: LocationRepository? = null
     private var placesRepository: PlacesRepository? = null
     
+    // Enhanced routing with Google Maps
+    private var newRouteRepository: RouteRepository? = null
+    
     // State machine for booking flow
     private val bookingStateMachine = BookingStateMachine()
     
@@ -225,11 +235,20 @@ class HomeViewModel : ViewModel() {
     private fun executeSideEffect(sideEffect: BookingSideEffect) {
         when (sideEffect) {
             BookingSideEffect.FetchRoutes -> {
-                // Guard: Don't fetch routes during cancellation
+                println("📏 executeSideEffect: FetchRoutes side effect triggered")
+                    // Guard: Don't fetch routes during cancellation
                 if (!isCancellationInProgress) {
-                    fetchRoutePreview()
+                    // Try real API route fetching first, fallback to simple route if it fails
+                    if (newRouteRepository != null) {
+                        println("🚀 executeSideEffect: Using Google Maps route repository")
+                        fetchRoutePreviewEnhanced()
+                    } else {
+                        println("🔄 executeSideEffect: Enhanced repository null, trying legacy")
+                        // Fallback to original system if new repository isn't initialized
+                        fetchRoutePreview()
+                    }
                 } else {
-                    println("🚫 Skipped route fetch during cancellation")
+                    println("🚫 executeSideEffect: Skipped route fetch during cancellation")
                 }
             }
             BookingSideEffect.StartDriverSearch -> startDriverSearch()
@@ -340,6 +359,9 @@ class HomeViewModel : ViewModel() {
         routingRepository = ServiceLocator.getRoutingRepository(context)
         locationRepository = ServiceLocator.getLocationRepository(context)
         placesRepository = ServiceLocator.getPlacesRepository(context)
+        
+        // Initialize Google Maps route repository
+        newRouteRepository = ServiceLocator.getNewRouteRepository(context)
         
         checkLocationPermission(context)
     }
@@ -757,8 +779,125 @@ class HomeViewModel : ViewModel() {
         }
     }
     
-    // Fetch route preview using Mapbox (primary) with HERE as fallback
+    // Enhanced route calculation using Google Maps
+    private fun fetchRoutePreviewEnhanced() {
+        println("🗺️ fetchRoutePreviewEnhanced: Starting enhanced route fetch")
+        val bookingState = _uiState.value.bookingState
+        
+        val (pickupCoord, dropoffCoord) = when (bookingState) {
+            is BookingState.LocationsEntering -> Pair(bookingState.pickupCoordinate, bookingState.dropoffCoordinate)
+            is BookingState.RoutePreview -> Pair(bookingState.pickupCoordinate, bookingState.dropoffCoordinate)
+            is BookingState.FindingDriver -> {
+                val firstPoint = bookingState.selectedRoute.polylinePoints.firstOrNull()
+                val lastPoint = bookingState.selectedRoute.polylinePoints.lastOrNull()
+                Pair(firstPoint, lastPoint)
+            }
+            else -> Pair(null, null)
+        }
+        
+        if (pickupCoord == null || dropoffCoord == null) {
+            println("❌ fetchRoutePreviewEnhanced: Missing coordinates - pickup: $pickupCoord, dropoff: $dropoffCoord")
+            return
+        }
+        
+        println("📍 fetchRoutePreviewEnhanced: Pickup: ${pickupCoord.latitude}, ${pickupCoord.longitude}")
+        println("📍 fetchRoutePreviewEnhanced: Dropoff: ${dropoffCoord.latitude}, ${dropoffCoord.longitude}")
+        
+        viewModelScope.launch {
+            val repository = newRouteRepository
+            if (repository == null) {
+                println("⚠️ fetchRoutePreviewEnhanced: newRouteRepository is null, falling back to legacy")
+                fetchRoutePreview() // Fallback to legacy system
+                return@launch
+            }
+            
+            try {
+                println("🔧 fetchRoutePreviewEnhanced: Creating route request")
+                // Create route request for our new system
+                val routeRequest = NewRouteRequest(
+                    origin = com.google.android.gms.maps.model.LatLng(
+                        pickupCoord.latitude,
+                        pickupCoord.longitude
+                    ),
+                    destination = com.google.android.gms.maps.model.LatLng(
+                        dropoffCoord.latitude,
+                        dropoffCoord.longitude
+                    ),
+                    transportMode = TransportMode.CAR // Default to car for delivery
+                )
+                
+                println("🚀 fetchRoutePreviewEnhanced: Calling repository.calculateRoute()")
+                // Using Google Maps routing
+                when (val result = repository.calculateRoute(routeRequest)) {
+                    is NewApiResult.Success -> {
+                        val route = result.data
+                        println("✅ fetchRoutePreviewEnhanced: Route calculated successfully!")
+                        println("📏 Route distance: ${route.distanceMeters}m, duration: ${route.durationSeconds}s")
+                        println("🧭 Route coordinates: ${route.coordinates.size} points")
+                        println("🏷️ Route provider: ${route.provider}")
+                        
+                        // Convert to our RouteInfo format
+                        val routeInfo = RouteInfo(
+                            id = "route_${System.currentTimeMillis()}",
+                            distance = route.distanceMeters.toInt(),
+                            duration = route.durationSeconds,
+                            polylinePoints = route.coordinates.map { latLng ->
+                                LocationCoordinate(
+                                    latitude = latLng.latitude,
+                                    longitude = latLng.longitude
+                                )
+                            },
+                            trafficDelay = null,
+                            routeType = RouteType.FAST,
+                            summary = "Route via ${route.provider.name}"
+                        )
+                        
+                        println("🎯 fetchRoutePreviewEnhanced: RouteInfo created with ${routeInfo.polylinePoints.size} polyline points")
+                        
+                        // Update UI state
+                        _uiState.update { state ->
+                            state.copy(
+                                currentRoute = routeInfo.polylinePoints
+                            )
+                        }
+                        
+                        println("📱 fetchRoutePreviewEnhanced: UI state updated, triggering RoutesLoaded event")
+                        // Trigger state machine
+                        handleBookingEvent(BookingEvent.RoutesLoaded(listOf(routeInfo)))
+                    }
+                    is NewApiResult.Error -> {
+                        println("❌ fetchRoutePreviewEnhanced: Route calculation failed - ${result.message}")
+                        println("🔄 fetchRoutePreviewEnhanced: Falling back to simple route")
+                        
+                        // Auto-fallback to simple route when API fails
+                        val bookingState = _uiState.value.bookingState
+                        val (pickupCoord, dropoffCoord) = when (bookingState) {
+                            is BookingState.LocationsEntering -> Pair(bookingState.pickupCoordinate, bookingState.dropoffCoordinate)
+                            is BookingState.RoutePreview -> Pair(bookingState.pickupCoordinate, bookingState.dropoffCoordinate)
+                            else -> Pair(null, null)
+                        }
+                        
+                        if (pickupCoord != null && dropoffCoord != null) {
+                            fallbackToSimpleRoute(pickupCoord, dropoffCoord, "API failed: ${result.message}")
+                        } else {
+                            handleBookingEvent(BookingEvent.RoutesLoadFailed(result.message))
+                        }
+                    }
+                    is NewApiResult.Loading -> {
+                        println("⏳ fetchRoutePreviewEnhanced: Loading state from repository")
+                        // Loading state is handled by the state machine
+                    }
+                }
+            } catch (e: Exception) {
+                println("⚠️ fetchRoutePreviewEnhanced: Exception caught - ${e.message}")
+                handleBookingEvent(BookingEvent.RoutesLoadFailed("Route calculation error: ${e.message}"))
+            }
+        }
+    }
+    
+    // Original route preview using existing system (keep for compatibility)
     private fun fetchRoutePreview() {
+        println("🗺️ fetchRoutePreview: Starting legacy route fetch")
         val bookingState = _uiState.value.bookingState
         
         val (pickupCoord, dropoffCoord) = when (bookingState) {
@@ -774,14 +913,24 @@ class HomeViewModel : ViewModel() {
         }
         
         if (pickupCoord == null || dropoffCoord == null) {
+            println("❌ fetchRoutePreview: Missing coordinates - pickup: $pickupCoord, dropoff: $dropoffCoord")
             return
         }
+        
+        println("📍 fetchRoutePreview: Pickup: ${pickupCoord.latitude}, ${pickupCoord.longitude}")
+        println("📍 fetchRoutePreview: Dropoff: ${dropoffCoord.latitude}, ${dropoffCoord.longitude}")
         
         // State machine will handle loading states through computed properties
         
         viewModelScope.launch {
-            val repository = routingRepository ?: return@launch
+            val repository = routingRepository
+            if (repository == null) {
+                println("⚠️ fetchRoutePreview: routingRepository is null, creating fallback route")
+                fallbackToSimpleRoute(pickupCoord, dropoffCoord, "No routing service available")
+                return@launch
+            }
             
+            println("🚀 fetchRoutePreview: Calling routingRepository.getRouteAlternatives()")
             repository.getRouteAlternatives(
                 origin = pickupCoord,
                 destination = dropoffCoord,
@@ -790,25 +939,35 @@ class HomeViewModel : ViewModel() {
                 when (result) {
                     is ApiResult.Success -> {
                         val routes = result.data
+                        println("✅ fetchRoutePreview: Received ${routes.size} routes from legacy system")
                         if (routes.isNotEmpty()) {
+                            val selectedRoute = routes[0] // Default to first (fastest) route
+                            println("📱 fetchRoutePreview: Selected route has ${selectedRoute.polylinePoints.size} points")
+                            
                             // Trigger state machine to handle loaded routes
                             handleBookingEvent(BookingEvent.RoutesLoaded(routes))
                             
                             // Update current route for display
-                            val selectedRoute = routes[0] // Default to first (fastest) route
                             _uiState.update { state ->
                                 state.copy(currentRoute = selectedRoute.polylinePoints)
                             }
+                            
+                            println("🎯 fetchRoutePreview: UI state updated with route polyline")
                         } else {
+                            println("❌ fetchRoutePreview: No routes found")
                             // No routes found
                             handleBookingEvent(BookingEvent.RoutesLoadFailed("No routes found"))
                         }
                     }
                     is ApiResult.Error -> {
-                        println("Routing failed with error: ${result.error.userMessage}")
-                        handleBookingEvent(BookingEvent.RoutesLoadFailed(result.error.userMessage))
+                        println("❌ fetchRoutePreview: Routing failed with error: ${result.error.userMessage}")
+                        println("🔄 fetchRoutePreview: Falling back to simple route")
+                        
+                        // Auto-fallback to simple route when legacy API fails
+                        fallbackToSimpleRoute(pickupCoord, dropoffCoord, "Legacy API failed: ${result.error.userMessage}")
                     }
                     is ApiResult.Loading -> {
+                        println("⏳ fetchRoutePreview: Loading routes...")
                         // Loading state is handled by the state machine
                     }
                 }
@@ -819,14 +978,47 @@ class HomeViewModel : ViewModel() {
     // Note: Fallback logic is now handled by RoutingRepository
     
     private fun fallbackToSimpleRoute(pickupCoord: LocationCoordinate, dropoffCoord: LocationCoordinate, errorMessage: String) {
+        println("🔄 fallbackToSimpleRoute: Creating simple direct route fallback")
+        println("📍 Fallback route: ${pickupCoord.latitude}, ${pickupCoord.longitude} -> ${dropoffCoord.latitude}, ${dropoffCoord.longitude}")
+        
         // Show simple direct route for fallback
         val simpleRoute = listOf(pickupCoord, dropoffCoord)
         _uiState.update { state ->
             state.copy(currentRoute = simpleRoute)
         }
         
-        // Notify state machine of route error
-        handleBookingEvent(BookingEvent.RoutesLoadFailed("Could not calculate road route, showing direct path"))
+        println("🎯 fallbackToSimpleRoute: Updated UI state with ${simpleRoute.size} route points")
+        
+        // Create a simple RouteInfo for the direct path
+        val simpleRouteInfo = RouteInfo(
+            id = "fallback_route_${System.currentTimeMillis()}",
+            distance = calculateDirectDistance(pickupCoord, dropoffCoord),
+            duration = 300, // 5 minutes estimated
+            polylinePoints = simpleRoute,
+            trafficDelay = null,
+            routeType = RouteType.FAST,
+            summary = "Direct path (fallback)"
+        )
+        
+        // Trigger state machine with fallback route instead of error
+        handleBookingEvent(BookingEvent.RoutesLoaded(listOf(simpleRouteInfo)))
+        
+        println("📱 fallbackToSimpleRoute: Triggered RoutesLoaded with fallback route")
+    }
+    
+    private fun calculateDirectDistance(pickup: LocationCoordinate, dropoff: LocationCoordinate): Int {
+        val R = 6371000 // Earth's radius in meters
+        val lat1Rad = Math.toRadians(pickup.latitude)
+        val lat2Rad = Math.toRadians(dropoff.latitude)
+        val deltaLatRad = Math.toRadians(dropoff.latitude - pickup.latitude)
+        val deltaLngRad = Math.toRadians(dropoff.longitude - pickup.longitude)
+        
+        val a = kotlin.math.sin(deltaLatRad / 2) * kotlin.math.sin(deltaLatRad / 2) +
+                kotlin.math.cos(lat1Rad) * kotlin.math.cos(lat2Rad) *
+                kotlin.math.sin(deltaLngRad / 2) * kotlin.math.sin(deltaLngRad / 2)
+        val c = 2 * kotlin.math.atan2(kotlin.math.sqrt(a), kotlin.math.sqrt(1 - a))
+        
+        return (R * c).toInt()
     }
     
     // Select a different route from available alternatives
@@ -894,6 +1086,8 @@ class HomeViewModel : ViewModel() {
     
     // Handle place selection from autocomplete for pickup
     fun updatePickupLocationFromPlace(placeDetails: PlaceDetails) {
+        println("📍 updatePickupLocationFromPlace: ${placeDetails.name} at (${placeDetails.latitude}, ${placeDetails.longitude})")
+        
         // Update the pickup location in the booking state
         val currentBookingState = _uiState.value.bookingState
         val updatedState = when (currentBookingState) {
@@ -929,6 +1123,8 @@ class HomeViewModel : ViewModel() {
     
     // Handle place selection from autocomplete for dropoff
     fun updateDropoffLocationFromPlace(placeDetails: PlaceDetails) {
+        println("📍 updateDropoffLocationFromPlace: ${placeDetails.name} at (${placeDetails.latitude}, ${placeDetails.longitude})")
+        
         // Update the dropoff location in the booking state
         val currentBookingState = _uiState.value.bookingState
         val updatedState = when (currentBookingState) {
@@ -1032,5 +1228,35 @@ class HomeViewModel : ViewModel() {
     fun clearRoutePreview() {
         // Use state machine to hide route preview
         handleBookingEvent(BookingEvent.BackPressed)
+    }
+    
+    // Manual test function for debugging route fetching
+    fun testRouteManually() {
+        println("🧪 testRouteManually: Starting manual route test")
+        
+        // Set test coordinates (Accra locations)
+        val pickupCoord = LocationCoordinate(5.6037, -0.1870) // Central Accra
+        val dropoffCoord = LocationCoordinate(5.6052, -0.1669) // Kotoka Airport
+        
+        // Update state with test locations
+        val testState = BookingState.LocationsEntering(
+            pickupLocation = "Central Accra",
+            dropoffLocation = "Kotoka International Airport",
+            pickupCoordinate = pickupCoord,
+            dropoffCoordinate = dropoffCoord
+        )
+        
+        _uiState.update { it.copy(bookingState = testState) }
+        
+        println("🧪 testRouteManually: State updated, triggering route fetch")
+        
+        // Directly call the route fetching methods
+        if (newRouteRepository != null) {
+            println("🧪 testRouteManually: Using Google Maps route repository")
+            fetchRoutePreviewEnhanced()
+        } else {
+            println("🧪 testRouteManually: Using legacy route repository")
+            fetchRoutePreview()
+        }
     }
 }

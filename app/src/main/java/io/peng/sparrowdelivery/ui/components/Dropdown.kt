@@ -22,7 +22,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import io.peng.sparrowdelivery.ui.theme.*
 
-data class ShadcnSelectOption<T>(
+data class SelectOption<T>(
     val value: T,
     val label: String,
     val description: String? = null,
@@ -35,13 +35,13 @@ data class ShadcnSelectOption<T>(
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun <T> ShadcnSelect(
-    options: List<ShadcnSelectOption<T>>,
-    selectedOption: ShadcnSelectOption<T>?,
-    onOptionSelected: (ShadcnSelectOption<T>) -> Unit,
+fun <T> ComponentSelect(
+    options: List<SelectOption<T>>,
+    selectedOption: SelectOption<T>?,
+    onOptionSelected: (SelectOption<T>) -> Unit,
     modifier: Modifier = Modifier,
-    variant: ShadcnInputVariant = ShadcnInputVariant.Default,
-    size: ShadcnInputSize = ShadcnInputSize.Default,
+    variant: InputVariant = InputVariant.Default,
+    size: InputSize = InputSize.Default,
     placeholder: String = "Select an option",
     label: String = "",
     helper: String = "",
@@ -67,9 +67,9 @@ fun <T> ShadcnSelect(
     Column(modifier = modifier) {
         // Label
         if (label.isNotEmpty()) {
-            ShadcnText(
+            SText(
                 text = label,
-                style = ShadcnTextStyle.Small,
+                style = TextStyle.Small,
                 color = colors.foreground,
                 modifier = Modifier.padding(bottom = SparrowSpacing.xs)
             )
@@ -152,9 +152,9 @@ fun <T> ShadcnSelect(
                                         .padding(SparrowSpacing.md),
                                     contentAlignment = Alignment.Center
                                 ) {
-                                    ShadcnText(
+                                    SText(
                                         text = "No options found",
-                                        style = ShadcnTextStyle.Small,
+                                        style = TextStyle.Small,
                                         color = colors.mutedForeground
                                     )
                                 }
@@ -172,7 +172,7 @@ fun <T> ShadcnSelect(
  */
 @Composable
 private fun <T> ShadcnDropdownItem(
-    option: ShadcnSelectOption<T>,
+    option: SelectOption<T>,
     selected: Boolean,
     onClick: () -> Unit,
     showCheckbox: Boolean = false,
@@ -222,9 +222,9 @@ private fun <T> ShadcnDropdownItem(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(2.dp)
             ) {
-                ShadcnText(
+                SText(
                     text = option.label,
-                    style = ShadcnTextStyle.Small,
+                    style = TextStyle.Small,
                     color = if (option.enabled) {
                         if (selected) colors.accent else colors.foreground
                     } else {
@@ -233,9 +233,9 @@ private fun <T> ShadcnDropdownItem(
                 )
                 
                 option.description?.let { desc ->
-                    ShadcnText(
+                    SText(
                         text = desc,
-                        style = ShadcnTextStyle.Small,
+                        style = TextStyle.Small,
                         color = colors.mutedForeground
                     )
                 }
@@ -259,13 +259,13 @@ private fun <T> ShadcnDropdownItem(
  */
 @Composable
 fun <T> ShadcnCombobox(
-    options: List<ShadcnSelectOption<T>>,
-    selectedOption: ShadcnSelectOption<T>?,
-    onOptionSelected: (ShadcnSelectOption<T>) -> Unit,
+    options: List<SelectOption<T>>,
+    selectedOption: SelectOption<T>?,
+    onOptionSelected: (SelectOption<T>) -> Unit,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    variant: ShadcnInputVariant = ShadcnInputVariant.Default,
-    size: ShadcnInputSize = ShadcnInputSize.Default,
+    variant: InputVariant = InputVariant.Default,
+    size: InputSize = InputSize.Default,
     placeholder: String = "Type or select...",
     label: String = "",
     helper: String = "",
@@ -294,9 +294,9 @@ fun <T> ShadcnCombobox(
     Column(modifier = modifier) {
         // Label
         if (label.isNotEmpty()) {
-            ShadcnText(
+            SText(
                 text = label,
-                style = ShadcnTextStyle.Small,
+                style = TextStyle.Small,
                 color = SparrowTheme.colors.foreground,
                 modifier = Modifier.padding(bottom = SparrowSpacing.xs)
             )

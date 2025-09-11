@@ -15,18 +15,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
+import com.google.maps.android.compose.MapType
 import io.peng.sparrowdelivery.presentation.features.home.DriverInfo
 import io.peng.sparrowdelivery.ui.theme.*
 import io.peng.sparrowdelivery.ui.components.*
 import io.peng.sparrowdelivery.ui.components.stitch.*
+import io.peng.sparrowdelivery.ui.components.getStitchMapStyleOptions
 import java.util.*
 
 /**
@@ -42,7 +46,8 @@ fun StitchTrackingScreen(
     onCallDriverClick: () -> Unit = {},
     onMessageDriverClick: () -> Unit = {},
     modifier: Modifier = Modifier,
-    viewModel: TrackingViewModel = viewModel()
+    viewModel: TrackingViewModel = viewModel(),
+    isDarkTheme: Boolean = isSystemInDarkTheme() // Follow system theme
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     
@@ -57,16 +62,31 @@ fun StitchTrackingScreen(
     
     StitchTheme {
         val stitchColors = LocalStitchColorScheme.current
+        val context = LocalContext.current
+        // Use map style that properly follows the current theme
+        val mapStyle = remember(isDarkTheme) { 
+            getMapStyleOptions(context, isDarkTheme, defaultToDark = false) 
+        }
+        
+        // Create map properties with style applied from initialization to prevent flicker
+        val mapProperties = remember(mapStyle) {
+            MapProperties(
+                mapStyleOptions = mapStyle,
+                isMyLocationEnabled = false,
+                mapType = MapType.NORMAL
+            )
+        }
         
         Box(
             modifier = modifier
                 .fillMaxSize()
                 .background(stitchColors.background)
         ) {
-            // Full screen map
+            // Full screen map with theme-appropriate styling applied at initialization
             GoogleMap(
                 modifier = Modifier.fillMaxSize(),
-                cameraPositionState = cameraPositionState
+                cameraPositionState = cameraPositionState,
+                properties = mapProperties
             ) {
                 // Driver marker (pulsing green dot)
                 Marker(

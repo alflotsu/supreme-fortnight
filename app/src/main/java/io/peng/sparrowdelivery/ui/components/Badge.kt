@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.Dp
 import io.peng.sparrowdelivery.ui.theme.*
 
-enum class SparrowBadge {
+enum class StitchBadgeVariant {
     Default,
     Secondary,
     Destructive,
@@ -28,98 +28,97 @@ enum class SparrowBadge {
     Info
 }
 
-enum class SparrowBadgeSize {
+enum class StitchBadgeSize {
     Small,
     Default,
     Large
 }
 
-
 @Composable
-fun SparrowBadge(
+fun StitchBadge(
     text: String,
     modifier: Modifier = Modifier,
-    variant: SparrowBadge = SparrowBadge.Default,
-    size: SparrowBadgeSize = SparrowBadgeSize.Default,
+    variant: StitchBadgeVariant = StitchBadgeVariant.Default,
+    size: StitchBadgeSize = StitchBadgeSize.Default,
     icon: ImageVector? = null,
     onClick: (() -> Unit)? = null
 ) {
-    val colors = SparrowTheme.colors
+    val stitchColors = LocalStitchColorScheme.current
     
     val (backgroundColor, textColor, borderColor) = when (variant) {
-        SparrowBadge.Default -> Triple(
-            colors.primary,
-            colors.primaryForeground,
+        StitchBadgeVariant.Default -> Triple(
+            stitchColors.primary,
+            stitchColors.onPrimary,
             Color.Transparent
         )
-        SparrowBadge.Secondary -> Triple(
-            colors.secondary,
-            colors.secondaryForeground,
+        StitchBadgeVariant.Secondary -> Triple(
+            stitchColors.secondaryContainer,
+            stitchColors.onSecondaryContainer,
             Color.Transparent
         )
-        SparrowBadge.Destructive -> Triple(
-            colors.destructive,
-            colors.destructiveForeground,
+        StitchBadgeVariant.Destructive -> Triple(
+            stitchColors.error,
+            stitchColors.onError,
             Color.Transparent
         )
-        SparrowBadge.Outline -> Triple(
+        StitchBadgeVariant.Outline -> Triple(
             Color.Transparent,
-            colors.foreground,
-            colors.border
+            stitchColors.onSurface,
+            stitchColors.outline
         )
-        SparrowBadge.Success -> Triple(
-            colors.success,
-            colors.primaryForeground,
+        StitchBadgeVariant.Success -> Triple(
+            stitchColors.success,
+            stitchColors.onSuccess,
             Color.Transparent
         )
-        SparrowBadge.Warning -> Triple(
-            colors.warning,
-            colors.foreground,
+        StitchBadgeVariant.Warning -> Triple(
+            stitchColors.warning,
+            stitchColors.onWarning,
             Color.Transparent
         )
-        SparrowBadge.Info -> Triple(
-            colors.info,
-            colors.primaryForeground,
+        StitchBadgeVariant.Info -> Triple(
+            stitchColors.info,
+            stitchColors.onInfo,
             Color.Transparent
         )
     }
     
     val horizontalPadding = when (size) {
-        SparrowBadgeSize.Small -> SparrowSpacing.xs
-        SparrowBadgeSize.Default -> SparrowSpacing.sm
-        SparrowBadgeSize.Large -> SparrowSpacing.md
+        StitchBadgeSize.Small -> 4.dp
+        StitchBadgeSize.Default -> 8.dp
+        StitchBadgeSize.Large -> 16.dp
     }
     
     val verticalPadding = when (size) {
-        SparrowBadgeSize.Small -> 2.dp
-        SparrowBadgeSize.Default -> 4.dp
-        SparrowBadgeSize.Large -> SparrowSpacing.xs
+        StitchBadgeSize.Small -> 2.dp
+        StitchBadgeSize.Default -> 4.dp
+        StitchBadgeSize.Large -> 8.dp
     }
     
     val textStyle = when (size) {
-        SparrowBadgeSize.Small -> SparrowTypography.small.copy(fontWeight = FontWeight.Medium)
-        SparrowBadgeSize.Default -> SparrowTypography.small.copy(fontWeight = FontWeight.Medium)
-        SparrowBadgeSize.Large -> SparrowTypography.p.copy(fontWeight = FontWeight.Medium)
+        StitchBadgeSize.Small -> MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Medium)
+        StitchBadgeSize.Default -> MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.Medium)
+        StitchBadgeSize.Large -> MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Medium)
     }
     
     val iconSize = when (size) {
-        SparrowBadgeSize.Small -> 12.dp
-        SparrowBadgeSize.Default -> 14.dp
-        SparrowBadgeSize.Large -> 16.dp
+        StitchBadgeSize.Small -> 12.dp
+        StitchBadgeSize.Default -> 14.dp
+        StitchBadgeSize.Large -> 16.dp
     }
     
     Box(
         modifier = modifier
             .background(
                 color = backgroundColor,
-                shape = RoundedCornerShape(SparrowBorderRadius.md)
+                shape = RoundedCornerShape(12.dp)
             )
             .let { mod ->
                 if (borderColor != Color.Transparent) {
                     mod.border(
                         width = 1.dp,
                         color = borderColor,
-                        shape = RoundedCornerShape(SparrowBorderRadius.md)
+                        shape = RoundedCornerShape(12.dp)
                     )
                 } else mod
             }
@@ -136,7 +135,7 @@ fun SparrowBadge(
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.xs)
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             icon?.let {
                 Icon(
@@ -158,89 +157,89 @@ fun SparrowBadge(
 
 
 @Composable
-fun Chip(
+fun StitchChip(
     text: String,
     modifier: Modifier = Modifier,
-    variant: SparrowBadge = SparrowBadge.Secondary,
-    size: SparrowBadgeSize = SparrowBadgeSize.Default,
+    variant: StitchBadgeVariant = StitchBadgeVariant.Secondary,
+    size: StitchBadgeSize = StitchBadgeSize.Default,
     icon: ImageVector? = null,
     onRemove: (() -> Unit)? = null,
     onClick: (() -> Unit)? = null
 ) {
-    val colors = SparrowTheme.colors
+    val stitchColors = LocalStitchColorScheme.current
     
     val (backgroundColor, textColor, borderColor) = when (variant) {
-        SparrowBadge.Default -> Triple(
-            colors.primary.copy(alpha = 0.1f),
-            colors.primary,
-            colors.primary.copy(alpha = 0.2f)
+        StitchBadgeVariant.Default -> Triple(
+            stitchColors.primary.copy(alpha = 0.1f),
+            stitchColors.onPrimary,
+            stitchColors.primary.copy(alpha = 0.2f)
         )
-        SparrowBadge.Secondary -> Triple(
-            colors.secondary,
-            colors.secondaryForeground,
-            colors.border
+        StitchBadgeVariant.Secondary -> Triple(
+            stitchColors.secondaryContainer,
+            stitchColors.onSecondaryContainer,
+            stitchColors.outline
         )
-        SparrowBadge.Destructive -> Triple(
-            colors.destructive.copy(alpha = 0.1f),
-            colors.destructive,
-            colors.destructive.copy(alpha = 0.2f)
+        StitchBadgeVariant.Destructive -> Triple(
+            stitchColors.error.copy(alpha = 0.1f),
+            stitchColors.onError,
+            stitchColors.error.copy(alpha = 0.2f)
         )
-        SparrowBadge.Outline -> Triple(
+        StitchBadgeVariant.Outline -> Triple(
             Color.Transparent,
-            colors.foreground,
-            colors.border
+            stitchColors.onSurface,
+            stitchColors.outline
         )
-        SparrowBadge.Success -> Triple(
-            colors.success.copy(alpha = 0.1f),
-            colors.success,
-            colors.success.copy(alpha = 0.2f)
+        StitchBadgeVariant.Success -> Triple(
+            stitchColors.success.copy(alpha = 0.1f),
+            stitchColors.onSuccess,
+            stitchColors.success.copy(alpha = 0.2f)
         )
-        SparrowBadge.Warning -> Triple(
-            colors.warning.copy(alpha = 0.1f),
-            colors.warning,
-            colors.warning.copy(alpha = 0.2f)
+        StitchBadgeVariant.Warning -> Triple(
+            stitchColors.warning.copy(alpha = 0.1f),
+            stitchColors.onWarning,
+            stitchColors.warning.copy(alpha = 0.2f)
         )
-        SparrowBadge.Info -> Triple(
-            colors.info.copy(alpha = 0.1f),
-            colors.info,
-            colors.info.copy(alpha = 0.2f)
+        StitchBadgeVariant.Info -> Triple(
+            stitchColors.info.copy(alpha = 0.1f),
+            stitchColors.onInfo,
+            stitchColors.info.copy(alpha = 0.2f)
         )
     }
     
     val horizontalPadding = when (size) {
-        SparrowBadgeSize.Small -> SparrowSpacing.xs
-        SparrowBadgeSize.Default -> SparrowSpacing.sm
-        SparrowBadgeSize.Large -> SparrowSpacing.md
+        StitchBadgeSize.Small -> 4.dp
+        StitchBadgeSize.Default -> 8.dp
+        StitchBadgeSize.Large -> 16.dp
     }
     
     val verticalPadding = when (size) {
-        SparrowBadgeSize.Small -> 2.dp
-        SparrowBadgeSize.Default -> 4.dp
-        SparrowBadgeSize.Large -> SparrowSpacing.xs
+        StitchBadgeSize.Small -> 2.dp
+        StitchBadgeSize.Default -> 4.dp
+        StitchBadgeSize.Large -> 8.dp
     }
     
     val textStyle = when (size) {
-        SparrowBadgeSize.Small -> SparrowTypography.small
-        SparrowBadgeSize.Default -> SparrowTypography.small
-        SparrowBadgeSize.Large -> SparrowTypography.p
+        StitchBadgeSize.Small -> MaterialTheme.typography.labelSmall
+        StitchBadgeSize.Default -> MaterialTheme.typography.labelSmall
+        StitchBadgeSize.Large -> MaterialTheme.typography.labelMedium
     }
     
     val iconSize = when (size) {
-        SparrowBadgeSize.Small -> 12.dp
-        SparrowBadgeSize.Default -> 14.dp
-        SparrowBadgeSize.Large -> 16.dp
+        StitchBadgeSize.Small -> 12.dp
+        StitchBadgeSize.Default -> 14.dp
+        StitchBadgeSize.Large -> 16.dp
     }
     
     Box(
         modifier = modifier
             .background(
                 color = backgroundColor,
-                shape = RoundedCornerShape(SparrowBorderRadius.lg)
+                shape = RoundedCornerShape(16.dp)
             )
             .border(
                 width = 1.dp,
                 color = borderColor,
-                shape = RoundedCornerShape(SparrowBorderRadius.lg)
+                shape = RoundedCornerShape(16.dp)
             )
             .let { mod ->
                 if (onClick != null) {
@@ -254,7 +253,7 @@ fun Chip(
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.xs)
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             icon?.let {
                 Icon(
@@ -289,21 +288,21 @@ fun Chip(
  * Status indicator dot
  */
 @Composable
-fun ShadcnStatusDot(
+fun StitchStatusDot(
     modifier: Modifier = Modifier,
-    variant: SparrowBadge = SparrowBadge.Default,
+    variant: StitchBadgeVariant = StitchBadgeVariant.Default,
     size: Dp = 8.dp
 ) {
-    val colors = SparrowTheme.colors
+    val stitchColors = LocalStitchColorScheme.current
     
     val dotColor = when (variant) {
-        SparrowBadge.Default -> colors.primary
-        SparrowBadge.Secondary -> colors.mutedForeground
-        SparrowBadge.Destructive -> colors.destructive
-        SparrowBadge.Outline -> colors.border
-        SparrowBadge.Success -> colors.success
-        SparrowBadge.Warning -> colors.warning
-        SparrowBadge.Info -> colors.info
+        StitchBadgeVariant.Default -> stitchColors.primary
+        StitchBadgeVariant.Secondary -> stitchColors.textSecondary
+        StitchBadgeVariant.Destructive -> stitchColors.error
+        StitchBadgeVariant.Outline -> stitchColors.outline
+        StitchBadgeVariant.Success -> stitchColors.success
+        StitchBadgeVariant.Warning -> stitchColors.warning
+        StitchBadgeVariant.Info -> stitchColors.info
     }
     
     Box(
@@ -320,10 +319,10 @@ fun ShadcnStatusDot(
  * Notification badge with count
  */
 @Composable
-fun ShadcnNotificationBadge(
+fun StitchNotificationBadge(
     count: Int,
     modifier: Modifier = Modifier,
-    variant: SparrowBadge = SparrowBadge.Destructive,
+    variant: StitchBadgeVariant = StitchBadgeVariant.Destructive,
     maxCount: Int = 99,
     showZero: Boolean = false
 ) {
@@ -331,11 +330,11 @@ fun ShadcnNotificationBadge(
     
     val displayText = if (count > maxCount) "$maxCount+" else count.toString()
     
-    SparrowBadge(
+    StitchBadge(
         text = displayText,
         modifier = modifier,
         variant = variant,
-        size = SparrowBadgeSize.Small
+        size = StitchBadgeSize.Small
     )
 }
 
@@ -343,20 +342,18 @@ fun ShadcnNotificationBadge(
  * Versatile tag component
  */
 @Composable
-fun ShadcnTag(
+fun StitchTag(
     text: String,
     modifier: Modifier = Modifier,
-    variant: SparrowBadge = SparrowBadge.Secondary,
+    variant: StitchBadgeVariant = StitchBadgeVariant.Secondary,
     selected: Boolean = false,
     onClick: (() -> Unit)? = null,
     onRemove: (() -> Unit)? = null
 ) {
-    val colors = SparrowTheme.colors
-    
-    val actualVariant = if (selected) SparrowBadge.Default else variant
+    val actualVariant = if (selected) StitchBadgeVariant.Default else variant
     
     if (onRemove != null) {
-        Chip(
+        StitchChip(
             text = text,
             modifier = modifier,
             variant = actualVariant,
@@ -364,7 +361,7 @@ fun ShadcnTag(
             onRemove = onRemove
         )
     } else {
-        SparrowBadge(
+        StitchBadge(
             text = text,
             modifier = modifier,
             variant = actualVariant,
@@ -376,44 +373,44 @@ fun ShadcnTag(
 /**
  * Collection of commonly used badge variants
  */
-object SparrowBadges {
+object StitchBadges {
     @Composable
-    fun Online(modifier: Modifier = Modifier) = SparrowBadge(
+    fun Online(modifier: Modifier = Modifier) = StitchBadge(
         text = "Online",
         modifier = modifier,
-        variant = SparrowBadge.Success,
-        size = SparrowBadgeSize.Small
+        variant = StitchBadgeVariant.Success,
+        size = StitchBadgeSize.Small
     )
     
     @Composable
-    fun Offline(modifier: Modifier = Modifier) = SparrowBadge(
+    fun Offline(modifier: Modifier = Modifier) = StitchBadge(
         text = "Offline",
         modifier = modifier,
-        variant = SparrowBadge.Secondary,
-        size = SparrowBadgeSize.Small
+        variant = StitchBadgeVariant.Secondary,
+        size = StitchBadgeSize.Small
     )
     
     @Composable
-    fun New(modifier: Modifier = Modifier) = SparrowBadge(
+    fun New(modifier: Modifier = Modifier) = StitchBadge(
         text = "New",
         modifier = modifier,
-        variant = SparrowBadge.Default,
-        size = SparrowBadgeSize.Small
+        variant = StitchBadgeVariant.Default,
+        size = StitchBadgeSize.Small
     )
     
     @Composable
-    fun Beta(modifier: Modifier = Modifier) = SparrowBadge(
+    fun Beta(modifier: Modifier = Modifier) = StitchBadge(
         text = "Beta",
         modifier = modifier,
-        variant = SparrowBadge.Warning,
-        size = SparrowBadgeSize.Small
+        variant = StitchBadgeVariant.Warning,
+        size = StitchBadgeSize.Small
     )
     
     @Composable
-    fun Error(modifier: Modifier = Modifier) = SparrowBadge(
+    fun Error(modifier: Modifier = Modifier) = StitchBadge(
         text = "Error",
         modifier = modifier,
-        variant = SparrowBadge.Destructive,
-        size = SparrowBadgeSize.Small
+        variant = StitchBadgeVariant.Destructive,
+        size = StitchBadgeSize.Small
     )
 }

@@ -11,15 +11,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import io.peng.sparrowdelivery.ui.components.*
-import io.peng.sparrowdelivery.ui.theme.*
+import io.peng.sparrowdelivery.ui.components.stitch.*
 import io.peng.sparrowdelivery.ui.components.AnimatedHeroSection
+import io.peng.sparrowdelivery.ui.theme.*
 
 @Composable
 fun OnboardingPageContent(
     page: OnboardingPage,
     isVisible: Boolean = true
 ) {
+    val stitchColors = LocalStitchColorScheme.current
+    
     // Use the AnimatedHeroSection for enhanced presentation
     AnimatedHeroSection(
         title = page.title,
@@ -34,7 +36,7 @@ fun OnboardingPageContent(
                 Text(
                     text = page.icon,
                     fontSize = 200.sp,
-                    color = SparrowTheme.colors.primary.copy(alpha = 0.05f),
+                    color = stitchColors.primary.copy(alpha = 0.05f),
                     textAlign = TextAlign.Center
                 )
             }
@@ -51,9 +53,11 @@ fun OnboardingProgressIndicator(
     totalPages: Int,
     modifier: Modifier = Modifier
 ) {
+    val stitchColors = LocalStitchColorScheme.current
+    
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(SparrowSpacing.sm),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         repeat(totalPages) { index ->
@@ -70,9 +74,9 @@ fun OnboardingProgressIndicator(
                     .height(8.dp)
                     .background(
                         color = if (isActive) 
-                            SparrowTheme.colors.primary 
+                            stitchColors.primary 
                         else 
-                            SparrowTheme.colors.muted,
+                            stitchColors.outline,
                         shape = CircleShape
                     )
             )
@@ -92,7 +96,7 @@ fun OnboardingBottomSection(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(SparrowSpacing.xl),
+            .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         OnboardingProgressIndicator(
@@ -100,7 +104,7 @@ fun OnboardingBottomSection(
             totalPages = totalPages
         )
         
-        Spacer(modifier = Modifier.height(SparrowSpacing.xl))
+        Spacer(modifier = Modifier.height(16.dp))
         
         // Action buttons
         Row(
@@ -110,22 +114,22 @@ fun OnboardingBottomSection(
         ) {
             // Skip button
             if (!isLastPage) {
-                SparrowTextButton(
+                StitchTextButton(
                     text = "Skip",
                     onClick = onSkipClick,
-                    variant = ShadcnButtonVariant.Ghost,
-                    size = ShadcnButtonSize.Large
+                    variant = StitchButtonVariant.Ghost,
+                    size = StitchButtonSize.Large
                 )
             } else {
                 Spacer(modifier = Modifier.width(1.dp))
             }
             
             // Next/Get Started button
-            SparrowTextButton(
+            StitchTextButton(
                 text = if (isLastPage) "Get Started" else "Next",
                 onClick = onNextClick,
-                variant = ShadcnButtonVariant.Default,
-                size = ShadcnButtonSize.Large,
+                variant = StitchButtonVariant.Primary,
+                size = StitchButtonSize.Large,
                 modifier = Modifier.widthIn(min = 120.dp)
             )
         }
